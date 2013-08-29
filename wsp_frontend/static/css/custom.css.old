@@ -1,0 +1,157 @@
+h1 {
+	height: 95px;
+	background: url(../img/bbaw_logo.png) no-repeat top right;
+	padding: 5px 0 0 10px;
+}
+
+#searchfield, #searchresults {
+	/*background: #eee;*/
+	padding: 1px 10px 1px 10px;
+}
+
+#searchfield h2 {
+	display: inline;
+}
+
+legend {
+	font-size: 31.5px;
+	font-weight: bold;
+}
+
+#searchoptions {
+	margin: 5px 0 0 16px;
+}
+
+#most-common-persons a:link {
+	padding: 4px 5px;
+}
+
+#most-common-persons a:visited {
+	
+}
+
+#most-common-persons li:hover {
+	background-color: #eee;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#most-common-persons li:active {
+	color: #ff0000;
+	outline: 1px dotted #000;
+}
+
+#results-list {
+	/*margin-top: 25px;*/
+}
+
+#results-list > li {
+	margin-top: 15px;
+}
+
+.fragments {
+    /*background: url(../img/openquote.gif) 5px 5px no-repeat rgb(250,250,250);*/
+    background-color: rgb(250,250,245);
+    /*min-height: 3em;*/
+}
+
+.fragments p {
+	font-size: 12px;
+}
+
+.results-info h3 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 16px;
+	line-height: 22px;
+}
+
+.results-info h3 a {
+	color: #000;
+}
+
+.results-info h3 a:visited {
+	color: purple;
+}
+
+.results-info h3 a:hover {
+	color: rgb(0, 136, 204);
+}
+
+.results-info h3 a:active {
+	color: rgb(200,136,100);
+
+}
+
+.results-info blockquote {
+	margin-bottom: 0px;
+}
+
+.preview {
+	font-size: 9px;
+}
+
+.persons h4, .places h4 {
+	font-size: 12px;
+    float: left;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 16px;
+    height: 16px;
+    margin: 0 .5em 0 0;
+}
+
+.persons h4 {
+	background: url(../img/person.png) 4px 4px no-repeat;
+}
+
+.places h4 {
+	background: url(../img/place.png) 4px 4px no-repeat;
+}
+
+.persons li, .places {
+	font-size: 12px;
+}
+
+/* Sticky footer styles
+      -------------------------------------------------- */
+
+      html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin-bottom: -40px;
+      }
+
+
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 20px;
+        padding: 10px;
+        
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }

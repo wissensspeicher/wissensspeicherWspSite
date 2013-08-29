@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block search_form %}
+<div id="searchfield" class="span12"> 
+    <form action="/search/" id="mainsearch">
+        <fieldset>
+            <div class="controls">
+                <input type="text" name="query" id="query" autofocus class="input-xxlarge search-query" value="">
+                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn">Search</button>
+            </div>
+            <div class="controls" id="searchoptions">
+                <label for="translateCheck" class="checkbox inline">
+                    <input type="checkbox" name="translateCheck" id="translateCheck">Multilingual search <a href="#" style="font-size: .6em;">?</a>
+                </label>
+                <label for="morphologicalSearch" class="checkbox inline">
+                    <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch">Morphological search <a href="#" style="font-size: .6em;">?</a>
+                </label>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

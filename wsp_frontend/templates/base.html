@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Digital Knowledge Store</title>
+    
+    {% load static %}
+    <link href="{% get_static_prefix %}css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{% get_static_prefix %}css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/custom.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/style.css" rel="stylesheet">
+
+    <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+</head>
+<body>
+    <div id="wrap" class="row">
+        <div class="span12">
+            <h1><a href="../">Digital Knowledge Store</a></h1>
+            <div id="logo" class="ir">Berlin-Brandenburgische Akademie der Wissenschaften</div>
+        </div>
+            {% block content %}{% endblock %}
+            {% block search_form %}{% endblock %}
+            {% block results %}{% endblock %}
+    </div>
+    <div id="footer">
+        <p class="muted">10642 digital resources indexed</p>
+        <div id="dfg_logo" class="ir">Deutsche Forschungsgemeinschaft</div>
+    </div>
+    <!-- JavaScript at the bottom for fast page loading -->
+    <script src="../static/js/jquery-1.9.1.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <!--
+
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/colorbox/jquery.colorbox-min.js"></script>
+    <script src="/static/js/script.js"></script> -->
+    <script>
+        $(".search-result label").click(function(e){
+            $(this).toggleClass('expand').siblings(".metadata").toggleClass('expand');
+            e.preventDefault();
+        })
+    </script>
+    <!-- end scripts -->
+    <!--
+
+    <script src="{% get_static_prefix %}js/plugins.js"></script>
+    <script src="{% get_static_prefix %}js/colorbox/jquery.colorbox-min.js"></script>
+    <script src="{% get_static_prefix %}js/script.js"></script>
+    <!- end scripts -->
+
+</body>
+</html>

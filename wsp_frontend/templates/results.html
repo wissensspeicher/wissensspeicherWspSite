@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block results %}
+
+<div id="searchfield" class="span12"> 
+    <form action="/search/" id="mainsearch">
+        <fieldset>
+            <div class="controls">
+                <input type="text" name="query" id="query" autofocus class="input-xxlarge search-query" value="{{ search_term }}">
+                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn">Search</button>
+            </div>
+            <div class="controls" id="searchoptions">
+                <label for="translateCheck" class="checkbox inline">
+                    <input type="checkbox" name="translateCheck" id="translateCheck">Multilingual search <a href="#" style="font-size: .6em;">?</a>
+                </label>
+                <label for="morphologicalSearch" class="checkbox inline">
+                    <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch">Morphological search <a href="#" style="font-size: .6em;">?</a>
+                </label>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div id="results" class="row span7">{{ get_static_prefix }}
+    <ol class="unstyled">
+        {% for single_treffer in treffer %}
+        <li class="search-result">
+            <span>{{ forloop.counter }}</span>
+            <img class="format" src="../static/img/document-{{ single_treffer.type}}.png" alt="File format: {{ single_treffer.type}}" title="{{ single_treffer.type}}">
+            {% if single_treffer.author and single_treffer.author.strip %}
+            <h3><a href="{{ single_treffer.url }}" title="Open document">{{ single_treffer.author }}: {{ single_treffer.title|default:"Title" }}</a></h3>
+            {% else %}
+            <h3><a href="{{ single_treffer.url }}" title="Open document">{{ single_treffer.url }}</a></h3>
+            {% endif %}
+            {% if single_treffer.fragments %}
+                {% for fragment in single_treffer.fragments %}<blockquote>{{ fragment|safe }}</blockquote>
+                {% endfor %}
+            {% endif %}
+            {% if single_treffer.relevantPersons %}
+            <input id="meta0003" name="meta0003" type="checkbox" />
+            <label for="meta0003">Metadaten</label>
+            <div class="metadata">
+                <ul class="persons inline">
+                    <li><i class="icon-user"></i></li>
+                    {% for person in single_treffer.relevantPersons|slice:":8" %}
+                    <li><a href="{{ person.url|urlencode }}" title="PDR-Konkordanzer für {{ person.name }}">{{ person.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                
+
+                {% if single_treffer.places %}
+                <ul class="places inline">
+                    <li><i class="icon-map-marker"></i></li>
+                    {% for place in single_treffer.places|slice:":8" %}
+                    <li>{{ place.place }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ol>
+
+</div>
+
+<div id="knowledge-browsing" class="row span5">
+    <div id="sucherweiterung">
+        <h2>Mögliche Erweiterungen der Suche</h2>
+        <p>Suchvorschläge...</p>
+        <p>Tada: <br>{{ conceptSearch}}</p>
+    </div>
+    <div id="visualisierung">
+        <h2>Visualisierung</h2>
+        <img src="../static/img/tree-placeholder.png" class="img-rounded" alt="Placeholder">
+    </div>
+    <div id="eingrenzung">
+        <form>
+            <fieldset>
+                <legend><h2>Optionen zur Eingrenzung der Suchergebnisse</h2></legend>
+                <label class="checkbox">
+                    <input type="checkbox" checked> 1800 - 1900
+                </label>
+                <label>
+                    <input type="checkbox"> England
+                </label>
+                <label>
+                    <input type="checkbox" checked> Vorhaben <abbr title="Forschungsstelle Alexander von Humboldt">AvH</abbr>
+                </label>
+                <label>
+                    <input type="checkbox" checked> PDF-Dokumente
+                </label>
+                <label>
+                    <input type="checkbox" checked> HTML-Dokumente
+                </label>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

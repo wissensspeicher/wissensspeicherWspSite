@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block results %}
+<h2>Results</h2>
+<p>Searching for similar documents to {{ search_term }} gave the following possible hits.</p>
+<div id="most-common-persons">
+<p>The following persons could be connected to this document:</p>
+<ul>
+    {% for person in mostCommonPersons %}
+    <li><a href="?query={{ person }}" title="Additional search for {{ person }}">{{ person }}</a></li>
+    {% endfor %}
+</ul>
+</div>
+{% comment %}
+ in folgenden Projekten:</p>
+<ul id="hit_locations">
+  {% for location in hit_locations %}
+  <li>{{ location }}</li>
+  {% endfor %}
+</ul>
+{% endcomment %}
+
+<div id="search-results">
+
+  <ul>
+  {% for single_treffer in treffer %}
+  <li>
+    <div class="results-info">
+    </div>
+    {% if single_treffer.author and single_treffer.author.strip %}
+    <h4><a href="{{ single_treffer.url }}" title="Open document">{{ single_treffer.author }}: {{ single_treffer.title|default:"Title" }}</a></h4>
+    {% else %}
+    <h4><a href="{{ single_treffer.url }}" title="Open document">{{ single_treffer.url }}</a></h4>
+    {% endif %}
+    <div class="preview">
+        <ul>
+            <li>
+                <a href="http://wspdev.bbaw.de/wspCmsWebApp/query/GetPage?docId={{ single_treffer.docId }}&mode=tokenized&highlightQuery=tokenOrig:{{ search_term }}" class="previewLink" title="Preview (highlighted, links for morphological information)">Document preview</a>
+            </li>
+            <li>
+                <a href="?query={{ single_treffer.docId }}&morelikethis=true">Search for similar documents</a> 
+                {# XXX needs to be changed to another query-URL, i. e. href="?moreLike={{ single_treffer.docId }} #}
+            <li>
+        </ul>
+    </div>
+    {% if single_treffer.relevantPersons %}
+    <div class="persons">
+    <h5 title="People named in this text">People named in this text</h5>
+    <ul>      
+      {% for person in single_treffer.relevantPersons|slice:":8" %}
+      <li><a href="{{ person.url }}" title="PDR-Konkordanzer für {{ person.name }}">{{ person.name }}</a></li>
+      {% endfor %}
+      <br>
+    </ul>
+    </div>
+    {% endif %}
+    
+    {% if single_treffer.places %}
+    <div class="places">
+    <h5 title="Places named in this text">Places named in this text</h5>
+    <ul>
+      {% for place in single_treffer.places|slice:":8" %}
+      <li>{{ place.place }}</li>
+      {% endfor %}
+    </ul>
+    </div>
+    {% endif %}
+    </li>
+    {% endfor %}
+
+  </ul>
+
+</div>
+
+  <div class="pagination">
+    
+    <span class="step-links">
+        {% if pagination.has_previous %}
+            <a href="?query={{ search_term }}&page={{ pagination.previous_page_number }}{{ query_parameters }}">vorherige</a>
+        {% endif %}
+
+        <span class="current">
+            Seite {{ pagination.number }} von {{ pagination.paginator.num_pages }}
+        </span>
+
+        {% if pagination.has_next %}
+            <a href="?query={{ search_term }}&page={{ pagination.next_page_number }}{{ query_parameters }}">nächste</a>
+        {% endif %}
+    </span>
+  </div>
+
+{% endblock %}
