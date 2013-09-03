@@ -4,7 +4,6 @@ from .base import *
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    #"/home/sascha/wsp_frontend/static",
     "C:/Dokumente und Einstellungen/sgrabsch/Eigene Dateien/wsp-site/wsp_frontend/static/",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -12,7 +11,6 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = (
-    #"/home/sascha/wsp_frontend/templates",
     "C:/Dokumente und Einstellungen/sgrabsch/Eigene Dateien/wsp-site/wsp_frontend/templates",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.

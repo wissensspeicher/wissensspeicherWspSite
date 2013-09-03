@@ -1,5 +1,6 @@
 # This Python file uses the following encoding: utf-8
-# Django settings for wsp_frontend project.
+# Django settings for wsp_frontend project
+# Specific settings for local development and server deployment can be set in local.py and production.py
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
