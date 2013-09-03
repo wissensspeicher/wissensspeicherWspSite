@@ -7,12 +7,8 @@ from django.utils import simplejson
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from collections import Counter # genutzt für statistische Auswertungen
 import itertools
-
-import urllib2
 import urllib
-#import httplib2
 import requests
-
 from show import show
 
 base_url = "http://wspdev.bbaw.de"
