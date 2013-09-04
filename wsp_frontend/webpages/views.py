@@ -214,13 +214,9 @@ def search(request):
                 pass
                 
             try:
-                i["collectionName"] = single_treffer["collectionName"]
-                i["collectionURL"] = single_treffer["webBaseUri"]
-                #                for project in single_treffer["project"]:
-                #    print project
-                #    i["collectionID"] = project["id"]
-                #    i["collectionURL"] = project["url"]
-                #    i["collectionName"] = project["name"]
+                i["collectionName"] = single_treffer["project"]["name"]
+                i["collectionURL"] = single_treffer["project"]["url"]
+                i["collectionID"] = single_treffer["project"]["id"]
             except KeyError, e:
                 #print "KeyError collectionName " + i["docId"]
                 pass
