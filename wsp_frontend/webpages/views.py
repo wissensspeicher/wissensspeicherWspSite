@@ -24,7 +24,7 @@ def hello_world(request):
     
     request_options = {'query': 'a', 'outputFormat': 'json'}
     response = requests.get(url, params=request_options)
-    #show(response.url)
+    show(response.url)
     
     reply = response.text
 
@@ -128,9 +128,6 @@ def search(request):
     if addInformation == True:
         url = url + "&addInf=true"
     
-    #print "\nAnfrage an: " + url
-
-    
 #    h = httplib2.Http(".cache")
 #    response, content = h.request(url)
     #print response
@@ -190,7 +187,7 @@ def search(request):
             try:
                 i["url"] = single_treffer["webUri"].encode("utf-8")
             except:
-                print "KeyError webUri @ " + i["docId"]
+                #print "KeyError webUri @ " + i["docId"]
                 i["url"] = single_treffer["uri"].encode("utf-8")
                 pass
 
@@ -218,6 +215,12 @@ def search(request):
                 
             try:
                 i["collectionName"] = single_treffer["collectionName"]
+                i["collectionURL"] = single_treffer["webBaseUri"]
+                #                for project in single_treffer["project"]:
+                #    print project
+                #    i["collectionID"] = project["id"]
+                #    i["collectionURL"] = project["url"]
+                #    i["collectionName"] = project["name"]
             except KeyError, e:
                 #print "KeyError collectionName " + i["docId"]
                 pass
@@ -251,7 +254,6 @@ def search(request):
                 print "KeyError places " + i["docId"]
                 #print "KeyError places"
                 pass
-            
             #
             # Duplikate aus Personen- und Ortslisten entfernen
             #
@@ -284,7 +286,7 @@ def search(request):
         treffer_list.append("TEST")
     
     
-    print len(treffer_list)
+    #print len(treffer_list)
     
     paginator = Paginator(treffer_list, 10)
     
@@ -353,7 +355,7 @@ def search(request):
     
     reply = response.text
 
-    show(reply)
+    #show(reply)
 
     results["conceptSearch"] = reply
 

@@ -35,17 +35,20 @@
                 {% for fragment in single_treffer.fragments %}<blockquote>{{ fragment|safe }}</blockquote>
                 {% endfor %}
             {% endif %}
-            {% if single_treffer.relevantPersons %}
-            <input id="meta0003" name="meta0003" type="checkbox" />
-            <label for="meta0003">Metadaten</label>
+            
+            <label>Metadaten</label>
             <div class="metadata">
+                <ul class="project inline">
+                    <li><i class="icon-beaker"></i></li><li><a href="{{single_treffer.collectionURL}}">{{ single_treffer.collectionName }}</a></li>
+                </ul>
+                {% if single_treffer.relevantPersons %}
                 <ul class="persons inline">
                     <li><i class="icon-user"></i></li>
                     {% for person in single_treffer.relevantPersons|slice:":8" %}
                     <li><a href="{{ person.url|urlencode }}" title="PDR-Konkordanzer für {{ person.name }}">{{ person.name }}</a></li>
                     {% endfor %}
                 </ul>
-                
+                {% endif %}
 
                 {% if single_treffer.places %}
                 <ul class="places inline">
@@ -56,7 +59,7 @@
                 </ul>
                 {% endif %}
             </div>
-            {% endif %}
+            
         </li>
         {% endfor %}
     </ol>

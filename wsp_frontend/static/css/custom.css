@@ -67,16 +67,16 @@ h3{
 }.search-result .metadata{
     background:#7d7d7d;
     color:#fff;
-    height:0;
+    /*height:0;*/
     margin:0 -20px -26px -20px;
     overflow:hidden;
     padding:0 20px;
     position:relative;
     transition:all 0.3s ease;
     z-index:10;
-}.search-result input:checked ~ .metadata,.metadata.expand{
+}/*.search-result input:checked ~ .metadata,.metadata.expand{
     height:auto;
     padding:16px 20px 20px 20px;
-}.search-result .metadata a:link{
+}*/.search-result .metadata a:link{
     color:#fff;
 }
