@@ -28,6 +28,8 @@ def hello_world(request):
     
     reply = response.text
 
+    show(reply)
+
     try:
         data = simplejson.loads(reply)
     except:
@@ -270,6 +272,26 @@ def search(request):
             #show(i)
         results["treffer"] = treffer
     
+    # facets parsen
+    results["authorFacet"] = []
+    results["projectFacet"] = []
+    results["languageFacet"] = []
+    for single_author in data["facets"]["author"]:
+        authorName = single_author["value"]
+        authorCount = single_author["count"]
+        author = {"name":authorName, "count": authorCount}
+        results["authorFacet"].append(author)
+    for single_project in data["facets"]["collectionNames"]:
+        projectName = single_project["value"]
+        projectCount = single_project["count"]
+        project = {"project": projectName, "count": projectCount}
+        results["projectFacet"].append(project)
+    for single_language in data["facets"]["language"]:
+        languageID = single_language["value"]
+        languageCount = single_language["count"]
+        language = {"language": languageID, "count": languageCount}
+        results["languageFacet"].append(language)
+        
     treffer_list = results["treffer"]
     treffer_save = []
     treffer_save = results["treffer"][:]
@@ -351,7 +373,7 @@ def search(request):
     
     reply = response.text
 
-    #show(reply)
+    show(reply)
 
     results["conceptSearch"] = reply
 

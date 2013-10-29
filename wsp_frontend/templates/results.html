@@ -72,14 +72,23 @@
         <p>Suchvorschläge...</p>
         <p>Tada: <br>{{ conceptSearch}}</p>
     </div>
-    <div id="visualisierung">
-        <h2>Visualisierung</h2>
-        <img src="../static/img/tree-placeholder.png" class="img-rounded" alt="Placeholder">
-    </div>
     <div id="eingrenzung">
         <form>
             <fieldset>
-                <legend><h2>Optionen zur Eingrenzung der Suchergebnisse</h2></legend>
+                <h2>Verteilung der Suchergebnisse</h2>
+                {% for single_author in authorFacet %}
+                {{ single_author.name }}: {{ single_author.count }}<br>
+                {% endfor %}
+                <br>
+                {% for single_project in projectFacet %}
+                {{ single_project.project }}: {{ single_project.count }}<br>
+                {% endfor %}
+                <br>
+                {% for single_language in languageFacet %}
+                {{ single_language.language }}: {{ single_language.count }}<br>
+                {% endfor %}
+                <br>
+                <!--
                 <label class="checkbox">
                     <input type="checkbox" checked> 1800 - 1900
                 </label>
@@ -95,8 +104,14 @@
                 <label>
                     <input type="checkbox" checked> HTML-Dokumente
                 </label>
+                -->
             </fieldset>
         </form>
     </div>
+    <div id="visualisierung">
+        <h2>Visualisierung</h2>
+        <img src="../static/img/tree-placeholder.png" class="img-rounded" alt="Placeholder">
+    </div>
+
 </div>
 {% endblock %}
