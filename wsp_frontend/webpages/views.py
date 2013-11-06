@@ -167,12 +167,6 @@ def search(request):
     results["treffer"] = ""
     #print results["number_of_hits"]
     if results["number_of_hits"] > 0:
-        #results["number_of_locations"] = len(data["hitLocations"])
-        #hit_locations = []
-        #for location in data["hitLocations"]:
-            #hit_location = 
-        #    hit_locations.append(location["projectName"])
-        #results["hit_locations"] = hit_locations
         treffer = []
         for single_treffer in data["hits"]:
             i = {}
@@ -180,12 +174,14 @@ def search(request):
             i["places"] = []
             i["docId"] = "none"
 
+            #docID parsen
             try:
                 i["docId"] = single_treffer["docId"]
             except:
                 print "KeyError docId"
                 pass
 
+            #webURI (Rücksprungadresse) parsen
             try:
                 i["url"] = single_treffer["webUri"].encode("utf-8")
             except:
@@ -193,22 +189,24 @@ def search(request):
                 i["url"] = single_treffer["uri"].encode("utf-8")
                 pass
 
-            #i["hit_name"] = single_treffer["collectionNames"].encode("utf-8")
+            #Fragmente mit Trefferexzerpten parsen
             i["fragments"] = []
             for fragment in single_treffer["fragments"]:
                 fragment = fragment.encode("utf-8")
                 
                 # XXX müsste auch wieder zu UTF-8 werden
                 i["fragments"].append(fragment)
-                
-                output = fragment
-                
+            
+            #Autorinformation parsen
+            i["author"] = []
             try:
-                i["author"] = single_treffer["author"]
+                for single_author in single_treffer["author"]:
+                    i["author"].append(single_author["name"])
             except KeyError, e:
                 #print "KeyError author " + i["docId"]
                 pass
             
+            #Titel parsen
             try:
                 i["title"] = single_treffer["title"].replace(" TITEL DES BRIEFS", "", 1)
             except KeyError, e:
@@ -230,13 +228,14 @@ def search(request):
                 i["type"] = "undefined"
                 pass
 
-
+            #Personeninformationen parsen
             try:
-                for single_person in single_treffer["persNames"]:
-                    person = {"name":"Testname", "url":"http://example.org"}
-                    person = {"name":single_person["name"], "url": single_person["link"]}
+                for single_person in single_treffer["persons"]:
+                    person = {"name":"Testname", "url":"http://example.org", "role":"unknown"}
+                    person = {"name":single_person["name"], "url": single_person["referenceAbout"], "role": single_person["role"]}
                     i["relevantPersons"].append(person)
-                    results["personList"].append(person["name"])
+                    if not person["role"] == "editor":
+                        results["personList"].append(person["name"])
                     #print person
             except KeyError, e:
                 #print "KeyError persNames " + i["docId"]
@@ -344,8 +343,6 @@ def search(request):
     
     results["mostCommonPersons"] = mostCommonPersons
     
-    
-    #output = "Test!"
     #print HttpRequest.get_full_path()
     #result = urllib2.Request("http://telotadev.bbaw.de:8080/wsp/q", urllib.urlencode(post_data))
     #content = result.read()

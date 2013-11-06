@@ -26,10 +26,10 @@
         <li class="search-result">
             <span>{{ forloop.counter }}</span>
             <img class="format" src="../static/img/document-{{ single_treffer.type}}.png" alt="File format: {{ single_treffer.type}}" title="{{ single_treffer.type}}">
-            {% if single_treffer.author and single_treffer.author.strip %}
-            <h3><a href="{{ single_treffer.url }}" title="Open document">{{ single_treffer.author }}: {{ single_treffer.title|default:"Title" }}</a></h3>
+            {% if single_treffer.author %}
+            <h3><a href="{{ single_treffer.url }}" title="{{ single_treffer.collectionName }}: {{ single_treffer.title}}">{{single_treffer.author|join:", "}}: {{ single_treffer.title}}</a></h3>
             {% else %}
-            <h3><a href="{{ single_treffer.url }}" title="Open document">{{ single_treffer.url }}</a></h3>
+            <h3><a href="{{ single_treffer.url }}" title="{{ single_treffer.collectionName }}: {{ single_treffer.title}}">{{ single_treffer.title }}</a></h3>
             {% endif %}
             {% if single_treffer.fragments %}
                 {% for fragment in single_treffer.fragments %}<blockquote>{{ fragment|safe }}</blockquote>
@@ -44,9 +44,9 @@
                 {% if single_treffer.relevantPersons %}
                 <ul class="persons inline">
                     <li><i class="icon-user"></i></li>
-                    {% for person in single_treffer.relevantPersons|slice:":8" %}
-                    <li><a href="{{ person.url|urlencode }}" title="PDR-Konkordanzer für {{ person.name }}">{{ person.name }}</a></li>
-                    {% endfor %}
+                    {% for person in single_treffer.relevantPersons|slice:":8" %} {% if person.role != "editor" %}
+                    <li><a href="{{ person.url }}" title="More about {{ person.name }}">{{ person.name }}</a></li>
+                    {% endif %}{% endfor %}
                 </ul>
                 {% endif %}
 
