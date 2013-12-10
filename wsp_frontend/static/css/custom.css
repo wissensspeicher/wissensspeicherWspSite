@@ -43,7 +43,8 @@ h3{
 
 .search-result input{
     display:none;
-}.search-result label:before{
+}
+.search-result label:before{
     background:#c60c30 url(../img/arrow_down.png) 50% 50% no-repeat;
     content:"";
     height:20px;
@@ -51,9 +52,13 @@ h3{
     left:20px;
     transition:all 0.5s ease;
     width:20px;
-}.search-result input:checked + label:before,label.expand:before{
+}
+
+.search-result input:checked + label:before,label.expand:before{
     background:#c60c30 url(../img/arrow_up.png) 50% 50% no-repeat;
-}.search-result label{
+}
+
+.search-result label{
     background:#333;
     color:#fff;
     cursor:pointer;
@@ -61,10 +66,14 @@ h3{
     font-size:13px;
     margin:20px -20px 0 -20px;
     position:relative;
-    text-indent:60px;
-}.search-result label:hover,.search-result input:focus + label{
+    text-indent:50px;
+}
+
+.search-result label:hover,.search-result input:focus + label{
     text-decoration:underline;
-}.search-result .metadata{
+}
+
+.search-result .metadata{
     background:#7d7d7d;
     color:#fff;
     /*height:0;*/
@@ -77,6 +86,408 @@ h3{
 }/*.search-result input:checked ~ .metadata,.metadata.expand{
     height:auto;
     padding:16px 20px 20px 20px;
-}*/.search-result .metadata a:link{
-    color:#fff;
+}*/
+
+.metadata ul {
+    margin: 0;
 }
+
+.metadata a:link, .metadata a:visited {
+    color: #fff;
+}
+
+.metadata a:active {
+    color: #f00;
+    outline: none;
+    text-decoration: underline;
+}
+
+#eingrenzung ul {
+    margin-bottom: 1em;
+    list-style: none;
+}
+
+
+
+body {
+    background:#fff url(../img/white_wall_hash.png) left top repeat;
+    position:relative;
+    max-width:1680px;
+    }
+
+a:link {
+    color:#c60c30;
+    }
+
+a:visited {
+    color:#646464;
+    }
+
+a:focus {
+    text-decoration: none;
+    color:#222;
+    outline: thin dotted;
+    }
+
+
+h1 {
+    background:url(../img/dark_fish_skin.png);
+    border-bottom:1px solid #dadada;
+    font-size:20px;
+    font-weight:normal;
+    height: 60px;
+    line-height:60px;
+    margin:0;
+    vertical-align:middle;
+    width:100%;
+    }
+
+h1 a:link,
+h1 a:visited,
+h1 a:hover,
+h1 a:focus{
+    color:#fff;
+    text-decoration:none;
+    }
+
+h1 a:focus {
+    outline: thin dotted;
+    }
+h2 {
+    margin: 0 0 10px 0;
+    }
+
+ul, ol{
+    margin:0;
+}
+
+#content {
+    padding: 9px;
+    background-color:#e6e6e6;
+    border: 0px solid #000;
+    border-radius: 10px;
+    }
+
+#query {
+    border-radius:3px;
+    }
+
+#submit-button,
+#loadMore button{
+    background:#f5f5f5;
+    border-radius: 3px;
+    }
+
+#submit-button:hover,
+#submit-button:focus,
+#loadMore button:hover,
+#loadMore button:focus{
+    background: #c60c30;
+    color:#fff;
+  }
+
+::-moz-selection { background: #ff6005; }
+::selection { background: #ff6005; }
+
+.search-result span {
+    background:#c60c30;
+    color:#fff;
+    height:20px;
+    line-height:20px;
+    text-align:center;
+    vertical-align:middle;
+    width:40px;
+}
+
+#most-common-persons p {
+    margin: 0;
+    padding: 0;
+}
+
+#most-common-persons li {
+    display: inline;
+    padding: 0 10px 0 0;
+    }
+
+.fragments {
+    background:#fafafa url(../img/openquote.gif) 5px 5px no-repeat;
+    line-height: 0.9;
+    min-height: 6em;
+    font-size: .8em;
+    padding: 0.5em;
+    margin: 0 0 .6em 0;
+    }
+/*
+.fragments {
+    display: none;
+
+    position: relative;
+    left: 320px;
+    top: -50px;
+    width: 25em;
+    }
+
+.fragments p {
+    line-height: 1;
+    }
+
+.fragments {
+    /*display: none;*//*
+        display: block;
+    float: right;
+    width: 250px;
+    background: url(../img/openquote.gif) top left no-repeat;
+    /*font-size: 2em;*//*
+    line-height: 0.9;
+
+    padding: 0.5em;
+    margin: -1.5em 0;
+    }
+*/
+/*
+.results-info .fragments {
+    display: block;
+    float: right;
+    width: 250px;
+    background: url(../img/openquote.gif) top left no-repeat;
+    /*font-size: 2em;*/
+/*    line-height: 0.9;
+
+    padding: 0.5em;
+    margin: -1.5em 0;
+}
+*/
+
+.preview li, .persons li, .places li, .project li {
+    display: inline;
+    margin: 0;
+    padding: 0 .6em 0 0 !important;
+    font-size:13px;
+    }
+
+.preview {
+    margin-bottom: .7em;
+    margin-left: .24em;
+    }
+
+.pagination {
+    text-align: center;
+    font-size: 60%;
+    }
+
+#loadMore{
+  margin-bottom:20px;
+  text-align:center;
+}
+
+#footer{
+    background:url(../img/dark_fish_skin.png) repeat;
+    background:url(../img/boxshadow_ft.png) 50% top no-repeat,url(../img/dark_fish_skin.png) repeat;
+    color:#fff;
+    height:200px;
+    margin-top:40px;
+    padding-top:40px;
+}
+
+
+@media only screen {
+  body{overflow-x:hidden;}
+  h1{
+    position:absolute;
+    top:0;
+    left:0;
+    margin-left:-20px;
+    text-indent:40px;
+  }
+  #searchfield{
+    margin-bottom:15px;
+    margin-top:26px;
+  }
+  #wrap{
+    position:relative;
+    left:40px;
+  }
+  #footer{
+    padding-left:40px;
+  }
+  #dfg_logo{
+    background:url(../img/dfg_logo.png) no-repeat;
+    height:59px;
+    width:168px;
+  }
+}
+
+@media only screen and (max-width:320px) {
+  #wrap{
+    left:0;
+  }
+  h1{
+    margin-left:0;
+    text-indent:20px;
+  }
+  #logo{
+    height:0; /* platzhalter */
+  }
+  h3{
+    font-size:16px;
+    font-weight:bold;
+    line-height:20px;
+  }
+  #searchfield{
+    margin-top:60px;
+    margin-bottom:40px;
+  }
+  .checkbox.inline{
+    margin-left:20px;
+  }
+  label.checkbox.inline+label.checkbox.inline{
+    margin-left:20px;
+  }
+}
+
+@media only screen and (max-width:767px) {
+  body{
+      padding-left:0;
+      padding-right:0;
+  }
+  #wrap{
+    left:0;
+  }
+  h1{
+    margin-left:0;
+    text-indent:20px;
+  }
+  #searchfield{
+    position:relative;
+  }
+  #submit-button{
+    position:absolute;
+    top:0;
+    right:0;
+  }
+  #footer{
+    padding-left:20px;
+  }
+}
+
+@media only screen and (min-width:321px) and (max-width:767px) {
+  #logo{
+    background:url(../img/bbaw_logo.png) no-repeat;
+    height:104px;
+    margin:80px auto 0 auto;
+    width:234px;
+  }
+  #searchfield{
+    margin-left:20px;
+    margin-right:20px;
+    width:-moz-calc(100% - 40px);
+    width:-webkit-calc(100% - 40px);
+    width:calc(100% - 40px);
+  }
+}
+
+@media only screen and (min-width:321px) {
+  .search-result:after{
+    background:url(../img/boxshadow.png) 50% bottom no-repeat;
+    content:"";
+    display:block;
+    height:6px;
+    margin:0 -20px;
+    position:relative;
+    top:26px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  #logo{
+  background:url(../img/bbaw_logo.png) no-repeat;
+  float:right;
+  height:104px;
+  position:relative;
+  top:100px;
+  width:234px;}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 979px)  {
+  #wrap{
+    left:40px;
+  }
+  #query{
+    width:430px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  #wrap{
+    left:60px;
+  }
+  h1{
+    margin-left:-30px;
+    text-indent:60px;
+  }
+  #footer{
+    padding-left:60px;
+  }
+}
+
+@media print{
+  #loadMore,
+  #submit-button,
+  .search-result span,
+  img.format{
+    display:none;
+  }
+  .search-result{
+    margin-bottom:20px;
+    page-break-inside:avoid; /* Wirklich? */
+  }
+  #searchfield{
+    margin-bottom:20px;
+  }
+  #footer{
+    height:auto;
+  }
+}
+
+@media print {
+  * { background: transparent !important; color: black !important; box-shadow:none !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } /* Black prints faster: h5bp.com/s */
+  a, a:visited { text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  /* Don't show links for images, or javascript/internal links */
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; } /* h5bp.com/t */
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page { margin: 0.5cm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+
+
+
+
+/* ==|== non-semantic helper classes ========================================
+   Please define your styles before this section.
+   ========================================================================== */
+
+/* For image replacement */
+.ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0; }
+.ir br { display: none; }
+
+/* Hide from both screenreaders and browsers: h5bp.com/u */
+.hidden { display: none !important; visibility: hidden; }
+
+/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible { visibility: hidden; }
+
+/* Contain floats: h5bp.com/q */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }

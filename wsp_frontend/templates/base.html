@@ -4,15 +4,16 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>Digital Knowledge Store</title>
-    
+
     {% load static %}
     <link href="{% get_static_prefix %}css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="{% get_static_prefix %}css/bootstrap-responsive.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
     <link href="{% get_static_prefix %}css/custom.css" rel="stylesheet">
-    <link href="{% get_static_prefix %}css/style.css" rel="stylesheet">
+    <!--<link href="{% get_static_prefix %}css/style.css" rel="stylesheet">-->
+    <link href="{% get_static_prefix %}css/colorbox.css" rel="stylesheet">
 
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 </head>
@@ -33,22 +34,47 @@
     <!-- JavaScript at the bottom for fast page loading -->
     <script src="../static/js/jquery-1.9.1.min.js"></script>
     <script src="../static/js/bootstrap.js"></script>
+    <script src="{% get_static_prefix %}js/colorbox/jquery.colorbox-min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $(".statsPopup").colorbox({inline:true, width:"70%"});
+            $(".statsPopup").colorbox({
+                    onComplete:function(){
+                        //Code für Stastikanzeige
+
+                    }
+                });
+        });
+    </script>
+
     <!--
 
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/colorbox/jquery.colorbox-min.js"></script>
     <script src="/static/js/script.js"></script> -->
+    <script src="/static/js/jquery.peity.min.js"></script>
+    <script src="/static/js/d3.v3.min.js" charset="utf-8"></script>
+    <script src="/static/js/nv.d3.min.js" charset="utf-8"></script>
+
+
     <script>
-        //$(".search-result label").click(function(e){
-         //   $(this).toggleClass('expand').siblings(".metadata").toggleClass('expand');
-         //   e.preventDefault();
-        //})
+        $.fn.peity.defaults.pie = {
+            diameter: 13,
+            height: null,
+            width: null
+        }
+        $("span.pie").peity("pie", {colours: ["rgb(198, 12, 48)","rgb(218, 218, 218)"]}, {diameter: "10"})
+        $(".search-result label").click(function(e){
+            $(this).toggleClass('expand').siblings(".metadata").toggleClass('expand');
+            e.preventDefault();
+        })
     </script>
     <!-- end scripts -->
     <!--
 
     <script src="{% get_static_prefix %}js/plugins.js"></script>
-    <script src="{% get_static_prefix %}js/colorbox/jquery.colorbox-min.js"></script>
+
     <script src="{% get_static_prefix %}js/script.js"></script>
     <!- end scripts -->
 

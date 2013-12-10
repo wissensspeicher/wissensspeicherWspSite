@@ -106,7 +106,8 @@ def search(request):
             translate = "&" + urllib.urlencode(translate)
             query_parameters = query_parameters + '&translateCheck=on'
     if "page" in request.GET:
-        page = request.GET['page']
+        # Cast to integer, damit die Berechnung der angezeigten Seiten (s. u.) richtig funktioniert
+        page = int(request.GET['page'])
 
     page_data = [("page", page)]
     page_data = urllib.urlencode(page_data)
@@ -171,11 +172,15 @@ def search(request):
 
     if results["number_of_hits"] > 0:
         treffer = []
-        for single_treffer in data["hits"]:
+        for j, single_treffer in enumerate(data["hits"]):
             i = {}
             i["relevantPersons"] = []
             i["places"] = []
             i["docId"] = "none"
+
+            # Nummerierung der Treffer, da die Angaben nicht im JSON enthalten sind
+            # 1 wird addiert, da die Zählung von j in der Schleife bei 0 beginnt
+            i["hitNumber"] = ( page - 1) * pagesize + j + 1
 
             #docID parsen
             try:
@@ -213,6 +218,8 @@ def search(request):
             try:
                 i["title"] = single_treffer["title"].replace(" TITEL DES BRIEFS", "", 1)
             except KeyError, e:
+                # Wenn kein Titel vorhanden ist, wird die URL zum Dokument als Titel genommen
+                i["title"] = i["url"]
                 #print "KeyError title " + i["docId"]
                 pass
 
@@ -320,7 +327,7 @@ def search(request):
         #reply = response.text
 
 
-
+    # Paginierung
     # XXX Dokumentieren, wie genau die Seitennummerierung hier funktioniert!
     # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
     # XXX Muss genauer nachvollzogen werden.
@@ -328,7 +335,9 @@ def search(request):
         treffer_list.append("TEST")
 
 
-    #print len(treffer_list)
+    print(len(treffer_list))
+
+
 
     paginator = Paginator(treffer_list, 10)
 
@@ -351,6 +360,17 @@ def search(request):
     #print treffer_save
     results["treffer"] = treffer_save
     results["pagination"] = treffer
+
+    # Berechnung/Einfügen der Nummer der gezeigten Treffer (um z. B. "Treffer 11 - 20" anzeigen zu können)
+    results["endTreffer"] = page * pagesize
+    if results["endTreffer"] > int(results["number_of_hits"]):
+        results["endTreffer"] = int(results["number_of_hits"])
+
+    if page == 1:
+        results["startTreffer"] = 1
+    else:
+        results["startTreffer"] = (page - 1) * pagesize + 1
+
 
 
     # Auswertung der Personenlist um statistische Angaben zu gefundenen Personen machen zu können

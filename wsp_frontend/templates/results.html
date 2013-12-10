@@ -2,7 +2,7 @@
 
 {% block results %}
 
-<div id="searchfield" class="span12"> 
+<div id="searchfield" class="span12">
     <form action="/search/" id="mainsearch">
         <fieldset>
             <div class="controls">
@@ -20,11 +20,15 @@
         </fieldset>
     </form>
 </div>
-<div id="results" class="row span7">{{ get_static_prefix }}
+<div id="summary" class="span12" style="margin-bottom: 20px">
+    <p>{{ number_of_hits }} Treffer in {{ projectFacet|length }} Vorhaben/Projekten. Zeige Treffer {{ startTreffer }} – {{ endTreffer }}:</p>
+</div>
+
+<div id="results" class="row span7">
     <ol class="unstyled">
         {% for single_treffer in treffer %}
         <li class="search-result">
-            <span>{{ forloop.counter }}</span>
+            <span>{{ single_treffer.hitNumber }}</span>
             <img class="format" src="../static/img/document-{{ single_treffer.type}}.png" alt="File format: {{ single_treffer.type}}" title="{{ single_treffer.type}}">
             {% if single_treffer.author %}
             <h3><a href="{{ single_treffer.url }}" title="{{ single_treffer.collectionName }}: {{ single_treffer.title}}">{{single_treffer.author|join:", "}}: {{ single_treffer.title}}</a></h3>
@@ -35,15 +39,16 @@
                 {% for fragment in single_treffer.fragments %}<blockquote>{{ fragment|safe }}</blockquote>
                 {% endfor %}
             {% endif %}
-            
-            <label>Metadaten</label>
+
+            <label>Weitere Informationen zu diesem Suchtreffer:</label>
             <div class="metadata">
                 <ul class="project inline">
-                    <li><i class="icon-beaker"></i> <a href="{{single_treffer.collectionURL}}">{{ single_treffer.collectionName }}</a></li>
+                    <li><i class="icon-beaker" title="Vorhaben"></i></li>
+                    <li><a href="{{single_treffer.collectionURL}}">{{ single_treffer.collectionName }}</a></li>
                 </ul>
                 {% if single_treffer.relevantPersons %}
                 <ul class="persons inline">
-                    <li><i class="icon-user"></i></li>
+                    <li style="margin-right:2px"><i class="icon-user" title="AutorInnen und weitere beteiligte Personen"></i></li>
                     {% for person in single_treffer.relevantPersons|slice:":8" %} {% if person.role != "editor" %}
                     <li><a href="{{ person.url }}" title="More about {{ person.name }}">{{ person.name }}</a></li>
                     {% endif %}{% endfor %}
@@ -51,7 +56,7 @@
                 {% endif %}
 
                 {% if single_treffer.places %}
-                <ul class="places inline">
+                <ul class="places inline" title="Orte die mit dem Suchtreffer in Verbindung stehen">
                     <li><i class="icon-map-marker"></i></li>
                     {% for place in single_treffer.places|slice:":8" %}
                     <li>{{ place.place }}</li>
@@ -59,35 +64,57 @@
                 </ul>
                 {% endif %}
             </div>
-            
+
         </li>
         {% endfor %}
     </ol>
+<div id="pagination" class="text-center">
 
+    <span class="step-links">
+        {% if pagination.has_previous %}
+            <a href="?query={{ search_term }}&page={{ pagination.previous_page_number }}{{ query_parameters }}">&lt;</a>
+        {% endif %}
+        {% if show_first %}
+        <span class="page"><a href="?page=1">1</a></span>
+        <span class="ellipsis">...</span>
+        {% endif %}
+
+        <span class="current">
+            Seite {{ pagination.number }} von {{ pagination.paginator.num_pages }}
+        </span>
+
+        {% if pagination.has_next %}
+            <a href="?query={{ search_term }}&page={{ pagination.next_page_number }}{{ query_parameters }}">&gt;</a>
+        {% endif %}
+    </span>
+</div>
 </div>
 
 <div id="knowledge-browsing" class="row span5">
     <div id="sucherweiterung">
         <h2>Mögliche Erweiterungen der Suche</h2>
         <p>Suchvorschläge...</p>
-        <p>Tada: <br>{{ conceptSearch}}</p>
+        <p>Tada: <br></p>
     </div>
     <div id="eingrenzung">
         <form>
             <fieldset>
-                <h2>Verteilung der Suchergebnisse</h2>
+                <h2><a class="statsPopup" href="#facetStats">Verteilung der Suchergebnisse</a></h2>
+                <ul class="list-unstyled">
                 {% for single_author in authorFacet %}
-                {{ single_author.name }}: {{ single_author.count }}<br>
+                <li>{{ single_author.name }}: {{ single_author.count }} <span class="pie">{{ single_author.count }}/{{ number_of_hits }}</span></li>
                 {% endfor %}
-                <br>
+                </ul>
+                <ul class="list-unstyled">
                 {% for single_project in projectFacet %}
-                {{ single_project.project }}: {{ single_project.count }}<br>
+                <li>{{ single_project.project }}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></li>
                 {% endfor %}
-                <br>
+                </ul>
+                <ul class="list-unstyled">
                 {% for single_language in languageFacet %}
-                {{ single_language.language }}: {{ single_language.count }}<br>
+                <li>{{ single_language.language }}: {{ single_language.count }} <span class="pie">{{ single_language.count }}/{{ number_of_hits }}</span></li>
                 {% endfor %}
-                <br>
+                </ul>
                 <!--
                 <label class="checkbox">
                     <input type="checkbox" checked> 1800 - 1900
@@ -114,4 +141,12 @@
     </div>
 
 </div>
+<div style="display:none">
+    <div id="facetStats" style="padding:10px; background:#fff;">
+        <h2>Verteilung der Suchergebnisse</h2>
+        <div id="stats" style="width:500px; height:370px;"></div>
+    </div>
+</div>
+</div>
+
 {% endblock %}
