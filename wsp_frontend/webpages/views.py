@@ -253,6 +253,8 @@ def search(request):
             except KeyError, e:
                 #print "KeyError persNames " + i["docId"]
                 pass
+            except TypeError, e:
+                pass
 
             try:
                 for single_place in single_treffer["placeNames"]:
