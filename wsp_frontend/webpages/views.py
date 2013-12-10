@@ -165,6 +165,8 @@ def search(request):
     results["search_term"] = results["search_term"].replace("tokenMorph:", "", 1)
     results["search_term"] = results["search_term"].strip("()")
     results["number_of_hits"] = int(data["numberOfHits"])
+    results["morphologicalSearch"] = morphologicalSearch
+    results["translateSearch"] = translateQuery
     results["treffer"] = ""
     #print results["number_of_hits"]
 

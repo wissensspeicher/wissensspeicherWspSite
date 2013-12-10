@@ -11,10 +11,10 @@
             </div>
             <div class="controls" id="searchoptions">
                 <label for="translateCheck" class="checkbox inline">
-                    <input type="checkbox" name="translateCheck" id="translateCheck">Multilingual search <a href="#" style="font-size: .6em;">?</a>
+                    <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>Multilingual search <a href="#" style="font-size: .6em;">?</a>
                 </label>
                 <label for="morphologicalSearch" class="checkbox inline">
-                    <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch">Morphological search <a href="#" style="font-size: .6em;">?</a>
+                    <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>Morphological search <a href="#" style="font-size: .6em;">?</a>
                 </label>
             </div>
         </fieldset>
