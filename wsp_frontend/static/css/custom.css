@@ -464,6 +464,10 @@ ul, ol{
   h2, h3 { page-break-after: avoid; }
 }
 
+.metadata .zusatz {
+  display: none;
+}
+
 
 
 

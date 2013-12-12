@@ -11,6 +11,33 @@ import urllib
 import requests
 from show import show
 
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+
+
+# Dictionary für Umwandlung der Sprachkürzel in ausgeschriebene Sprachen
+languages = {
+#"ger": "german",
+#"eng": "english",
+#"fra": "france",
+#"lat": "latin",
+#"grc": "greek",
+#"ara": "arabic",
+#"ita": "italian",
+#"nld": "dutch",
+#"zho": "chinese",
+"ger": u"Deutsch",
+"eng": u"Englisch",
+"fra": u"Französisch",
+"lat": u"Latein",
+"grc": u"Griechisch",
+"ara": u"Arabisch",
+"ita": u"Indisch",
+"nld": u"Niederländisch",
+"zho": u"Chinesisch",
+ }
+
+
 base_url = "http://wspdev.bbaw.de"
 #import pdb; pdb.set_trace()
 
@@ -73,10 +100,10 @@ def search(request):
         querydata = request.GET['query']
         querydata = querydata.encode("utf-8")
         original_query = querydata
-        if morphologicalSearch == True:
-            querydata = 'tokenMorph:(' + querydata + ')'
-        else:
-            querydata = querydata
+        #if morphologicalSearch == True:
+        #    querydata = 'tokenMorph:(' + querydata + ')'
+        #else:
+        #    querydata = querydata
         #print "querydata: " + querydata
 
         #XXX Die Suchbegriffe müssen eigentlich an Lucene-Query angepasst werden,
@@ -116,7 +143,10 @@ def search(request):
     #base_url = "http://192.168.1.199:8080"
     #base_url = "http://192.168.1.203:8080"
 
-    request_options = {'query': querydata, 'outputFormat': 'json', 'translate': str(translateQuery).lower(), 'page': page}
+    request_options = {'query': querydata, 'outputFormat': 'json', 'page': page, 'pagesize': pagesize, 'translate': str(translateQuery).lower(), 'addInf': str(addInformation).lower()}
+
+    if morphologicalSearch == True:
+        request_options['fieldExpansion'] = "allMorph"
 
     #url = base_url + "/wspCmsWebApp/query/QueryDocuments?" + post_data + "&outputFormat=json" + translate + "&" + page_data
 
@@ -127,9 +157,6 @@ def search(request):
         #url = "http://192.168.1.199:8080/wspCmsWebApp/MoreLikeThis?docId=" + querydata + "&outputFormat=json"
         url = base_url + "/wspCmsWebApp/query/MoreLikeThis?docId=" + querydata + "&outputFormat=json"
         request_options = {}
-
-    if addInformation == True:
-        url = url + "&addInf=true"
 
 #    h = httplib2.Http(".cache")
 #    response, content = h.request(url)
@@ -153,10 +180,9 @@ def search(request):
         print "Fehler beim JSON-Parsing\n" + reply
         #XXX ToDO: Fehlerpage rendern!
 
-
     results = {}
 
-    # Warum die folgende Zeile? wofür wird translated auf TRUE gesetzt?
+    # XXX: Warum die folgende Zeile? wofür wird translated auf TRUE gesetzt?
     results["translated"] = True
 
     results["totalDocuments"] = data["sizeTotalDocuments"]
@@ -168,17 +194,21 @@ def search(request):
     results["morphologicalSearch"] = morphologicalSearch
     results["translateSearch"] = translateQuery
     results["treffer"] = ""
-    #print results["number_of_hits"]
 
     projekte = set()
 
     if results["number_of_hits"] > 0:
         treffer = []
         for j, single_treffer in enumerate(data["hits"]):
+            #print(single_treffer)
+
+            # Herumarbeiten um Fehler in Volltextindex (z. B. Suchanfrage "Haus")
+
             i = {}
             i["relevantPersons"] = []
             i["places"] = []
             i["docId"] = "none"
+            i["projectRdfURI"] = ""
 
             # Nummerierung der Treffer, da die Angaben nicht im JSON enthalten sind
             # 1 wird addiert, da die Zählung von j in der Schleife bei 0 beginnt
@@ -241,6 +271,12 @@ def search(request):
                 i["type"] = "undefined"
                 pass
 
+            #RDF URI parsen
+            try:
+                i["projectRdfURI"] = single_treffer["rdfUri"]
+            except KeyError, e:
+                pass
+
             #Personeninformationen parsen
             try:
                 for single_person in single_treffer["persons"]:
@@ -253,11 +289,13 @@ def search(request):
             except KeyError, e:
                 #print "KeyError persNames " + i["docId"]
                 pass
+
+            # Notwending, falls eine Person im JSON nur "null" ist, und keine zugehörigen Werte hat:
             except TypeError, e:
                 pass
 
             try:
-                for single_place in single_treffer["placeNames"]:
+                for single_place in single_treffer["places"]:
                     place = {"place":"Beispielshausen", "url":"http://example.org"}
                     place = {"place":single_place["name"], "url":single_place["link"]}
                     i["places"].append(place)
@@ -283,131 +321,182 @@ def search(request):
             i["places"] = newlist
             #print "E: " + i["docId"] + "   " + i["type"]
             treffer.append(i)
+            #pp.pprint(i)
             #show(i)
         results["treffer"] = treffer
 
-    # facets parsen
-    results["authorFacet"] = []
-    results["projectFacet"] = []
-    results["languageFacet"] = []
-    for single_author in data["facets"]["author"]:
-        authorName = single_author["value"]
-        authorCount = single_author["count"]
-        author = {"name":authorName, "count": authorCount}
-        results["authorFacet"].append(author)
-    for single_project in data["facets"]["collectionNames"]:
-        projectName = single_project["value"]
-        projectCount = single_project["count"]
-        project = {"project": projectName, "count": projectCount}
-        results["projectFacet"].append(project)
-    for single_language in data["facets"]["language"]:
-        languageID = single_language["value"]
-        languageCount = single_language["count"]
-        language = {"language": languageID, "count": languageCount}
-        results["languageFacet"].append(language)
+        # facets parsen
+        results["authorFacet"] = []
+        results["projectFacet"] = []
+        results["languageFacet"] = []
+        for single_author in data["facets"]["author"]:
+            authorName = single_author["value"]
+            authorCount = single_author["count"]
+            author = {"name":authorName, "count": authorCount}
+            results["authorFacet"].append(author)
+        for single_project in data["facets"]["collectionNames"]:
+            projectName = single_project["value"]
+            projectCount = single_project["count"]
+            projectRDFUri = single_project["rdfUri"]
+            project = {"project": projectName, "count": projectCount, "rdfURI": projectRDFUri}
+            results["projectFacet"].append(project)
+        for single_language in data["facets"]["language"]:
+            languageID = single_language["value"]
+            languageCount = single_language["count"]
+            try:
+                languageText = languages[languageID]
+            except KeyError:
+                languageText = languageID
+            language = {"languageID": languageID, "count": languageCount, "language": languageText}
+            results["languageFacet"].append(language)
 
-    treffer_list = results["treffer"]
-    treffer_save = []
-    treffer_save = results["treffer"][:]
+        treffer_list = results["treffer"]
+        treffer_save = []
+        treffer_save = results["treffer"][:]
+
+        # Anfrage der Projektmetadaten (für die Projekte in projekte)
+        results["projektMetadaten"] = dict()
+        rdfURL = base_url + "/wspCmsWebApp/query/QueryMdSystem"
+        for projekt in results["projectFacet"]:
+            # Wenn es keine RDF URI gibt, dann muss der Triplestore auch nicht angefragt werden
+            if projekt["rdfURI"] == "none":
+                continue
+
+            print("Requesting Metadata for " + projekt["rdfURI"])
+            request_options_rdf = {'detailedSearch': 'true', 'outputFormat': 'json', 'query': projekt["rdfURI"], 'isProjectId': 'true'}
+
+            # Fehler auf Serverseite umgehen
+            # Beispiel:
+            # http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem?query=http%3A%2F%2Fwsp.normdata.rdf%2FAvHForschungsstelle&detailedSearch=true&isProjectId=true&outputFormat=json
+            # liefert eine Exception
+            #show(rdfURL)
+            try:
+                response = requests.get(rdfURL, params=request_options_rdf)
+            except UnicodeEncodeError, error:
+                continue
+
+            print(response.url)
+
+            try:
+
+                projektMetadaten = simplejson.loads(response.text)
 
 
+                #webURI, projectName = "123"
+                #projectName, projectStatus, projectAbstract, webURI = "abc"
+                if projektMetadaten["hitGraphes"] != []:
 
-    # Anfrage der Projektmetadaten (für die Projekte in projekte)
-    results["projektMetadaten"] = dict()
-    for projektID in projekte:
-        url = "http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem"
-        request_options = {'detailedSearch': 'true', 'outputFormat': 'json', 'query': projektID}
-        response = requests.get(url, params=request_options)
+                    for o in projektMetadaten["hitGraphes"][0][projekt["rdfURI"]]:
+                        if "name" in o:
+                            #print(o["name"])
+                            projectName = o["name"]
+                        else:
+                            pass
+                        if "status" in o:
+                            projectStatus = o["status"]
+                        if "abstract" in o:
+                            projectAbstract = o["abstract"]
+                        if "homepage" in o:
+                            webURI = "http://" + o["homepage"]
+                        rdfURI = projekt["rdfURI"]
+                    # XXX ToDo:
+                    # Die Metadaten zu den Projekten/Vorhaben in sinnvolle Datenstruktur überführen.
+                    # Wie soll im Template darauf zugegriffen werden? Eventuell diese Daten direkt in
+                    # entsprechende Facetten-Datenstruktur einfügen?
+                    projektDaten = {"name": projectName, "status": projectStatus, "abstract": projectAbstract, "webURI": webURI, "rdfURI": rdfURI}
+                    #print(projektDaten)
 
-        try:
-            projekteMetadaten = simplejson.loads(reply)
-        except:
-            print "Fehler beim JSON-Parsing\n" + reply
 
+                results["projektMetadaten"][projekt["rdfURI"]] = projektDaten
+            except Exception, e:
+                #print(e)
+                #print(response.url)
+                pass
+                #print "Fehler beim JSON-Parsing\n" + reply
 
+        #pp.pprint(results["projektMetadaten"])
+        #print(results["projektMetadaten"])
         #XXX ToDO: Fehlerpage rendern!
         #print "\nAnfrage an: " + response.url
         #show(response.url)
         #reply = response.text
 
 
-    # Paginierung
-    # XXX Dokumentieren, wie genau die Seitennummerierung hier funktioniert!
-    # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
-    # XXX Muss genauer nachvollzogen werden.
-    for x in range(10, (results["number_of_hits"] + (int(results['number_of_hits']) % 10))):
-        treffer_list.append("TEST")
+        # Paginierung
+        # XXX Dokumentieren, wie genau die Seitennummerierung hier funktioniert!
+        # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
+        # XXX Muss genauer nachvollzogen werden.
+        for x in range(10, (results["number_of_hits"] + (int(results['number_of_hits']) % 10))):
+            treffer_list.append("TEST")
 
 
-    print(len(treffer_list))
-
-
-
-    paginator = Paginator(treffer_list, 10)
-
-    #print "paginator.count: " + str(paginator.count) # + (int(results['number_of_hits']) % 10))
-
-    #page = request.GET.get("page")
-    #print page
-
-    try:
-        treffer = paginator.page(page)
-    except PageNotAnInteger:
-        treffer = paginator.page(1)
-    except EmptyPage:
-        treffer = paginator.page(paginator.num_pages)
-
-    #XXX next: überzählige Einträge aus treffer_list entfernen,
-    #show(projekte)
-
-    #print treffer
-    #print treffer_save
-    results["treffer"] = treffer_save
-    results["pagination"] = treffer
-
-    # Berechnung/Einfügen der Nummer der gezeigten Treffer (um z. B. "Treffer 11 - 20" anzeigen zu können)
-    results["endTreffer"] = page * pagesize
-    if results["endTreffer"] > int(results["number_of_hits"]):
-        results["endTreffer"] = int(results["number_of_hits"])
-
-    if page == 1:
-        results["startTreffer"] = 1
-    else:
-        results["startTreffer"] = (page - 1) * pagesize + 1
+        #print(len(treffer_list))
 
 
 
-    # Auswertung der Personenlist um statistische Angaben zu gefundenen Personen machen zu können
-    # vgl. http://docs.python.org/dev/library/collections.html#counter-objects
+        paginator = Paginator(treffer_list, 10)
 
-    cnt = Counter()
-    for word in results["personList"]:
-        cnt[word] += 1
-    #print cnt
+        #print "paginator.count: " + str(paginator.count) # + (int(results['number_of_hits']) % 10))
 
-    mostCommonPersons = []
-    for person in Counter(results["personList"]).most_common(8):
-        mostCommonPersons.append(person[0])
-    #print mostCommonPersons
+        #page = request.GET.get("page")
+        #print page
 
-    results["mostCommonPersons"] = mostCommonPersons
+        try:
+            treffer = paginator.page(page)
+        except PageNotAnInteger:
+            treffer = paginator.page(1)
+        except EmptyPage:
+            treffer = paginator.page(paginator.num_pages)
+
+        #XXX next: überzählige Einträge aus treffer_list entfernen,
+        #show(projekte)
+
+        #print treffer
+        #print treffer_save
+        results["treffer"] = treffer_save
+        results["pagination"] = treffer
+
+        # Berechnung/Einfügen der Nummer der gezeigten Treffer (um z. B. "Treffer 11 - 20" anzeigen zu können)
+        results["endTreffer"] = page * pagesize
+        if results["endTreffer"] > int(results["number_of_hits"]):
+            results["endTreffer"] = int(results["number_of_hits"])
+
+        if page == 1:
+            results["startTreffer"] = 1
+        else:
+            results["startTreffer"] = (page - 1) * pagesize + 1
+
+
+
+        # Auswertung der Personenlist um statistische Angaben zu gefundenen Personen machen zu können
+        # vgl. http://docs.python.org/dev/library/collections.html#counter-objects
+
+        cnt = Counter()
+        for word in results["personList"]:
+            cnt[word] += 1
+        #print cnt
+
+        mostCommonPersons = []
+        for person in Counter(results["personList"]).most_common(8):
+            mostCommonPersons.append(person[0])
+        #print mostCommonPersons
+
+        results["mostCommonPersons"] = mostCommonPersons
 
     #print query_parameters
     results['query_parameters'] = query_parameters
 
-    url = base_url + "/wspCmsWebApp/query/QueryMdSystem?"
+    #request_options = {'query': original_query, 'outputFormat': 'json', 'conceptSearch': 'true'}
 
-    request_options = {'query': original_query, 'outputFormat': 'json', 'conceptSearch': 'true'}
-
-    response = requests.get(url, params=request_options)
+    #response = requests.get(url, params=request_options)
     #print "\nAnfrage an: " + response.url
     #show(response.url)
 
-    reply = response.text
+    #reply = response.text
 
     #show(reply)
 
-    results["conceptSearch"] = reply
+    #results["conceptSearch"] = reply
 
     if more_like_this == True:
         return render_to_response('results-more-like-this.html', results)

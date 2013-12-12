@@ -46,6 +46,15 @@
                     }
                 });
         });
+
+        $(".zusatzClick").click(function() {
+            $(this).parent().find(".zusatz").slideToggle();
+        });
+        /*$("#zusatzZeigen").click(function() {
+            if ($(".zusatz").filter(":visible"))
+            $(".zusatz:hidden").show()
+            $(".zusatz").slideToggle();
+        });*/
     </script>
 
     <!--
