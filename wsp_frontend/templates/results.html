@@ -95,42 +95,32 @@
 
 <div id="knowledge-browsing" class="row span5">
     <div id="eingrenzung">
-        <h2><!--<a class="statsPopup" href="#facetStats">-->Verteilung der Suchergebnisse<!--</a>--></h2>
-        <h3>AutorInnen</h3>
-        <ul class="list-unstyled">
-        {% for single_author in authorFacet %}
-        <li>{{ single_author.name }}: {{ single_author.count }} <span class="pie">{{ single_author.count }}/{{ number_of_hits }}</span></li>
-        {% endfor %}
-        </ul>
-        <h3>Projekte/Vorhaben</h3>
-        <ul class="list-unstyled">
-        {% for single_project in projectFacet %}
-        <li>{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></li>
-        {% endfor %}
-        </ul>
-        <h3>Sprachen</h3>
-        <ul class="list-unstyled">
-        {% for single_language in languageFacet %}
-        <li>{{ single_language.language }}: {{ single_language.count }} <span class="pie">{{ single_language.count }}/{{ number_of_hits }}</span></li>
-        {% endfor %}
-        </ul>
-        <!--
-        <label class="checkbox">
-            <input type="checkbox" checked> 1800 - 1900
-        </label>
-        <label>
-            <input type="checkbox"> England
-        </label>
-        <label>
-            <input type="checkbox" checked> Vorhaben <abbr title="Forschungsstelle Alexander von Humboldt">AvH</abbr>
-        </label>
-        <label>
-            <input type="checkbox" checked> PDF-Dokumente
-        </label>
-        <label>
-            <input type="checkbox" checked> HTML-Dokumente
-        </label>
-        -->
+        <form id="facetted-search" action="/search/">
+            <input type="hidden" name="query" value="{{ search_term }}">
+            <h2><!--<a class="statsPopup" href="#facetStats">-->Verteilung der Suchergebnisse<!--</a>--></h2>
+            <fieldset>
+                <legend>AutorInnen</legend>
+                {% for single_author in authorFacet %}
+                <label class="checkbox"><input type="checkbox" name="{{ single_author.name }}">{{ single_author.name }}: {{ single_author.count }} <span class="pie">{{ single_author.count }}/{{ number_of_hits }}</span></label>
+                {% endfor %}
+            </fieldset>
+            <fieldset>
+                <legend>Projekte/Vorhaben</legend>
+                {% for single_project in projectFacet %}
+                <label class="checkbox"><input type="checkbox" name="{{ single_project.rdfURI }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></label>
+                {% endfor %}
+            </fieldset>
+            <fieldset>
+                <legend>Sprachen</legend>
+                {% for single_language in languageFacet %}
+                <label class="checkbox"><input type="checkbox" name="{{ single_language.language }}">{{ single_language.language }}: {{ single_language.count }} <span class="pie">{{ single_language.count }}/{{ number_of_hits }}</span></label>
+                {% endfor %}
+            </fieldset>
+            <fieldset>
+
+                <button type="submit" title="Filter Search Results" id="filter-button" class="btn">Filter</button>
+            </fieldset>
+        </form>
     </div>
     <div id="sucherweiterung">
         <h2>Mögliche Erweiterungen der Suche</h2>
