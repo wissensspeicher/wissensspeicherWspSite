@@ -15,7 +15,7 @@ import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 
-# Dictionary für Umwandlung der Sprachkürzel in ausgeschriebene Sprachen
+# Dictionary für Umwandlung der Sprachkürzel in ausgeschriebene Sprachen (ISO 639-3 specifier)
 languages = {
 #"ger": "german",
 #"eng": "english",
@@ -82,7 +82,6 @@ def search(request):
     translateQuery = False
     page = 1
     pagesize = 10
-    addInformation = True   # zusätzliche Angaben zu in den Dokumenten enthaltenen Personen- und Ortsangaben abfragen
 
     query_parameters = ''
 
@@ -143,7 +142,7 @@ def search(request):
     #base_url = "http://192.168.1.199:8080"
     #base_url = "http://192.168.1.203:8080"
 
-    request_options = {'query': querydata, 'outputFormat': 'json', 'page': page, 'pagesize': pagesize, 'translate': str(translateQuery).lower(), 'addInf': str(addInformation).lower()}
+    request_options = {'query': querydata, 'outputFormat': 'json', 'page': page, 'pagesize': pagesize, 'translate': str(translateQuery).lower()}
 
     if morphologicalSearch == True:
         request_options['fieldExpansion'] = "allMorph"
@@ -359,10 +358,11 @@ def search(request):
         rdfURL = base_url + "/wspCmsWebApp/query/QueryMdSystem"
         for projekt in results["projectFacet"]:
             # Wenn es keine RDF URI gibt, dann muss der Triplestore auch nicht angefragt werden
+            # XXX Wie soll mit Projekten umgegangen werden, die keine RDF-URI haben (edoc, wfe, bkvb, ...)
             if projekt["rdfURI"] == "none":
                 continue
 
-            print("Requesting Metadata for " + projekt["rdfURI"])
+            #print("Requesting Metadata for " + projekt["rdfURI"])
             request_options_rdf = {'detailedSearch': 'true', 'outputFormat': 'json', 'query': projekt["rdfURI"], 'isProjectId': 'true'}
 
             # Fehler auf Serverseite umgehen
@@ -375,7 +375,7 @@ def search(request):
             except UnicodeEncodeError, error:
                 continue
 
-            print(response.url)
+            #print(response.url)
 
             try:
 
@@ -390,6 +390,7 @@ def search(request):
                         if "name" in o:
                             #print(o["name"])
                             projectName = o["name"]
+                            #print(projectName)
                         else:
                             pass
                         if "status" in o:
