@@ -355,7 +355,8 @@ def search(request):
 
         # Anfrage der Projektmetadaten (für die Projekte in projekte)
         results["projektMetadaten"] = dict()
-        rdfURL = base_url + "/wspCmsWebApp/query/QueryMdSystem"
+        rdfURL = "http://wspdev.bbaw.de" + "/wspCmsWebApp/query/QueryMdSystem"
+        #rdfURL = "http://192.168.1.199" + "/wspCmsWebApp/query/QueryMdSystem"
         for projekt in results["projectFacet"]:
             # Wenn es keine RDF URI gibt, dann muss der Triplestore auch nicht angefragt werden
             # XXX Wie soll mit Projekten umgegangen werden, die keine RDF-URI haben (edoc, wfe, bkvb, ...)
@@ -369,9 +370,10 @@ def search(request):
             # Beispiel:
             # http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem?query=http%3A%2F%2Fwsp.normdata.rdf%2FAvHForschungsstelle&detailedSearch=true&isProjectId=true&outputFormat=json
             # liefert eine Exception
-            #show(rdfURL)
+            # show(rdfURL)
             try:
                 response = requests.get(rdfURL, params=request_options_rdf)
+                #show(response.url)
             except UnicodeEncodeError, error:
                 continue
 
@@ -381,16 +383,16 @@ def search(request):
 
                 projektMetadaten = simplejson.loads(response.text)
 
+                # verwendete Variablen mit "NA" initieren (falls Metadaten aus dem Triplestore nicht vollständig sind)
+                projectName = projectStatus = projectAbstract = webURI = rdfURI = "NA"
 
-                #webURI, projectName = "123"
-                #projectName, projectStatus, projectAbstract, webURI = "abc"
                 if projektMetadaten["hitGraphes"] != []:
-
                     for o in projektMetadaten["hitGraphes"][0][projekt["rdfURI"]]:
+
                         if "name" in o:
                             #print(o["name"])
                             projectName = o["name"]
-                            #print(projectName)
+                            #show(projectName)
                         else:
                             pass
                         if "status" in o:
@@ -405,7 +407,7 @@ def search(request):
                     # Wie soll im Template darauf zugegriffen werden? Eventuell diese Daten direkt in
                     # entsprechende Facetten-Datenstruktur einfügen?
                     projektDaten = {"name": projectName, "status": projectStatus, "abstract": projectAbstract, "webURI": webURI, "rdfURI": rdfURI}
-                    #print(projektDaten)
+                    #show(projektDaten)
 
 
                 results["projektMetadaten"][projekt["rdfURI"]] = projektDaten
