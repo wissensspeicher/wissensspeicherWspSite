@@ -99,15 +99,27 @@ def search(request):
         querydata = request.GET['query']
         querydata = querydata.encode("utf-8")
         original_query = querydata
-        #if morphologicalSearch == True:
-        #    querydata = 'tokenMorph:(' + querydata + ')'
-        #else:
-        #    querydata = querydata
-        #print "querydata: " + querydata
+        #show(original_query)
 
-        #XXX Die Suchbegriffe müssen eigentlich an Lucene-Query angepasst werden,
-        #    die derzeitige Lösung mit Klammern - Suchterm in () einfügen - ist nur
-        #    ein Notbehelf.
+        #XXX Hier fehlt ein korrekter Parser & Transformation von Suchquery zu Lucene-Syntax
+        if not '"' in original_query:
+            querydata = "+" + " +".join(original_query.split(" "))
+
+        # XXX Krudes Parsen falls Phrasensuche mit '"'
+        # XXX TODO Macht Fehler wenn die Quotes im Query nicht richtig geschlossen sind
+        if '"' in original_query:
+            phraseQueries = []
+            singleQueries = []
+            for s in original_query.split(' "'):
+                if '"' in s:
+                    phraseQueries.append('"' + s.strip('"') + '"')
+                else:
+                    singleQueries.append(s)
+            #show(singleQueries, phraseQueries)
+            querydata = "+" + " +".join(singleQueries) + " +" + " +".join(phraseQueries)
+            show(querydata)
+
+
         post_data = [('query', querydata)]
         post_data = urllib.urlencode(post_data)
 
@@ -116,6 +128,24 @@ def search(request):
         if querydata == "":
             print "Empty Query"
             return render(request, 'search_form.html')
+
+    # Abfrage für Facette "AutorInnen"
+    if 'author' in request.GET:
+        authorFilter = request.GET.getlist('author')
+    else:
+        authorFilter = ""
+
+    # Abfrage für Facette "Projekte/Vorhaben"
+    if 'project' in request.GET:
+        projectFilter = request.GET.getlist('project')
+    else:
+        projectFilter = ""
+
+    # Abfrage für Facette "Sprachen"
+    if 'language' in request.GET:
+        languageFilter = request.GET.getlist('language')
+    else:
+        languageFilter = ""
 
     # Überprüfung ob moreLikeThis als Paramete in der Anfrage-URL enthalten ist
     try:
@@ -138,9 +168,22 @@ def search(request):
     page_data = [("page", page)]
     page_data = urllib.urlencode(page_data)
 
+    # AutorInnen-Facette zur query hinzufügen
+    if authorFilter:
+        querydata = querydata + " +author:(" + " ".join(authorFilter) + ")"
+
+    # Projekt-Facette zur query hinzufügen
+    if projectFilter:
+        querydata = querydata + " +collectionNames:(" + " ".join(projectFilter) + ")"
+
+    # Sprachen-Facette zur query hinzufügen
+    if languageFilter:
+        querydata = querydata + " +language:(" + " ".join(languageFilter) + ")"
+
     #base_url = "http://wspdev.bbaw.de"
     #base_url = "http://192.168.1.199:8080"
     #base_url = "http://192.168.1.203:8080"
+
 
     request_options = {'query': querydata, 'outputFormat': 'json', 'page': page, 'pagesize': pagesize, 'translate': str(translateQuery).lower()}
 
@@ -186,7 +229,8 @@ def search(request):
 
     results["totalDocuments"] = data["sizeTotalDocuments"]
     results["personList"] = []
-    results["search_term"] = data["searchTerm"].replace("tokenOrig:", "", 1)
+    #results["search_term"] = data["searchTerm"].replace("tokenOrig:", "", 1)
+    results["search_term"] = original_query
     results["search_term"] = results["search_term"].replace("tokenMorph:", "", 1)
     results["search_term"] = results["search_term"].strip("()")
     results["number_of_hits"] = int(data["numberOfHits"])
@@ -334,10 +378,10 @@ def search(request):
             author = {"name":authorName, "count": authorCount}
             results["authorFacet"].append(author)
         for single_project in data["facets"]["collectionNames"]:
-            projectName = single_project["value"]
+            projectName = projectShortname = single_project["value"]
             projectCount = single_project["count"]
             projectRDFUri = single_project["rdfUri"]
-            project = {"project": projectName, "count": projectCount, "rdfURI": projectRDFUri}
+            project = {"project": projectName, "count": projectCount, "rdfURI": projectRDFUri, "projectShortname": projectShortname}
             results["projectFacet"].append(project)
         for single_language in data["facets"]["language"]:
             languageID = single_language["value"]
@@ -384,7 +428,7 @@ def search(request):
                 projektMetadaten = simplejson.loads(response.text)
 
                 # verwendete Variablen mit "NA" initieren (falls Metadaten aus dem Triplestore nicht vollständig sind)
-                projectName = projectStatus = projectAbstract = webURI = rdfURI = "NA"
+                projectName = projectStatus = projectAbstract = webURI = rdfURI = projectShortname = "NA"
 
                 if projektMetadaten["hitGraphes"] != []:
                     for o in projektMetadaten["hitGraphes"][0][projekt["rdfURI"]]:
@@ -406,7 +450,10 @@ def search(request):
                     # Die Metadaten zu den Projekten/Vorhaben in sinnvolle Datenstruktur überführen.
                     # Wie soll im Template darauf zugegriffen werden? Eventuell diese Daten direkt in
                     # entsprechende Facetten-Datenstruktur einfügen?
-                    projektDaten = {"name": projectName, "status": projectStatus, "abstract": projectAbstract, "webURI": webURI, "rdfURI": rdfURI}
+                    #if projectAbstract == "NA":
+                    #    show(response.url)
+                    projectShortname = projekt["project"]
+                    projektDaten = {"name": projectName, "status": projectStatus, "abstract": projectAbstract, "webURI": webURI, "rdfURI": rdfURI, "projectShortname": projectShortname}
                     #show(projektDaten)
 
 
@@ -497,7 +544,7 @@ def search(request):
 
     #reply = response.text
 
-    #show(reply)
+    #show(results)
 
     #results["conceptSearch"] = reply
 

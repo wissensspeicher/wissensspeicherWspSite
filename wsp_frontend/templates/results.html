@@ -29,7 +29,7 @@
     <ol class="unstyled">
         {% for single_treffer in treffer %}
         <li class="search-result">
-            <span>{{ single_treffer.hitNumber }}</span>
+            <span id="hit{{ single_treffer.hitNumber }}">{{ single_treffer.hitNumber }}</span>
             <img class="format" src="../static/img/document-{{ single_treffer.type}}.png" alt="File format: {{ single_treffer.type}}" title="{{ single_treffer.type}}">
             {% if single_treffer.author %}
             <h3><a href="{{ single_treffer.url }}" title="{{ single_treffer.collectionName }}: {{ single_treffer.title}}">{{single_treffer.author|join:", "}}: {{ single_treffer.title}}</a></h3>
@@ -101,19 +101,19 @@
             <fieldset>
                 <legend>AutorInnen</legend>
                 {% for single_author in authorFacet %}
-                <label class="checkbox"><input type="checkbox" name="{{ single_author.name }}">{{ single_author.name }}: {{ single_author.count }} <span class="pie">{{ single_author.count }}/{{ number_of_hits }}</span></label>
+                <label class="checkbox"><input type="checkbox" name="author" value="{{ single_author.name }}">{{ single_author.name }}: {{ single_author.count }} <span class="pie">{{ single_author.count }}/{{ number_of_hits }}</span></label>
                 {% endfor %}
             </fieldset>
             <fieldset>
                 <legend>Projekte/Vorhaben</legend>
                 {% for single_project in projectFacet %}
-                <label class="checkbox"><input type="checkbox" name="{{ single_project.rdfURI }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></label>
+                <label class="checkbox"><input type="checkbox" name="project" value="{{ single_project.projectShortname }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></label>
                 {% endfor %}
             </fieldset>
             <fieldset>
                 <legend>Sprachen</legend>
                 {% for single_language in languageFacet %}
-                <label class="checkbox"><input type="checkbox" name="{{ single_language.language }}">{{ single_language.language }}: {{ single_language.count }} <span class="pie">{{ single_language.count }}/{{ number_of_hits }}</span></label>
+                <label class="checkbox"><input type="checkbox" name="language" value="{{ single_language.languageID }}">{{ single_language.language }}: {{ single_language.count }} <span class="pie">{{ single_language.count }}/{{ number_of_hits }}</span></label>
                 {% endfor %}
             </fieldset>
             <fieldset>
