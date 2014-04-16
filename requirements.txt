@@ -1,0 +1,5 @@
+wspFrontend
+Django>=1.5.1
+requests>=1.2.3
+show>=0.65
+
