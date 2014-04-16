@@ -108,17 +108,17 @@ def search(request):
         # XXX Krudes Parsen falls Phrasensuche mit '"'
         # XXX TODO Macht Fehler wenn die Quotes im Query nicht richtig geschlossen sind
         if '"' in original_query:
-            phraseQueries = []
-            singleQueries = []
+            Queries = []
             for s in original_query.split(' "'):
                 if '"' in s:
-                    phraseQueries.append('"' + s.strip('"') + '"')
+                    Queries.append('"' + s.strip('"') + '"')
                 else:
-                    singleQueries.append(s)
-            #show(singleQueries, phraseQueries)
-            querydata = "+" + " +".join(singleQueries) + " +" + " +".join(phraseQueries)
+                    Queries.append(s)
+            querydata = "+" + " +".join(Queries)
             show(querydata)
 
+        if original_query == '*':
+            querydata = '*'
 
         post_data = [('query', querydata)]
         post_data = urllib.urlencode(post_data)
