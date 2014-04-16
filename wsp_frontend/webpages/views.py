@@ -131,19 +131,34 @@ def search(request):
 
     # Abfrage für Facette "AutorInnen"
     if 'author' in request.GET:
-        authorFilter = request.GET.getlist('author')
+        authorFilter = []
+        for author in request.GET.getlist('author'):
+            authorFilter.append('"' + author + '"')
+            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
+            # daraus wird im Template dann entsprechend eine URL generiert
+            query_parameters = query_parameters + "&author=" + author
     else:
         authorFilter = ""
 
     # Abfrage für Facette "Projekte/Vorhaben"
     if 'project' in request.GET:
-        projectFilter = request.GET.getlist('project')
+        projectFilter = []
+        for project in request.GET.getlist('project'):
+            projectFilter.append('"' + project + '"')
+            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
+            # daraus wird im Template dann entsprechend eine URL generiert
+            query_parameters = query_parameters + "&project=" + project
     else:
         projectFilter = ""
 
     # Abfrage für Facette "Sprachen"
     if 'language' in request.GET:
-        languageFilter = request.GET.getlist('language')
+        languageFilter = []
+        for language in request.GET.getlist('language'):
+            languageFilter.append('"' + language + '"')
+            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
+            # daraus wird im Template dann entsprechend eine URL generiert
+            query_parameters = query_parameters + "&language=" + language
     else:
         languageFilter = ""
 
@@ -184,7 +199,7 @@ def search(request):
     #base_url = "http://192.168.1.199:8080"
     #base_url = "http://192.168.1.203:8080"
 
-
+    show(querydata)
     request_options = {'query': querydata, 'outputFormat': 'json', 'page': page, 'pagesize': pagesize, 'translate': str(translateQuery).lower()}
 
     if morphologicalSearch == True:
@@ -535,6 +550,7 @@ def search(request):
 
     #print query_parameters
     results['query_parameters'] = query_parameters
+    show(query_parameters)
 
     #request_options = {'query': original_query, 'outputFormat': 'json', 'conceptSearch': 'true'}
 
