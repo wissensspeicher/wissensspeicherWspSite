@@ -98,7 +98,7 @@ def search(request):
     if 'query' in request.GET:
         querydata = request.GET['query']
         querydata = querydata.encode("utf-8")
-        original_query = querydata
+        original_query = querydata.strip()
         #show(original_query)
 
         #XXX Hier fehlt ein korrekter Parser & Transformation von Suchquery zu Lucene-Syntax
@@ -248,6 +248,7 @@ def search(request):
     results["search_term"] = original_query
     results["search_term"] = results["search_term"].replace("tokenMorph:", "", 1)
     results["search_term"] = results["search_term"].strip("()")
+
     results["number_of_hits"] = int(data["numberOfHits"])
     results["morphologicalSearch"] = morphologicalSearch
     results["translateSearch"] = translateQuery
