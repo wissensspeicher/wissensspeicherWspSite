@@ -125,10 +125,17 @@ def search(request):
 
 
         # Wenn kein Suchterm eingegeben ist, wird das Suchformular angezeigt
-        if querydata == "":
+        if original_query == "":
             print "Empty Query"
             return render(request, 'search_form.html')
 
+            
+    # Falls die Suche nach "*" ist und Facetten ausgewählt sind, muss eine "leere Suche"+Facetten 
+    # durchgeführt werden, weil Josefs Tomcat sonst muckt.
+    
+    if any(word in request.GET for word in ['author', 'project', 'language']):
+        querydata = ""
+    
     # Abfrage für Facette "AutorInnen"
     if 'author' in request.GET:
         authorFilter = []
