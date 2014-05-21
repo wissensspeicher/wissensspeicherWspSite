@@ -284,7 +284,7 @@ ul, ol{
     background:url(../img/dark_fish_skin.png) repeat;
     background:url(../img/boxshadow_ft.png) 50% top no-repeat,url(../img/dark_fish_skin.png) repeat;
     color:#fff;
-    height:200px;
+    height:100px;
     margin-top:40px;
     padding-top:40px;
 }
@@ -311,7 +311,7 @@ ul, ol{
     padding-left:40px;
   }
   #dfg_logo{
-    background:url(../img/dfg_logo.png) no-repeat;
+    background:url(../img/dfg_logo-small.png) no-repeat;
     height:59px;
     width:168px;
   }
@@ -468,6 +468,10 @@ ul, ol{
   display: none;
 }
 
+
+.front_stat {
+height: 290px;
+}
 
 
 

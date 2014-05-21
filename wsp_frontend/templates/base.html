@@ -12,6 +12,7 @@
     <link href="{% get_static_prefix %}css/bootstrap-responsive.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
     <link href="{% get_static_prefix %}css/custom.css" rel="stylesheet">
+	<link href="{% get_static_prefix %}css/nv.d3.css" rel="stylesheet" type="text/css">
     <!--<link href="{% get_static_prefix %}css/style.css" rel="stylesheet">-->
     <link href="{% get_static_prefix %}css/colorbox.css" rel="stylesheet">
 
@@ -23,13 +24,13 @@
             <h1><a href="../">Digital Knowledge Store</a></h1>
             <div id="logo" class="ir">Berlin-Brandenburgische Akademie der Wissenschaften</div>
         </div>
-            {% block content %}{% endblock %}
             {% block search_form %}{% endblock %}
             {% block results %}{% endblock %}
+			{% block content %}{% endblock %}
     </div>
     <div id="footer">
         <p class="muted">{{ totalDocuments }} digital resources indexed</p>
-        <div id="dfg_logo" class="ir">Deutsche Forschungsgemeinschaft</div>
+        <div id="dfg_logo" class="ir" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">Deutsche Forschungsgemeinschaft</div>
     </div>
     <!-- JavaScript at the bottom for fast page loading -->
     <script src="../static/js/jquery-1.9.1.min.js"></script>
@@ -38,13 +39,209 @@
 
     <script>
         $(document).ready(function(){
-            $(".statsPopup").colorbox({inline:true, width:"70%"});
-            $(".statsPopup").colorbox({
-                    onComplete:function(){
-                        //Code für Stastikanzeige
+			
+			// Autorenstatistik
+			function autorenData() {
+			 return  [ 
+				{
+				  key: "Autoren",
+				  values: [
+					{ 
+					  "label" : "Humboldt, Alexander von" ,
+					  "value" : 1019
+					} , 
+					{ 
+					  "label" : "Biermann, Kurt-Reinhard" , 
+					  "value" : 293
+					} , 
+					{ 
+					  "label" : "Schwarz, Ingo" , 
+					  "value" : 165
+					} , 
+					{ 
+					  "label" : "Beck, Hanno" , 
+					  "value" : 108
+					} , 
+					{ 
+					  "label" : "Ette, Ottmar" ,
+					  "value" : 81
+					}
+				  ]
+				}
+			  ]
 
-                    }
-                });
+			}
+			nv.addGraph(function() {
+			  var chart = nv.models.discreteBarChart()
+				  .x(function(d) { return d.label })    //Specify the data accessors.
+				  .y(function(d) { return d.value })
+				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+				  .tooltips(true)        //Don't show tooltips
+				  .showValues(false)       //...instead, show the bar value right on top of each bar.
+				  .transitionDuration(350)
+				  .width(450)
+				  .height(230)
+				  .showYAxis(false)
+				  ;
+				  
+				  chart.yAxis.tickFormat(d3.format(''));
+				  chart.margin({top: 15, right: 10, bottom: 50, left: 25});
+
+			  d3.select('#autorinnen_stat svg')
+				  .datum(autorenData())
+				  .call(chart);
+
+			  nv.utils.windowResize(chart.update);
+
+			  return chart;
+			});
+			
+			// Dokumentestatistik
+			var dokumente_data = [
+				{ 
+					key: "HTML",
+					y: 8682
+				},
+				{ 
+					key: "XML",
+					y: 8325
+				},
+				{ 
+					key: "PDF",
+					y: 2041
+				},
+				{ 
+					key: "MS-Doc",
+					y: 5
+				}
+			];
+			
+			nv.addGraph(function() {				
+				var chart = nv.models.pieChart()
+					.x(function(d) { return d.key })
+					.y(function(d) { return d.y })
+					.color(d3.scale.category10().range())
+					.width(300)
+					.height(300)
+					.donut(true)
+					.showLabels(false)
+					;
+					
+				chart.valueFormat(d3.format(''));
+				
+				d3.select("#dokumente_stat svg")
+					.datum(dokumente_data)
+					.transition().duration(1200)
+					.attr('width', 300)
+					.attr('height', 300)
+					.call(chart);
+
+				return chart;
+			});
+			
+			// Sprachstatistik
+			var language_data = [
+				{ 
+					key: "Deutsch",
+					y: 12090
+				},
+				{ 
+					key: "Griechisch",
+					y: 5068
+				},
+				{ 
+					key: "Französisch",
+					y: 1708
+				},
+				{ 
+					key: "Englisch",
+					y: 96
+				},
+				{ 
+					key: "Latein",
+					y: 91
+				}
+			];
+			
+			nv.addGraph(function() {				
+				var chart = nv.models.pieChart()
+					.x(function(d) { return d.key })
+					.y(function(d) { return d.y })
+					.color(d3.scale.category10().range())
+					.width(300)
+					.height(300)
+					.donut(true)
+					.showLabels(false)
+					;
+					
+				chart.valueFormat(d3.format(''));
+				
+				d3.select("#sprachen_stat svg")
+					.datum(language_data)
+					.transition().duration(1200)
+					.attr('width', 300)
+					.attr('height', 300)
+					.call(chart);
+
+				return chart;
+			});
+			
+			// Projektestatistik
+			function projekteData() {
+			 return  [ 
+				{
+				  key: "Projekte",
+				  values: [
+					{ 
+					  "label" : "Sekundärlit. Humboldt" ,
+					  "value" : 7736
+					} , 
+					{ 
+					  "label" : "Inscriptiones Graecae" , 
+					  "value" : 5052
+					} , 
+					{ 
+					  "label" : "Registres de l'Academie" , 
+					  "value" : 1708
+					} , 
+					{ 
+					  "label" : "Deutsches Textarchiv" , 
+					  "value" : 920
+					} , 
+					{ 
+					  "label" : "Unselbst. Schriften Humboldts" ,
+					  "value" : 712
+					}
+				  ]
+				}
+			  ]
+
+			}
+			nv.addGraph(function() {
+			  var chart = nv.models.discreteBarChart()
+				  .x(function(d) { return d.label })    //Specify the data accessors.
+				  .y(function(d) { return d.value })
+				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+				  .tooltips(true)        //Don't show tooltips
+				  .showValues(false)       //...instead, show the bar value right on top of each bar.
+				  .transitionDuration(350)
+				  .width(450)
+				  .height(230)
+				  .showYAxis(false)
+				  ;
+				  
+				  chart.yAxis.tickFormat(d3.format(''));
+				  chart.margin({top: 15, right: 10, bottom: 50, left: 25});
+
+			  d3.select('#projekte_stat svg')
+				  .datum(projekteData())
+				  .call(chart);
+
+			  nv.utils.windowResize(chart.update);
+
+			  return chart;
+			});
+
         });
 
         $(".zusatzClick").click(function() {
@@ -63,8 +260,8 @@
     <script src="/static/js/colorbox/jquery.colorbox-min.js"></script>
     <script src="/static/js/script.js"></script> -->
     <script src="/static/js/jquery.peity.min.js"></script>
-    <script src="/static/js/d3.v3.min.js" charset="utf-8"></script>
-    <script src="/static/js/nv.d3.min.js" charset="utf-8"></script>
+	<script src="/static/js/d3.js"></script>
+    <script src="/static/js/nv.d3.js"></script>
 
 
     <script>
