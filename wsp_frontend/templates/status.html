@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load webpages_extras %}
+
+{% block status %}
+
+
+<div class="span12">
+	<h2>Status der Erfassung/Indexierung</h2>
+	<p>Diese Tabelle gibt eine Übersicht über den derzeitigen Stand der Erfassung und Indexierung aller digitalen Ressourcen an der BBAW.</p>
+</div>
+<div class="span12">
+	<table class="table table-condensed table-hover" id="statustabelle" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>Projekt</th>
+				<th></th>
+				<th>Typ</th>
+				<th>Projektstatus</th>
+				<th>Status</th>
+				<th>Letzte Indexierung</th>
+				<th>Art der Ressourcen</th>
+			</tr>
+		<!--
+		<tfoot>
+			<tr>
+				<th>Projekt</th>
+				<th>Typ</th>
+				<th>Projektstatus</th>
+				<th>Indexierungsstatus</th>
+				<th>Art der Ressourcen</th>
+			</tr>
+		</tfoot>
+		-->
+		<tbody>
+		<!--	<tr class="success">
+				<td>Gesundheitsstandards</td>
+				<td>IAG</td>
+				<td>abgeschlossen</td>
+				<td>aufgenommen</td>
+				<td>Webseiten</td>
+			</tr>
+		-->
+		{% for single_project in projectFacet %}
+			<tr {% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}
+				{% if projektDaten.indexingProgress == "done" %}
+				  class="success"
+				{% elif projektDaten.indexingProgress == "open" %}
+				  class="danger"
+				{% elif projektDaten.indexingProgress == "started" %}
+				  class="warning"
+				{% endif %} {% endwith %}
+			>
+				<td title="{{ single_project.rdfURI }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}</td>
+				<td style="min-width: 50px;">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}<a href="..{% url 'search' %}?query=*&amp;project={{ projektDaten.projectShortname}}"><i class="icon-search" title="Suche"></i></a> <a href="{{ projektDaten.webURI}}"><i class="icon-home" title="Zur Homepage"></i></a> <a href="?project={{ projektDaten.rdfURI }}"><i class="icon-info" title="Mehr Informationen (Noch nicht implementiert)"></i></a>{% endwith %}</td>
+				<td>{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.projectType}}{% endwith %}</td>
+				<td>{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.status}}{% endwith %}</td>
+				{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}<td title="{{ projektDaten.indexingComment }}">{{ projektDaten.indexingProgress}}{% endwith %}</td>
+				<td>{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.projectLastIndex|date:"Y/m/d H:i" }}{% endwith %}
+				<td>{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.projectDefinition}}{% endwith %}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+{% endblock %}

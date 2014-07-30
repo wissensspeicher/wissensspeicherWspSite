@@ -1,0 +1,867 @@
+{
+  "http://wsp.normdata.rdf/FrauenInAkademieWissenschaft": {
+    "editor": "Anett",
+    "comment": "über edoc-Server + Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Goedeke": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Gesundheitsstandards": {
+    "editor": "Anett",
+    "comment": "IAG, Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GoetheWB": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Humanprojekt": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/IdealeAkademie": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/InstitutionenOeffentlicheGueter": {
+    "editor": "Anett",
+    "comment": "gehört zu \"Ökosystemleistungen\" (PDF-Flyer), aus der Liste löschen?",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/JoachimVonFiore": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Kyoto": {
+    "editor": "Anett",
+    "comment": "Web (extern rausnehmen!)",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionBerlin": {
+    "editor": "Anett",
+    "comment": "Web, PDF (Reihe VIII, Band 1, 2 auf edoc?)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/RegestaImperii": {
+    "editor": "Anett",
+    "comment": "Web + PDF(?)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Staatsschulden": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/StudiengruppeStrukturbildung": {
+    "editor": "Anett",
+    "comment": "web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/StrategienAbfall": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Technikwissenschaften": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Techcultures": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Telota": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Tod": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Turfan": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Turfan/Dunhuang": {
+    "editor": "Anett",
+    "comment": "idp.bbaw.de",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Turfan/IranischeTexte": {
+    "editor": "Anett",
+    "comment": "Alex",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Turfan/ManichaeanMiddlePersianTexts": {
+    "editor": "Anett",
+    "comment": "Desmond fragen - Datenbankformat erforschen/ Schnittstelle?#",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/UrsprungSprache": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/UniverselleMenschenrechte": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Virtualitaet": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/WissenFuerEntscheidung": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/WielandAusgabe": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/WissenschaftlichePolitikberatung": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Wissensspeicher": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/WilhelmVonHumboldt": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/WissenschaftWiedervereinigung": {
+    "editor": "Anett",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ZukunftMitKindern": {
+    "editor": "Anett",
+    "comment": "Web http://www.zukunft-mit-kindern.eu/",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CommentariaAristotelem": {
+    "editor": "Josef",
+    "comment": "eXist (Stefan Dumont)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusCoranicum": {
+    "editor": "Josef",
+    "comment": "MySQL, Kommentar indexiert, Druckausgabe, Handschriften, Lesarten & Texte aus der Umwelt des Korans fehlen, über Markus von Marx Zustimmung für Lesezugriff von Marx, Web",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/WilhelmVonHumboldt/Briefdatenbank": {
+    "editor": "Josef",
+    "comment": "MySQL (Christoph), evtl. auch eXist?",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/DWB": {
+    "editor": "Josef",
+    "comment": "1 XML-Datei mit einer Lieferung des dwb (vgl. )",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Galen": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GDK": {
+    "editor": "Josef",
+    "comment": "Datenbank (Stefan Klinger)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusInscriptLatinarum": {
+    "editor": "Josef/Marco",
+    "comment": "Web & Datenbank (Nora Unger – techn.)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusMedicorumGraecorum": {
+    "editor": "Josef/Sascha",
+    "comment": "METS-Dateien (URLs händisch eingetragen): verschoben in cmgeo + Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KantSchriften/DieDreiKritiken": {
+    "editor": "Marco",
+    "comment": "PDFs",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/SchleiermacherGesamtausgabe": {
+    "editor": "Marco",
+    "comment": "(Stefan)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ProsopographiaImperiiRomani": {
+    "editor": "Marco",
+    "comment": "Gerald",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Clarin": {
+    "editor": "Marco",
+    "comment": "zu ClarinD, eintrag in normdata löschen",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/DTM": {
+    "editor": "Marco",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/ElitenIntegration": {
+    "editor": "",
+    "comment": "woher kommt das",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/FunktionenBewusstsein": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/FeuerbachLudwig": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Forster": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/JeanPaul": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionBerlin/Baende": {
+    "editor": "Marco",
+    "comment": "löschen, siehe leibber",
+    "status": "done"
+  },
+  "---": {
+    "editor": "Marco",
+    "comment": "extern → raus",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/MonumentaGermaniaeHistorica": {
+    "editor": "Marco",
+    "comment": "Fabian fragen was er gemacht hat (ist das Constitutiones/Goldene Bulle oda watt?) + Web",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/ForschungsschwerpunkteMolekulareMedizin": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Nietzsche": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/NormativitätObjektivitätHandlung": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Oekosystemleistungen": {
+    "editor": "Marco",
+    "comment": "Web + http://www.oekosystemleistungen.de",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ProduktionssystemeZukuenftige": {
+    "editor": "Marco",
+    "comment": "über edoc-Server/Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Parzival": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/PsychologischesDenkenPraxis": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/PDR": {
+    "editor": "Marco",
+    "comment": "Web ",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/PolybiosLexikon": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/PrioritaetenEnergieforschung": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/PolitikWissenschaftGesellschaft": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/QualitaetsbeurteilungWissenschaft": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/RechtslehrerDDR": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ReligionUndGlauben": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/RULE": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/SADE": {
+    "editor": "Marco",
+    "comment": "Web + Alex",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Siera": {
+    "editor": "Marco",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AvHForschungsstelle/Chronologie": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ProtokollePreussischesStaatsministerium": {
+    "editor": "Sascha",
+    "comment": "PDF (URLs händisch eingetragen)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/DFGimSpannungsfeld": {
+    "editor": "Sascha",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/EuropaImNahenOsten": {
+    "editor": "",
+    "comment": "Web",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/Eutena": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Exzellenzinitiative": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/HerausforderungDruchDasFremde": {
+    "editor": "Sascha",
+    "comment": "über edoc-Server + Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GriechischChristlichSchriftsteller/Lietzmann": {
+    "editor": "Sascha",
+    "comment": "Web + PDF",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GriechischChristlichSchriftsteller/Text": {
+    "editor": "Sascha",
+    "comment": "Web + PDF",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GemeinwohlUndGemeinsinn": {
+    "editor": "Sascha",
+    "comment": "über edoc-Server + Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GlobalerWandel": {
+    "editor": "Sascha",
+    "comment": "über edoc-Server + Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Gegenworte": {
+    "editor": "Sascha",
+    "comment": "über edoc-Server, gegenworte.org",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Justizgewaehrung": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KantSchriften": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KlinischeForschungPopulation": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KriegUndGewalt": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KarlPhilippMoritz": {
+    "editor": "Sascha",
+    "comment": "Web + PDF",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KulturellerSozialerWandel": {
+    "editor": "Sascha",
+    "comment": "Web – nur Homepage",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionBerlin/Sachregister": {
+    "editor": "Sascha",
+    "comment": "nachrecherchieren, (siehe auch , es existiert dort auch ein PDF, somit muss die Datenbank vlt. nicht extra aufgenommen werden?)",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionPotsdam": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionPotsdam/Baende": {
+    "editor": "Sascha",
+    "comment": "PDF (URLs händisch eingetragen), Autor/Titel falsch",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/LandInnovation": {
+    "editor": "Sascha",
+    "comment": "Web + PDF",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/MonumentaGermaniaeHistorica/KaiserReichUndRegion": {
+    "editor": "Sascha",
+    "comment": "nur PDF auf Edoc – muss als eigenes Projekt in Normdaten und mdsystem gelöscht werden",
+    "status": "started"
+  },
+  "": {
+    "editor": "Sascha",
+    "comment": "Datenbank (Markus)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/DigitalesWoerterbuch": {
+    "editor": "",
+    "comment": "Schnittstelle",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/Dariah": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/WeltAlsBild": {
+    "editor": "",
+    "comment": "über edoc-Server + Web",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/Woerterbuchportal": {
+    "editor": "",
+    "comment": "Web (Portal) Gerald",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/DTM/Editionsbericht": {
+    "editor": "(Anett)",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/Turfan/DigitalesArchiv": {
+    "editor": "Anett",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusInscriptLatinarum/Afrika": {
+    "editor": "Josef",
+    "comment": "Flash (Nora Unger – techn.)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusMedicorumGraecorum/DielsscherHandschriftenkatalog": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusMedicorumGraecorum/Editionen": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusMedicorumGraecorum/HippokratesUndGalen": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusMedicorumGraecorum/Probeedition": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/JahresberichteDeutscheGeschichte": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Archiv": {
+    "editor": "Josef",
+    "comment": "Web + Schnittstellen/Webservices",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/Galen/GreekIntoArabic": {
+    "editor": "Josef",
+    "comment": "rausnehmen, siehe glossga",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GlossariumGraecoArabicum": {
+    "editor": "Josef",
+    "comment": "MySQL (Torsten)",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/KollokationImWB": {
+    "editor": "Josef",
+    "comment": "Idiomdatenbank (Kai Zimmer) + Web",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/JeanPaul/Editionsbeispiel": {
+    "editor": "Marco",
+    "comment": "löschen weil Teil von jp",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/PreussenAlsKulturstaat": {
+    "editor": "",
+    "comment": "über edoc-Server, HTML-Seiten, PDFs mit Bänden",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AvHForschungsstelle/Orinoco": {
+    "editor": "",
+    "comment": "HTML-Seiten (URLs händisch eingetragen), Autor/Titel falsch, Rücksprache",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/BerlinerAkademiegesch": {
+    "editor": "",
+    "comment": "Web",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/BiblexegeseSpaetantike": {
+    "editor": "",
+    "comment": "Web",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/Bildkulturen": {
+    "editor": "",
+    "comment": "über edoc-Server, Web",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/MartinBuberWerkausgabe": {
+    "editor": "",
+    "comment": "Web",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/DTM/Handschriftenarchiv": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/DTM/Transkription": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/EuropaDiktatur": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/GriechischesMuenzwerk": {
+    "editor": "",
+    "comment": "Datenbank – Verfügbarkeit? → Elise",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/KarlPhilippMoritz/NeuereWerkausgabenSekundaerliteratur": {
+    "editor": "",
+    "comment": "nachrecherchieren",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/ProsopagraphieMittelbyzant": {
+    "editor": "",
+    "comment": "Alex kontaktieren für XML DB, Fragment rechtl. Probleme, Filemaker=Alex kontakt",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/ZukunftKommunikationssystem": {
+    "editor": "",
+    "comment": "Web http://www.publikationssystem.de",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/CensusOfAntiqueWorks/CensusDatabase": {
+    "editor": "",
+    "comment": "MySQL",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AltaegyptWB/Erbkam": {
+    "editor": "",
+    "comment": "wird noch bearbeitet",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AvHForschungsstelle/Abhandlungen": {
+    "editor": "",
+    "comment": "XML (eXist?)",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/BiblioraphischeAnnalen": {
+    "editor": "",
+    "comment": "Web + Datenbank (unklares Format)",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/WilhelmOstwaldSymposium": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AltaegyptWB/Preussen": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AltaegyptWB/TLA": {
+    "editor": "",
+    "comment": "wird noch bearbeitet",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AltaegyptWB/Vormanuskript": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AltaegyptWB/Zettelarchiv": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/DeutscheInschriftenMA": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/AltaegyptWB": {
+    "editor": "Josef",
+    "comment": "über edoc-Server",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AlternGesellschaft": {
+    "editor": "Josef",
+    "comment": "auf edoc? + Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AlternGesellschaft/BASE": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AntikeGegenwart": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AkademieSchule": {
+    "editor": "Josef",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AvHForschungsstelle": {
+    "editor": "Josef",
+    "comment": "über edoc-Server + Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AvHForschungsstelle/Briefe": {
+    "editor": "Josef",
+    "comment": "XML/eXist",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AvHForschungsstelle/Sekundaerliteratur": {
+    "editor": "Josef",
+    "comment": "MySQL",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/AvHForschungsstelle/UnselbststaendigeSchriften": {
+    "editor": "Josef",
+    "comment": "MySQL",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ClarinD": {
+    "editor": "Josef",
+    "comment": "Web + Schnittstellen/Webservices",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ClusterWissensforschung": {
+    "editor": "Josef",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/InscriptionesGraecae": {
+    "editor": "Josef",
+    "comment": "XML/eXist",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Registres": {
+    "editor": "Josef",
+    "comment": "XML/eXist",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ProsopographiaImperiiRomani/Addenda": {
+    "editor": "Marco",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/ProsopographiaImperiiRomani/Stichwortliste": {
+    "editor": "Marco",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/SpracheDesRechts": {
+    "editor": "",
+    "comment": "über edoc-Server",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/GesellschaftWasserTechnik": {
+    "editor": "Anett",
+    "comment": "web, noch aktiv",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CorpusVitrearumMediiAevi": {
+    "editor": "Josef",
+    "comment": "XML (eXist?), Verlinkung zu Kirchen, Web ()",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/DTA": {
+    "editor": "Josef",
+    "comment": "XML (URLs händisch eingetragen)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/GriechischChristlichSchriftsteller": {
+    "editor": "Josef",
+    "comment": "XML/eXist (rohe XML verlinkt), MySQL (Filmdatenbank)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/JahresberichteDeutscheGeschichte/Zwischenkriegszeit": {
+    "editor": "Josef",
+    "comment": "eXist mit modifiziertem TEI (Parser muss angepasst werden)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KantSchriften/OpusPostumum": {
+    "editor": "Josef",
+    "comment": "eXist (Alex)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionPotsdam/RitterKatalog": {
+    "editor": "Josef",
+    "comment": "MySQL (Stefan Klinger), Daten erfasst, Indizierung muss noch durchlaufen",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Schleiermacher": {
+    "editor": "Josef",
+    "comment": "Stefan",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/BerlinerKlassik": {
+    "editor": "Josef, Sascha(Web)",
+    "comment": "MySQL, Web (einige Ressourcen in Frames)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/MonumentaGermaniaeHistorica/Constitutiones": {
+    "editor": "Josef/Marco",
+    "comment": "eXist (Alex)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/CensusOfAntiqueWorks": {
+    "editor": "Marco",
+    "comment": "Web+PDF ( aufnehmen)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Gentechnologiebericht": {
+    "editor": "Marco",
+    "comment": "über edoc-Server + Web",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/KarlPhilippMoritz/Erfahrungsseelenkunde": {
+    "editor": "Marco",
+    "comment": "XML (eXist?) (Niels), überprüfen",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/MarxEngelsGA": {
+    "editor": "Marco",
+    "comment": "XML (URLs händisch eingetragen), über edoc-Server, XXX aufteilen MEGAdigital",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/MonumentaGermaniaeHistorica/DerGoldeneBulle": {
+    "editor": "Marco",
+    "comment": "eXist (Alex)",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/JeanPaul/Onlineregister": {
+    "editor": "Marco",
+    "comment": "Nora",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Euler": {
+    "editor": "Sascha",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/KantSchriften/PhysischeGeographie": {
+    "editor": "Sascha",
+    "comment": "HTML",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Planck": {
+    "editor": "Sascha",
+    "comment": "Web",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/Schlegel": {
+    "editor": "",
+    "comment": "Archiv XXX",
+    "status": "open"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionPotsdam/KumulierterIndex": {
+    "editor": "Sascha",
+    "comment": "nachrecherchieren, siehe (Access-Datenbank, scheinbar kein Link)",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/LeibnizEditionPotsdam/PersonenUndSachindex": {
+    "editor": "Sascha",
+    "comment": "nachrecherchieren, siehe (Access-Datenbank, scheinbar kein Link)",
+    "status": "started"
+  },
+  "http://wsp.normdata.rdf/Sonnentaler": {
+    "editor": "",
+    "comment": "",
+    "status": "open"
+  }
+}

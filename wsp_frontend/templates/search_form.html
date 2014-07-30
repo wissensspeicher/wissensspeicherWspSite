@@ -1,45 +1,51 @@
 {% extends "base.html" %}
 
 {% block search_form %}
-<div id="searchfield" class="span12">
-    <form action="/search/" id="mainsearch">
+<div id="searchfield" class="col-md-12">
+    <form action="/search/" id="mainsearch" class="form-horizontal">
         <fieldset>
-            <div class="controls">
-                <input type="text" name="query" id="query" autofocus class="input-xxlarge search-query" value="">
-                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn">Search</button>
+            <div class="form-group">
+                <div class="col-md-11">
+                    <input type="text" name="query" id="query" autofocus class="form-control" value="">
+                </div>
+                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn btn-default">Search</button>
             </div>
-            <div class="controls" id="searchoptions">
-                <label for="translateCheck" class="checkbox inline">
-                    <input type="checkbox" name="translateCheck" id="translateCheck">Multilingual search <a href="#" style="font-size: .6em;">?</a>
-                </label>
-                <label for="morphologicalSearch" class="checkbox inline">
-                    <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"> {{ morphologicalSearch }} Morphological search <a href="#" style="font-size: .6em;">?</a>
-                </label>
+            <div class="form-group" id="search-options">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label for="translateCheck" class="checkbox-inline">
+                            <input type="checkbox" name="translateCheck" id="translateCheck">Multilingual search <a href="#" style="font-size: .6em;">?</a>
+                        </label>
+                        <label for="morphologicalSearch" class="checkbox-inline">
+                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"> {{ morphologicalSearch }} Morphological search <a href="#" style="font-size: .6em;">?</a>
+                        </label>
+                    </div>
+                </div>
             </div>
         </fieldset>
     </form>
 </div>
-<div class="front_stat span6">
+<div class="front_stat col-md-6">
 <h3>Projekte</h3>
 <p>Projekte mit den meisten digitalen Ressourcen</p>
 <div id="projekte_stat">
 <svg style="height:450px"/>
 </div>
 </div>
-<div class="front_stat span6">
+<div class="front_stat col-md-6">
 <h3>AutorInnen</h3>
 <div id="autorinnen_stat">
 <p>5 häufigste AutorInnen</p>
 <svg style="height:450px"/>
 </div>
 </div>
-<div class="front_stat span6">
+<div class="front_stat col-md-6">
 <h3>Dokumente</h3>
 <div id="dokumente_stat">
 <svg style="height:450px"/>
 </div>
 </div>
-<div class="front_stat span6">
+<div class="front_stat col-md-6">
 <h3>Sprachen</h3>
 <div id="sprachen_stat">
 <svg style="height:450px"/>

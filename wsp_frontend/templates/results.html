@@ -3,30 +3,36 @@
 
 {% block results %}
 
-<div id="searchfield" class="span12">
-    <form action="/search/" id="mainsearch">
+<div id="searchfield" class="col-md-12">
+    <form action="/search/" id="mainsearch" class="form-horizontal">
         <fieldset>
-            <div class="controls">
-                <input type="text" name="query" id="query" autofocus class="input-xxlarge search-query" value="{{ search_term }}">
-                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn">Search</button>
+            <div class="form-group">
+                <div class="col-md-11">
+                    <input type="text" name="query" id="query" autofocus class="form-control" value="{{ search_term }}">
+                </div>
+                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn btn-default">Search</button>
             </div>
-            <div class="controls" id="searchoptions">
-                <label for="translateCheck" class="checkbox inline">
-                    <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>Multilingual search <a href="#" style="font-size: .6em;">?</a>
-                </label>
-                <label for="morphologicalSearch" class="checkbox inline">
-                    <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>Morphological search <a href="#" style="font-size: .6em;">?</a>
-                </label>
+            <div class="form-group" id="search-options">
+                <div class="col-md-12">
+                    <div class="checkbox">
+                        <label for="translateCheck" class="checkbox-inline">
+                            <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>Multilingual search <a href="#" style="font-size: .6em;">?</a>
+                        </label>
+                        <label for="morphologicalSearch" class="checkbox-inline">
+                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>Morphological search <a href="#" style="font-size: .6em;">?</a>
+                        </label>
+                    </div>
+                </div>
             </div>
         </fieldset>
     </form>
 </div>
-<div id="summary" class="span12" style="margin-bottom: 20px">
+<div id="summary" class="col-md-12" style="margin-bottom: 20px">
     <p>{{ number_of_hits }} Treffer in {{ projectFacet|length }} Vorhaben/Projekten. Zeige Treffer {{ startTreffer }} – {{ endTreffer }}:</p>
 </div>
 
-<div id="results" class="row span7">
-    <ol class="unstyled">
+<div id="results" class="col-md-7">
+    <ol class="list-unstyled">
         {% for single_treffer in treffer %}
         <li class="search-result">
             <span id="hit{{ single_treffer.hitNumber }}">{{ single_treffer.hitNumber }}</span>
@@ -41,16 +47,16 @@
                 {% endfor %}
             {% endif %}
 
-            <label class="zusatzClick">Weitere Informationen zu diesem Suchtreffer</label>
+            <p class="zusatzClick">Weitere Informationen zu diesem Suchtreffer</p>
             <div class="metadata">
-                <ul class="project inline">
+                <ul class="project list-inline">
                     <li><i class="icon-beaker" title="Vorhaben"></i></li>
                     <li><a href="{{single_treffer.collectionURL}}" title="Zur Homepage des Projekts"><b>{{ single_treffer.collectionName }}</b></a></li>
                     <li class="zusatz">{% with projektDaten=projektMetadaten|get_item:single_treffer.projectRdfURI %}{{ projektDaten.abstract}}{% endwith %}</li>
                     <li class="zusatz">{% with projektDaten=projektMetadaten|get_item:single_treffer.projectRdfURI %}(Status: {{ projektDaten.status}}){% endwith %}</li>
                 </ul>
                 {% if single_treffer.relevantPersons %}
-                <ul class="persons inline zusatz">
+                <ul class="persons list-inline zusatz">
                     <li style="margin-right:2px"><i class="icon-user" title="AutorInnen und weitere beteiligte Personen"></i></li>
                     {% for person in single_treffer.relevantPersons|slice:":8" %} {% if person.role != "editor" %}
                     <li><a href="{{ person.url }}" title="More about {{ person.name }}">{{ person.name }}</a></li>
@@ -59,7 +65,7 @@
                 {% endif %}
 
                 {% if single_treffer.places %}
-                <ul class="places inline zusatz" title="Orte die mit dem Suchtreffer in Verbindung stehen">
+                <ul class="places list-inline zusatz" title="Orte die mit dem Suchtreffer in Verbindung stehen">
                     <li><i class="icon-map-marker"></i></li>
                     {% for place in single_treffer.places|slice:":8" %}
                     <li>{{ place.place }}</li>
@@ -93,33 +99,38 @@
 </div>
 </div>
 
-<div id="knowledge-browsing" class="row span5">
+<div id="knowledge-browsing" class="col-md-5">
     <div id="eingrenzung">
         <form id="facetted-search" action="/search/">
             <input type="hidden" name="query" value="{{ search_term }}">
-            <h2><!--<a class="statsPopup" href="#facetStats">-->Verteilung der Suchergebnisse<!--</a>--></h2>
-            <fieldset>
+            <h2><!--<a class="statsPopup" href="#facetStats">-->Zusammensetzung der Suchergebnisse<!--</a>--></h2>
+            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter</button>
+
+            <div class="form-group">
                 <legend>AutorInnen</legend>
                 {% for single_author in authorFacet %}
-                <label class="checkbox"><input type="checkbox" name="author" value="{{ single_author.name }}">{{ single_author.name }}: {{ single_author.count }} <span class="pie">{{ single_author.count }}/{{ number_of_hits }}</span></label>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="author" value="{{ single_author.name }}">{{ single_author.name }}: {{ single_author.count }} <span class="pie">{{ single_author.count }}/{{ number_of_hits }}</span></label>
+                </div>
                 {% endfor %}
-            </fieldset>
-            <fieldset>
+            </div>
+            <div class="form-group">
                 <legend>Projekte/Vorhaben</legend>
                 {% for single_project in projectFacet %}
-                <label class="checkbox"><input type="checkbox" name="project" value="{{ single_project.projectShortname }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></label>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="project" value="{{ single_project.projectShortname }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></label>
+                </div>
                 {% endfor %}
-            </fieldset>
-            <fieldset>
+            </div>
+            <div class="form-group">
                 <legend>Sprachen</legend>
                 {% for single_language in languageFacet %}
-                <label class="checkbox"><input type="checkbox" name="language" value="{{ single_language.languageID }}">{{ single_language.language }}: {{ single_language.count }} <span class="pie">{{ single_language.count }}/{{ number_of_hits }}</span></label>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="language" value="{{ single_language.languageID }}">{{ single_language.language }}: {{ single_language.count }} <span class="pie">{{ single_language.count }}/{{ number_of_hits }}</span></label>
+                </div>
                 {% endfor %}
-            </fieldset>
-            <fieldset>
-
-                <button type="submit" title="Filter Search Results" id="filter-button" class="btn">Filter</button>
-            </fieldset>
+            </div>
+            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter</button>
         </form>
     </div>
     <div id="sucherweiterung">

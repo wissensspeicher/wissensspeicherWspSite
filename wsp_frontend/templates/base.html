@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Digital Knowledge Store</title>
 
     {% load static %}
     <link href="{% get_static_prefix %}css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="{% get_static_prefix %}css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/dataTables.bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
     <link href="{% get_static_prefix %}css/custom.css" rel="stylesheet">
 	<link href="{% get_static_prefix %}css/nv.d3.css" rel="stylesheet" type="text/css">
@@ -19,26 +19,44 @@
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 </head>
 <body>
-    <div id="wrap" class="row">
-        <div class="span12">
+<div id="wrap"> <!-- wrap used for sticky footer -->
+<div class="container" id="main">
+    <div>
             <h1><a href="../">Digital Knowledge Store</a></h1>
-            <div id="logo" class="ir">Berlin-Brandenburgische Akademie der Wissenschaften</div>
-        </div>
+            <div id="logo">
+            	<div class="pull-right"><img src="{% get_static_prefix %}img/bbaw_logo.png"></div>
+        	</div>
             {% block search_form %}{% endblock %}
             {% block results %}{% endblock %}
 			{% block content %}{% endblock %}
+			{% block status %}{% endblock %}
+    </div>
     </div>
     <div id="footer">
-        <p class="muted">{{ totalDocuments }} digital resources indexed</p>
-        <div id="dfg_logo" class="ir" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">Deutsche Forschungsgemeinschaft</div>
+    	<div class="container"><br>
+    	<div class="pull-right" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">
+    	<img src="{% get_static_prefix %}img/dfg_logo-small.png" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">
+    	</div>
+    	<p class="muted">{{ totalDocuments }} digital resources indexed</p>
+        </div>
     </div>
     <!-- JavaScript at the bottom for fast page loading -->
     <script src="../static/js/jquery-1.9.1.min.js"></script>
-    <script src="../static/js/bootstrap.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
     <script src="{% get_static_prefix %}js/colorbox/jquery.colorbox-min.js"></script>
 
     <script>
         $(document).ready(function(){
+        	$('#statustabelle').dataTable({ 
+    		"aLengthMenu": [
+            	[25, 50, 100, 200, -1],
+            	[25, 50, 100, 200, "Alle"]
+        		], 
+			"iDisplayLength" : -1,
+			"language": {"sEmptyTable":"Keine Daten in der Tabelle vorhanden","sInfo":"_START_ bis _END_ von _TOTAL_ Einträgen","sInfoEmpty":"0 bis 0 von 0 Einträgen","sInfoFiltered":"(gefiltert von _MAX_ Einträgen)","sInfoPostFix":"","sInfoThousands":".","sLengthMenu":"_MENU_ Einträge anzeigen","sLoadingRecords":"Wird geladen...","sProcessing":"Bitte warten...","sSearch":"Filtern nach: ","sZeroRecords":"Keine Einträge vorhanden.","oPaginate":{"sFirst":"Erste","sPrevious":"Zurück","sNext":"Nächste","sLast":"Letzte"},"oAria":{"sSortAscending":": aktivieren, um Spalte aufsteigend zu sortieren","sSortDescending":": aktivieren, um Spalte absteigend zu sortieren"}},
+			"columnDefs": [{"orderable": false, "targets": 1},{"type":"date-de", "targets": 5}]
+
+			});
 			
 			// Autorenstatistik
 			function autorenData() {
@@ -262,6 +280,8 @@
     <script src="/static/js/jquery.peity.min.js"></script>
 	<script src="/static/js/d3.js"></script>
     <script src="/static/js/nv.d3.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.js"></script>
 
 
     <script>
@@ -283,6 +303,7 @@
 
     <script src="{% get_static_prefix %}js/script.js"></script>
     <!- end scripts -->
+</div>
 
 </body>
 </html>

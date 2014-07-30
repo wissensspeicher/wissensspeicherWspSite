@@ -6,6 +6,7 @@ from django.template.loader import get_template
 from django.utils import simplejson
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from collections import Counter  # genutzt für statistische Auswertungen
+from datetime import datetime
 import itertools
 import urllib
 import requests
@@ -33,232 +34,58 @@ languages = {
     "lat": u"Latein",
     "grc": u"Griechisch",
     "ara": u"Arabisch",
-    "ita": u"Italienisch",
+    "ita": u"Indisch",
     "nld": u"Niederländisch",
     "zho": u"Chinesisch",
 }
 
-
 base_url = "http://wspdev.bbaw.de"
-#import pdb; pdb.set_trace()
 
-
-def search_form(request):
-    return render_to_response('search_form.html')
-
-
-def hello_world(request):
-    template = get_template('base.html')
-
-    url = base_url + "/wspCmsWebApp/query/QueryDocuments"
-
-    request_options = {'query': 'a', 'outputFormat': 'json'}
-    response = requests.get(url, params=request_options)
-    show(response.url)
-
-    reply = response.text
-
-    show(reply)
-
-    try:
-        data = simplejson.loads(reply)
-    except:
-        print "Fehler beim JSON-Parsing\n" + reply
-        # XXX ToDO: Fehlerpage rendern!
-
-    totalDocuments = data["sizeTotalDocuments"]
-    # show(totalDocuments)
-    #url = base_url + "/wspCmsWebApp/query/QueryDocuments?" + post_data + "&outputFormat=json" + translate + "&" + page_data
-
-    results = {'totalDocuments': totalDocuments}
-
-    return render_to_response('search_form.html', results)
-
-
-def search(request):
-
+def status(request):
     ressourceTypes = {"application/pdf": "pdf",
-                      "application/xml": "xml",
-                      }
+                  "application/xml": "xml",
+                  }
 
     post_data = ''
     translate = ''
     translateQuery = False
+    morphologicalSearch = False
     page = 1
     pagesize = 10
 
     query_parameters = ''
 
-    try:
-        if request.GET['morphologicalSearch'] == 'on':
-            morphologicalSearch = True
-            query_parameters = query_parameters + '&morphologicalSearch=on'
-        else:
-            morphologicalSearch = False
-        # print "request.GET['morphologicalSearch']: " +
-        # request.GET['morphologicalSearch']
-    except KeyError, e:
-        morphologicalSearch = False
 
-    if 'query' in request.GET:
-        querydata = request.GET['query']
-        querydata = querydata.encode("utf-8")
-        original_query = querydata.strip()
-        # show(original_query)
+    original_query = querydata = '*'
 
-        # XXX Hier fehlt ein korrekter Parser & Transformation von Suchquery zu
-        # Lucene-Syntax
-        if not '"' in original_query:
-            querydata = "+" + " +".join(original_query.split(" "))
-
-        # XXX Krudes Parsen falls Phrasensuche mit '"'
-        # XXX TODO Macht Fehler wenn die Quotes im Query nicht richtig
-        # geschlossen sind
-        if '"' in original_query:
-            Queries = []
-            for s in original_query.split(' "'):
-                if '"' in s:
-                    Queries.append('"' + s.strip('"') + '"')
-                else:
-                    Queries.append(s)
-            querydata = "+" + " +".join(Queries)
-            show(querydata)
-
-        if original_query == '*':
-            querydata = '*'
-
-        post_data = [('query', querydata)]
-        post_data = urllib.urlencode(post_data)
-
-        # Wenn kein Suchterm eingegeben ist, wird das Suchformular angezeigt
-        if original_query == "":
-            print "Empty Query"
-            return render(request, 'search_form.html')
+    post_data = [('query', querydata)]
+    post_data = urllib.urlencode(post_data)
 
     # Falls die Suche nach "*" ist und Facetten ausgewählt sind, muss eine "leere Suche"+Facetten
     # durchgeführt werden, weil Josefs Tomcat sonst muckt.
     if any(word in request.GET for word in ['author', 'project', 'language']) and querydata == "*":
         querydata = ""
 
-    # Abfrage für Facette "AutorInnen"
-    if 'author' in request.GET:
-        authorFilter = []
-        for author in request.GET.getlist('author'):
-            authorFilter.append('"' + author + '"')
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
-            # daraus wird im Template dann entsprechend eine URL generiert
-            query_parameters = query_parameters + "&author=" + author
-    else:
-        authorFilter = ""
-
-    # Abfrage für Facette "Projekte/Vorhaben"
-    if 'project' in request.GET:
-        projectFilter = []
-        for project in request.GET.getlist('project'):
-            projectFilter.append('"' + project + '"')
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
-            # daraus wird im Template dann entsprechend eine URL generiert
-            query_parameters = query_parameters + "&project=" + project
-    else:
-        projectFilter = ""
-
-    # Abfrage für Facette "Sprachen"
-    if 'language' in request.GET:
-        languageFilter = []
-        for language in request.GET.getlist('language'):
-            languageFilter.append('"' + language + '"')
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
-            # daraus wird im Template dann entsprechend eine URL generiert
-            query_parameters = query_parameters + "&language=" + language
-    else:
-        languageFilter = ""
-
-    # Überprüfung ob moreLikeThis als Paramete in der Anfrage-URL enthalten ist
-    try:
-        if request.GET["morelikethis"] == "true":
-            more_like_this = True
-    except KeyError, e:
-        more_like_this = False
-    # print "moreLikeThis: " + str(more_like_this)
-
-    if "translateCheck" in request.GET:
-        if request.GET['translateCheck'] == "on":
-            translateQuery = True
-            translate = [("translate", "true")]
-            translate = "&" + urllib.urlencode(translate)
-            query_parameters = query_parameters + '&translateCheck=on'
-    if "page" in request.GET:
-        # Cast to integer, damit die Berechnung der angezeigten Seiten (s. u.)
-        # richtig funktioniert
-        page = int(request.GET['page'])
-
     page_data = [("page", page)]
     page_data = urllib.urlencode(page_data)
 
-    # AutorInnen-Facette zur query hinzufügen
-    if authorFilter:
-        querydata = querydata + " +author:(" + " ".join(authorFilter) + ")"
-
-    # Projekt-Facette zur query hinzufügen
-    if projectFilter:
-        querydata = querydata + \
-            " +collectionNames:(" + " ".join(projectFilter) + ")"
-
-    # Sprachen-Facette zur query hinzufügen
-    if languageFilter:
-        querydata = querydata + " +language:(" + " ".join(languageFilter) + ")"
-
-    #base_url = "http://wspdev.bbaw.de"
-    #base_url = "http://192.168.1.199:8080"
-    #base_url = "http://192.168.1.203:8080"
-
-    show(querydata)
+    #show(querydata)
     request_options = {'query': querydata, 'outputFormat': 'json', 'page':
                        page, 'pagesize': pagesize, 'translate': str(translateQuery).lower()}
 
     if morphologicalSearch == True:
         request_options['fieldExpansion'] = "allMorph"
 
-    #url = base_url + "/wspCmsWebApp/query/QueryDocuments?" + post_data + "&outputFormat=json" + translate + "&" + page_data
-
     url = base_url + "/wspCmsWebApp/query/QueryDocuments?"
 
-    # XXX moreLikeThis ist noch ein ziemlicher Hack! Die URL/IP muss hier auch
-    # noch angepasst werden (Josefs Installation bzw. wspdev kann das noch
-    # nicht!
-    if more_like_this == True:
-        #url = "http://192.168.1.199:8080/wspCmsWebApp/MoreLikeThis?docId=" + querydata + "&outputFormat=json"
-        url = base_url + "/wspCmsWebApp/query/MoreLikeThis?docId=" + \
-            querydata + "&outputFormat=json"
-        request_options = {}
-
-#    h = httplib2.Http(".cache")
-#    response, content = h.request(url)
-    # print response
     # XXX hier muss geprüft werden, ob die Anfage erfolgreich war (d. h.
     # Statuscode 200)
-
-#    reply = content
 
     response = requests.get(url, params=request_options)
     # print "\nAnfrage an: " + response.url
     show(response.url)
 
     reply = response.text
-
-    # print reply
-    # reply =
-    # "{\"search_term\":\"Haus\",\"number_of_hits\":46,\"hit_locations\":[{\"project\":\"Post
-    # von drueben\",\"url\":\"http://#\"},{\"project\":\"Etymologisches
-    # Wörterbuch\",\"url\":\"value\"}],\"hits\":[{\"url\":\"http://telotadev.bbaw.de:8085/exist/rest/db/mgh/data/610816a.xml\",\"fragment\":\"Wilhelm
-    # I. von Meißen ein Haus in Prag in der Altstadt, bei dem Kloster St.
-    # Jakob gelegen. Karl IV. hatte dieses Haus bereits 1348 Okt. 31 Markgraf
-    # Friedrich II. von Meißen, dem Vater der
-    # drei\"},{\"url\":\"http://telotadev.bbaw.de:8085/exist/rest/db/mgh/data/740309a.xml\",\"fragment\":\"als
-    # Markgrafen von Brandenburg dem Edlen Friedrich von Torgau, Herrn zu
-    # Zossen, Haus und Stadt
-    # Zossen\"},{\"url\":\"http://telotadev.bbaw.de:8085/exist/rest/db/pvd/briefe/M%C3%BCFro_1986-02-07.xml\",\"fragment\":\"Herzliche
-    # Güße Dir und allen Lieben von Haus zu Haus Deine Marlies\"}]}"
 
     try:
         data = simplejson.loads(reply)
@@ -436,8 +263,9 @@ def search(request):
             projectName = projectShortname = single_project["value"]
             projectCount = single_project["count"]
             projectRDFUri = single_project["rdfUri"]
+            projectLastIndex = datetime.strptime(single_project["lastModified"], "%Y-%m-%dT%H:%M:%S.%fZ")
             project = {"project": projectName, "count": projectCount,
-                       "rdfURI": projectRDFUri, "projectShortname": projectShortname}
+                       "rdfURI": projectRDFUri, "projectShortname": projectShortname, "projectLastIndex": projectLastIndex}
             results["projectFacet"].append(project)
         for single_language in data["facets"]["language"]:
             languageID = single_language["value"]
@@ -453,6 +281,13 @@ def search(request):
         treffer_list = results["treffer"]
         treffer_save = []
         treffer_save = results["treffer"][:]
+
+        # Open JSON-File with index status for all projects
+
+        with open('status/index_status.json', 'r') as f:
+            index_status = simplejson.load(f)
+
+        #show(index_status)
 
         # Anfrage der Projektmetadaten (für die Projekte in projekte)
         results["projektMetadaten"] = dict()
@@ -475,9 +310,12 @@ def search(request):
             # liefert eine Exception
             # show(rdfURL)
             try:
-                response = requests.get(rdfURL, params=request_options_rdf)
+                response = requests.get(rdfURL, params=request_options_rdf, timeout = 0.5)
                 # show(response.url)
             except UnicodeEncodeError, error:
+                continue
+            except requests.exceptions.Timeout, error:
+                show(error)
                 continue
 
             # print(response.url)
@@ -505,7 +343,24 @@ def search(request):
                             projectAbstract = o["abstract"]
                         if "homepage" in o:
                             webURI = "http://" + o["homepage"]
+                        if "description" in o:
+                            #XXX muss für Python 3 wahrscheinlich angepasst werden
+                            if o["description"] == u"interdisziplinäre Arbeitsgruppe":
+                                projectType = "IAG"
+                            else:
+                                projectType = o["description"]
+                        if "definition" in o:
+                            projectDefinition = o["definition"]
                         rdfURI = projekt["rdfURI"]
+                        projectLastIndex = projekt["projectLastIndex"]
+                    try:
+                        indexingProgress = ""
+                        indexingProgress = index_status[rdfURI]["status"]
+                        indexingComment = ""
+                        indexingComment = index_status[rdfURI]["comment"]
+                        #show(indexingComment)
+                    except KeyError, e:
+                        pass
                     # XXX ToDo:
                     # Die Metadaten zu den Projekten/Vorhaben in sinnvolle Datenstruktur überführen.
                     # Wie soll im Template darauf zugegriffen werden? Eventuell diese Daten direkt in
@@ -514,15 +369,19 @@ def search(request):
                     #    show(response.url)
                     projectShortname = projekt["project"]
                     projektDaten = {"name": projectName, "status": projectStatus, "abstract":
-                                    projectAbstract, "webURI": webURI, "rdfURI": rdfURI, "projectShortname": projectShortname}
-                    # show(projektDaten)
+                                    projectAbstract, "webURI": webURI, "rdfURI": rdfURI, "projectShortname": projectShortname, 
+                                    "projectType": projectType, "projectDefinition": projectDefinition, "indexingProgress": indexingProgress, 
+                                    "projectLastIndex": projectLastIndex, "indexingComment": indexingComment}
+                    #show(projektDaten)
 
                 results["projektMetadaten"][projekt["rdfURI"]] = projektDaten
+                #show(projektDaten)
             except Exception, e:
                 # print(e)
                 # print(response.url)
                 pass
                 # print "Fehler beim JSON-Parsing\n" + reply
+            #show(len(results["projektMetadaten"]))
 
         # pp.pprint(results["projektMetadaten"])
         # print(results["projektMetadaten"])
@@ -531,80 +390,4 @@ def search(request):
         # show(response.url)
         #reply = response.text
 
-        # Paginierung
-        # XXX Dokumentieren, wie genau die Seitennummerierung hier funktioniert!
-        # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
-        # XXX Muss genauer nachvollzogen werden.
-        for x in range(10, (results["number_of_hits"] + (int(results['number_of_hits']) % 10))):
-            treffer_list.append("TEST")
-
-        # print(len(treffer_list))
-        paginator = Paginator(treffer_list, 10)
-
-        # print "paginator.count: " + str(paginator.count) # +
-        # (int(results['number_of_hits']) % 10))
-
-        #page = request.GET.get("page")
-        # print page
-
-        try:
-            treffer = paginator.page(page)
-        except PageNotAnInteger:
-            treffer = paginator.page(1)
-        except EmptyPage:
-            treffer = paginator.page(paginator.num_pages)
-
-        # XXX next: überzählige Einträge aus treffer_list entfernen,
-        # show(projekte)
-
-        # print treffer
-        # print treffer_save
-        results["treffer"] = treffer_save
-        results["pagination"] = treffer
-
-        # Berechnung/Einfügen der Nummer der gezeigten Treffer (um z. B.
-        # "Treffer 11 - 20" anzeigen zu können)
-        results["endTreffer"] = page * pagesize
-        if results["endTreffer"] > int(results["number_of_hits"]):
-            results["endTreffer"] = int(results["number_of_hits"])
-
-        if page == 1:
-            results["startTreffer"] = 1
-        else:
-            results["startTreffer"] = (page - 1) * pagesize + 1
-
-        # Auswertung der Personenlist um statistische Angaben zu gefundenen Personen machen zu können
-        # vgl.
-        # http://docs.python.org/dev/library/collections.html#counter-objects
-        cnt = Counter()
-        for word in results["personList"]:
-            cnt[word] += 1
-        # print cnt
-
-        mostCommonPersons = []
-        for person in Counter(results["personList"]).most_common(8):
-            mostCommonPersons.append(person[0])
-        # print mostCommonPersons
-
-        results["mostCommonPersons"] = mostCommonPersons
-
-    # print query_parameters
-    results['query_parameters'] = query_parameters
-    show(query_parameters)
-
-    #request_options = {'query': original_query, 'outputFormat': 'json', 'conceptSearch': 'true'}
-
-    #response = requests.get(url, params=request_options)
-    # print "\nAnfrage an: " + response.url
-    # show(response.url)
-
-    #reply = response.text
-
-    # show(results)
-
-    #results["conceptSearch"] = reply
-
-    if more_like_this == True:
-        return render_to_response('results-more-like-this.html', results)
-
-    return render_to_response('results.html', results)
+    return render_to_response('status.html', results)
