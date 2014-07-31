@@ -492,7 +492,7 @@
   "http://wsp.normdata.rdf/DTM/Editionsbericht": {
     "editor": "(Anett)",
     "comment": "",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/Turfan/DigitalesArchiv": {
     "editor": "Anett",
@@ -554,7 +554,7 @@
     "comment": "löschen weil Teil von jp",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/PreussenAlsKulturstaat": {
+  "http://wsp.normdata.rdf/PreußenAlsKulturstaat": {
     "editor": "",
     "comment": "über edoc-Server, HTML-Seiten, PDFs mit Bänden",
     "status": "open"
@@ -587,12 +587,12 @@
   "http://wsp.normdata.rdf/DTM/Handschriftenarchiv": {
     "editor": "",
     "comment": "",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/DTM/Transkription": {
     "editor": "",
     "comment": "",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/EuropaDiktatur": {
     "editor": "",
