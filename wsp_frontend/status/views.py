@@ -11,7 +11,7 @@ import itertools
 import urllib
 import requests
 from show import show
-
+import os
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -283,8 +283,9 @@ def status(request):
         treffer_save = results["treffer"][:]
 
         # Open JSON-File with index status for all projects
-
-        with open('status/index_status.json', 'r') as f:
+        module_dir = os.path.dirname(__file__)  # get current directory
+        file_path = os.path.join(module_dir, 'index_status.json')
+        with open(file_path, 'r') as f:
             index_status = simplejson.load(f)
 
         #show(index_status)
