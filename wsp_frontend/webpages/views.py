@@ -42,11 +42,12 @@ languages = {
 base_url = "http://wspdev.bbaw.de"
 #import pdb; pdb.set_trace()
 
-
 def search_form(request):
     return render_to_response('search_form.html')
 
 
+# View für die Startseite. Einfache Abfrage dient nur dazu, die 
+# Gesamtzahl der Dokumente anzeigen zu können
 def hello_world(request):
     template = get_template('base.html')
 
@@ -67,8 +68,6 @@ def hello_world(request):
         # XXX ToDO: Fehlerpage rendern!
 
     totalDocuments = data["sizeTotalDocuments"]
-    # show(totalDocuments)
-    #url = base_url + "/wspCmsWebApp/query/QueryDocuments?" + post_data + "&outputFormat=json" + translate + "&" + page_data
 
     results = {'totalDocuments': totalDocuments}
 
@@ -106,27 +105,6 @@ def search(request):
         original_query = querydata.strip()
         # show(original_query)
 
-        # XXX Hier fehlt ein korrekter Parser & Transformation von Suchquery zu
-        # Lucene-Syntax
-        if not '"' in original_query:
-            querydata = "+" + " +".join(original_query.split(" "))
-
-        # XXX Krudes Parsen falls Phrasensuche mit '"'
-        # XXX TODO Macht Fehler wenn die Quotes im Query nicht richtig
-        # geschlossen sind
-        if '"' in original_query:
-            Queries = []
-            for s in original_query.split(' "'):
-                if '"' in s:
-                    Queries.append('"' + s.strip('"') + '"')
-                else:
-                    Queries.append(s)
-            querydata = "+" + " +".join(Queries)
-            show(querydata)
-
-        if original_query == '*':
-            querydata = '*'
-
         post_data = [('query', querydata)]
         post_data = urllib.urlencode(post_data)
 
@@ -144,7 +122,8 @@ def search(request):
     if 'author' in request.GET:
         authorFilter = []
         for author in request.GET.getlist('author'):
-            authorFilter.append('"' + author + '"')
+            querydata += " author:(\"" + author + "\")"
+
             # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
             # daraus wird im Template dann entsprechend eine URL generiert
             query_parameters = query_parameters + "&author=" + author
@@ -155,7 +134,8 @@ def search(request):
     if 'project' in request.GET:
         projectFilter = []
         for project in request.GET.getlist('project'):
-            projectFilter.append('"' + project + '"')
+            querydata += " collectionNames:(" + project + ")"
+
             # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
             # daraus wird im Template dann entsprechend eine URL generiert
             query_parameters = query_parameters + "&project=" + project
@@ -166,7 +146,8 @@ def search(request):
     if 'language' in request.GET:
         languageFilter = []
         for language in request.GET.getlist('language'):
-            languageFilter.append('"' + language + '"')
+            querydata += " language:(" + language + ")"
+            
             # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
             # daraus wird im Template dann entsprechend eine URL generiert
             query_parameters = query_parameters + "&language=" + language
@@ -195,19 +176,6 @@ def search(request):
     page_data = [("page", page)]
     page_data = urllib.urlencode(page_data)
 
-    # AutorInnen-Facette zur query hinzufügen
-    if authorFilter:
-        querydata = querydata + " +author:(" + " ".join(authorFilter) + ")"
-
-    # Projekt-Facette zur query hinzufügen
-    if projectFilter:
-        querydata = querydata + \
-            " +collectionNames:(" + " ".join(projectFilter) + ")"
-
-    # Sprachen-Facette zur query hinzufügen
-    if languageFilter:
-        querydata = querydata + " +language:(" + " ".join(languageFilter) + ")"
-
     #base_url = "http://wspdev.bbaw.de"
     #base_url = "http://192.168.1.199:8080"
     #base_url = "http://192.168.1.203:8080"
@@ -232,33 +200,14 @@ def search(request):
             querydata + "&outputFormat=json"
         request_options = {}
 
-#    h = httplib2.Http(".cache")
-#    response, content = h.request(url)
-    # print response
-    # XXX hier muss geprüft werden, ob die Anfage erfolgreich war (d. h.
-    # Statuscode 200)
 
-#    reply = content
-
+    # Anfrage an Webschnittstelle (Volltextindex)
+    # XXX ToDo: Fehler abfangen über response.ok oder response.raise_for_status()
     response = requests.get(url, params=request_options)
-    # print "\nAnfrage an: " + response.url
+
     show(response.url)
 
     reply = response.text
-
-    # print reply
-    # reply =
-    # "{\"search_term\":\"Haus\",\"number_of_hits\":46,\"hit_locations\":[{\"project\":\"Post
-    # von drueben\",\"url\":\"http://#\"},{\"project\":\"Etymologisches
-    # Wörterbuch\",\"url\":\"value\"}],\"hits\":[{\"url\":\"http://telotadev.bbaw.de:8085/exist/rest/db/mgh/data/610816a.xml\",\"fragment\":\"Wilhelm
-    # I. von Meißen ein Haus in Prag in der Altstadt, bei dem Kloster St.
-    # Jakob gelegen. Karl IV. hatte dieses Haus bereits 1348 Okt. 31 Markgraf
-    # Friedrich II. von Meißen, dem Vater der
-    # drei\"},{\"url\":\"http://telotadev.bbaw.de:8085/exist/rest/db/mgh/data/740309a.xml\",\"fragment\":\"als
-    # Markgrafen von Brandenburg dem Edlen Friedrich von Torgau, Herrn zu
-    # Zossen, Haus und Stadt
-    # Zossen\"},{\"url\":\"http://telotadev.bbaw.de:8085/exist/rest/db/pvd/briefe/M%C3%BCFro_1986-02-07.xml\",\"fragment\":\"Herzliche
-    # Güße Dir und allen Lieben von Haus zu Haus Deine Marlies\"}]}"
 
     try:
         data = simplejson.loads(reply)
@@ -285,6 +234,7 @@ def search(request):
     results["treffer"] = ""
 
     projekte = set()
+
 
     if results["number_of_hits"] > 0:
         treffer = []
@@ -458,6 +408,7 @@ def search(request):
         results["projektMetadaten"] = dict()
         rdfURL = "http://wspdev.bbaw.de" + "/wspCmsWebApp/query/QueryMdSystem"
         #rdfURL = "http://192.168.1.199" + "/wspCmsWebApp/query/QueryMdSystem"
+
         for projekt in results["projectFacet"]:
             # Wenn es keine RDF URI gibt, dann muss der Triplestore auch nicht angefragt werden
             # XXX Wie soll mit Projekten umgegangen werden, die keine RDF-URI
@@ -474,9 +425,12 @@ def search(request):
             # http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem?query=http%3A%2F%2Fwsp.normdata.rdf%2FAvHForschungsstelle&detailedSearch=true&isProjectId=true&outputFormat=json
             # liefert eine Exception
             # show(rdfURL)
+
+            # Anfrage an Webschnittstelle (QueryMdSystem)
+            # XXX ToDo: Fehler abfangen über response.ok oder response.raise_for_status()
             try:
-                response = requests.get(rdfURL, params=request_options_rdf)
-                # show(response.url)
+                response = requests.get(rdfURL, params=request_options_rdf, timeout=2)
+                #show(response.url)
             except UnicodeEncodeError, error:
                 continue
 
@@ -523,7 +477,7 @@ def search(request):
                 # print(response.url)
                 pass
                 # print "Fehler beim JSON-Parsing\n" + reply
-
+    
         # pp.pprint(results["projektMetadaten"])
         # print(results["projektMetadaten"])
         # XXX ToDO: Fehlerpage rendern!
