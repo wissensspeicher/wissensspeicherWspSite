@@ -2,21 +2,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import Template
-from django.template.loader import get_template
 from django.utils import simplejson
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from collections import Counter  # genutzt für statistische Auswertungen
-import itertools
+from collections import Counter  # used for statistic calculations
 import urllib
 import requests
 from show import show
 
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
-
-
-# Dictionary für Umwandlung der Sprachkürzel in ausgeschriebene Sprachen
+# Dictionary for conversion of language codes to full languagen names.
 # (ISO 639-3 specifier)
+# XXX poss. use <https://github.com/LuminosoInsight/langcodes>
 languages = {
     #"ger": "german",
     #"eng": "english",
@@ -38,28 +33,23 @@ languages = {
     "zho": u"Chinesisch",
 }
 
+# Dictionary for MIME-Types
+ressourceTypes = {"application/pdf": "pdf",
+                  "application/xml": "xml",
+                  }
 
+# XXX Dokumentieren
 base_url = "http://wspdev.bbaw.de"
-#import pdb; pdb.set_trace()
-
-def search_form(request):
-    return render_to_response('search_form.html')
 
 
-# View für die Startseite. Einfache Abfrage dient nur dazu, die 
-# Gesamtzahl der Dokumente anzeigen zu können
+# View for start page. Simple request is only used in order to show 
+# total number of indexed documents/resources.
 def hello_world(request):
-    template = get_template('base.html')
 
     url = base_url + "/wspCmsWebApp/query/QueryDocuments"
-
     request_options = {'query': 'a', 'outputFormat': 'json'}
     response = requests.get(url, params=request_options)
-    show(response.url)
-
     reply = response.text
-
-    show(reply)
 
     try:
         data = simplejson.loads(reply)
@@ -68,88 +58,82 @@ def hello_world(request):
         # XXX ToDO: Fehlerpage rendern!
 
     totalDocuments = data["sizeTotalDocuments"]
-
     results = {'totalDocuments': totalDocuments}
 
     return render_to_response('search_form.html', results)
 
 
+# View for full-text-query. This is where the magic happens.
 def search(request):
 
-    ressourceTypes = {"application/pdf": "pdf",
-                      "application/xml": "xml",
-                      }
-
-    post_data = ''
+    # Initialization of some needed variables
     translate = ''
     translateQuery = False
     page = 1
     pagesize = 10
-
     query_parameters = ''
 
+    # Check for "morphological search" option
     try:
+        morphologicalSearch = False
         if request.GET['morphologicalSearch'] == 'on':
             morphologicalSearch = True
             query_parameters = query_parameters + '&morphologicalSearch=on'
-        else:
-            morphologicalSearch = False
-        # print "request.GET['morphologicalSearch']: " +
-        # request.GET['morphologicalSearch']
     except KeyError, e:
-        morphologicalSearch = False
+        pass
 
     if 'query' in request.GET:
         querydata = request.GET['query']
         querydata = querydata.encode("utf-8")
         original_query = querydata.strip()
-        # show(original_query)
 
-        post_data = [('query', querydata)]
-        post_data = urllib.urlencode(post_data)
-
-        # Wenn kein Suchterm eingegeben ist, wird das Suchformular angezeigt
+        # If no search query was entered, the empty search form is shown.
         if original_query == "":
             print "Empty Query"
             return render(request, 'search_form.html')
 
-    # Falls die Suche nach "*" ist und Facetten ausgewählt sind, muss eine "leere Suche"+Facetten
-    # durchgeführt werden, weil Josefs Tomcat sonst muckt.
-    if any(word in request.GET for word in ['author', 'project', 'language']) and querydata == "*":
+    # Falls die Suche nach "*" ist und Facetten ausgewählt sind, muss eine 
+    # "leere Suche"+Facetten durchgeführt werden, weil Josefs Tomcat sonst 
+    # muckt.
+    if (any(word in request.GET for word in ['author', 'project', 'language']) 
+            and querydata == "*"):
         querydata = ""
 
-    # Abfrage für Facette "AutorInnen"
+    # Check for "AutorInnen"-facette
     if 'author' in request.GET:
         authorFilter = []
         for author in request.GET.getlist('author'):
             querydata += " author:(\"" + author + "\")"
 
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
-            # daraus wird im Template dann entsprechend eine URL generiert
+            # Für Seitennavigation/Umblättern werden die Facettenoptionen in 
+            # query_paramters gespeichert, daraus wird im Template dann 
+            # entsprechend eine URL generiert
             query_parameters = query_parameters + "&author=" + author
     else:
         authorFilter = ""
 
-    # Abfrage für Facette "Projekte/Vorhaben"
+    # Check for "Projekte/Vorhaben"-facette
     if 'project' in request.GET:
         projectFilter = []
         for project in request.GET.getlist('project'):
             querydata += " collectionNames:(" + project + ")"
 
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
-            # daraus wird im Template dann entsprechend eine URL generiert
+            # Für Seitennavigation/Umblättern werden die Facettenoptionen in 
+            # query_paramters gespeichert, daraus wird im Template dann 
+            # entsprechend eine URL generiert
             query_parameters = query_parameters + "&project=" + project
     else:
         projectFilter = ""
 
-    # Abfrage für Facette "Sprachen"
+    # Check for "Sprachen"-facette
     if 'language' in request.GET:
         languageFilter = []
         for language in request.GET.getlist('language'):
             querydata += " language:(" + language + ")"
             
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in query_paramters gespeichert,
-            # daraus wird im Template dann entsprechend eine URL generiert
+            # Für Seitennavigation/Umblättern werden die Facettenoptionen in 
+            # query_paramters gespeichert, daraus wird im Template dann 
+            # entsprechend eine URL generiert
             query_parameters = query_parameters + "&language=" + language
     else:
         languageFilter = ""
@@ -173,21 +157,17 @@ def search(request):
         # richtig funktioniert
         page = int(request.GET['page'])
 
-    page_data = [("page", page)]
-    page_data = urllib.urlencode(page_data)
-
     #base_url = "http://wspdev.bbaw.de"
-    #base_url = "http://192.168.1.199:8080"
-    #base_url = "http://192.168.1.203:8080"
+    #base_url = "http://192.168.1.199:8080" # Josef
+    #base_url = "http://192.168.1.203:8080" # Marco
 
     show(querydata)
-    request_options = {'query': querydata, 'outputFormat': 'json', 'page':
-                       page, 'pagesize': pagesize, 'translate': str(translateQuery).lower()}
+    request_options = {'query': querydata, 'outputFormat': 'json', 
+                        'page': page, 'pagesize': pagesize, 
+                        'translate': str(translateQuery).lower()}
 
     if morphologicalSearch == True:
         request_options['fieldExpansion'] = "allMorph"
-
-    #url = base_url + "/wspCmsWebApp/query/QueryDocuments?" + post_data + "&outputFormat=json" + translate + "&" + page_data
 
     url = base_url + "/wspCmsWebApp/query/QueryDocuments?"
 
@@ -195,14 +175,13 @@ def search(request):
     # noch angepasst werden (Josefs Installation bzw. wspdev kann das noch
     # nicht!
     if more_like_this == True:
-        #url = "http://192.168.1.199:8080/wspCmsWebApp/MoreLikeThis?docId=" + querydata + "&outputFormat=json"
         url = base_url + "/wspCmsWebApp/query/MoreLikeThis?docId=" + \
             querydata + "&outputFormat=json"
         request_options = {}
 
 
     # Anfrage an Webschnittstelle (Volltextindex)
-    # XXX ToDo: Fehler abfangen über response.ok oder response.raise_for_status()
+    # XXX Fehler abfangen über response.ok oder response.raise_for_status()
     response = requests.get(url, params=request_options)
 
     show(response.url)
@@ -369,7 +348,6 @@ def search(request):
             i["places"] = newlist
             # print "E: " + i["docId"] + "   " + i["type"]
             treffer.append(i)
-            # pp.pprint(i)
             # show(i)
         results["treffer"] = treffer
 
@@ -478,7 +456,6 @@ def search(request):
                 pass
                 # print "Fehler beim JSON-Parsing\n" + reply
     
-        # pp.pprint(results["projektMetadaten"])
         # print(results["projektMetadaten"])
         # XXX ToDO: Fehlerpage rendern!
         # print "\nAnfrage an: " + response.url
