@@ -93,13 +93,6 @@ def search(request):
             print "Empty Query"
             return render(request, 'search_form.html')
 
-    # If the search query is '*' and one or more facettes are selected, an 
-    # "empty" search with facettes is performed, otherwise Josefs Tomcat gets 
-    # quirly. XXX - still necessary?
-    if (any(word in request.GET for word in ['author', 'project', 'language']) 
-            and querydata == "*"):
-        querydata = ""
-
     # Check for "AutorInnen"-facette
     if 'author' in request.GET:
         authorFilter = []
