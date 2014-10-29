@@ -42,7 +42,7 @@
   "http://wsp.normdata.rdf/Kyoto": {
     "editor": "Anett",
     "comment": "Web (extern rausnehmen!)",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/LeibnizEditionBerlin": {
     "editor": "Anett",
@@ -107,7 +107,7 @@
   "http://wsp.normdata.rdf/Turfan/ManichaeanMiddlePersianTexts": {
     "editor": "Anett",
     "comment": "Desmond fragen - Datenbankformat erforschen/ Schnittstelle?#",
-    "status": "started"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/UrsprungSprache": {
     "editor": "Anett",
@@ -227,14 +227,14 @@
   "http://wsp.normdata.rdf/ElitenIntegration": {
     "editor": "",
     "comment": "woher kommt das",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/FunktionenBewusstsein": {
     "editor": "Marco",
     "comment": "Web",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/FeuerbachLudwig": {
+  "http://wsp.normdata.rdf/Feuerbach": {
     "editor": "Marco",
     "comment": "Web",
     "status": "done"
@@ -260,9 +260,9 @@
     "status": "done"
   },
   "http://wsp.normdata.rdf/MonumentaGermaniaeHistorica": {
-    "editor": "Marco",
-    "comment": "Fabian fragen was er gemacht hat (ist das Constitutiones/Goldene Bulle oda watt?) + Web",
-    "status": "started"
+    "editor": "Josef",
+    "comment": "Web",
+    "status": "done"
   },
   "http://wsp.normdata.rdf/ForschungsschwerpunkteMolekulareMedizin": {
     "editor": "Marco",
@@ -284,7 +284,7 @@
     "comment": "Web + http://www.oekosystemleistungen.de",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/ProduktionssystemeZukuenftige": {
+  "http://wsp.normdata.rdf/ProduktionssystemeZukünftige": {
     "editor": "Marco",
     "comment": "über edoc-Server/Web",
     "status": "done"
@@ -300,9 +300,9 @@
     "status": "done"
   },
   "http://wsp.normdata.rdf/PDR": {
-    "editor": "Marco",
-    "comment": "Web ",
-    "status": "open"
+    "editor": "Josef",
+    "comment": "Web / Personendaten-Schnittstelle (Beacon-Liste, getOccupiedIdRanges, ...); Daten über Schnittstelle einbinden",
+    "status": "done"
   },
   "http://wsp.normdata.rdf/PolybiosLexikon": {
     "editor": "Marco",
@@ -319,7 +319,7 @@
     "comment": "Web",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/QualitaetsbeurteilungWissenschaft": {
+  "http://wsp.normdata.rdf/QualitätsbeurteilungWissenschaft": {
     "editor": "Marco",
     "comment": "Web",
     "status": "done"
@@ -365,9 +365,9 @@
     "status": "done"
   },
   "http://wsp.normdata.rdf/EuropaImNahenOsten": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "Web",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/Eutena": {
     "editor": "Sascha",
@@ -379,7 +379,7 @@
     "comment": "Web",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/HerausforderungDruchDasFremde": {
+  "http://wsp.normdata.rdf/HerausforderungDurchDasFremde": {
     "editor": "Sascha",
     "comment": "über edoc-Server + Web",
     "status": "done"
@@ -480,17 +480,17 @@
     "status": "open"
   },
   "http://wsp.normdata.rdf/WeltAlsBild": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "über edoc-Server + Web",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/Woerterbuchportal": {
-    "editor": "",
-    "comment": "Web (Portal) Gerald",
-    "status": "open"
+    "editor": "Anett",
+    "comment": "Web (Portal) Gerald; ggf. mit fertiger Schnittstelle von dort noch zu erweitern",
+    "status": "started"
   },
   "http://wsp.normdata.rdf/DTM/Editionsbericht": {
-    "editor": "(Anett)",
+    "editor": "Anett",
     "comment": "",
     "status": "done"
   },
@@ -531,8 +531,8 @@
   },
   "http://wsp.normdata.rdf/Archiv": {
     "editor": "Josef",
-    "comment": "Web + Schnittstellen/Webservices",
-    "status": "open"
+    "comment": "Web fertig; Integration des Findbuchs und der Bildersammlungen bleibt zu klären",
+    "status": "started"
   },
   "http://wsp.normdata.rdf/Galen/GreekIntoArabic": {
     "editor": "Josef",
@@ -542,12 +542,12 @@
   "http://wsp.normdata.rdf/GlossariumGraecoArabicum": {
     "editor": "Josef",
     "comment": "MySQL (Torsten)",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/KollokationImWB": {
     "editor": "Josef",
     "comment": "Idiomdatenbank (Kai Zimmer) + Web",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/JeanPaul/Editionsbeispiel": {
     "editor": "Marco",
@@ -557,65 +557,65 @@
   "http://wsp.normdata.rdf/PreußenAlsKulturstaat": {
     "editor": "",
     "comment": "über edoc-Server, HTML-Seiten, PDFs mit Bänden",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/AvHForschungsstelle/Orinoco": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "HTML-Seiten (URLs händisch eingetragen), Autor/Titel falsch, Rücksprache",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/BerlinerAkademiegesch": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "Web",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/BiblexegeseSpätantike": {
     "editor": "",
     "comment": "Web",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/Bildkulturen": {
     "editor": "",
     "comment": "über edoc-Server, Web",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/MartinBuberWerkausgabe": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "Web",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/DTM/Handschriftenarchiv": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "",
     "status": "done"
   },
   "http://wsp.normdata.rdf/DTM/Transkription": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "",
     "status": "done"
   },
   "http://wsp.normdata.rdf/EuropaDiktatur": {
     "editor": "",
     "comment": "",
-    "status": "open"
+    "status": "started"
   },
   "http://wsp.normdata.rdf/GriechischesMuenzwerk": {
-    "editor": "",
+    "editor": "Josef",
     "comment": "Datenbank – Verfügbarkeit? → Elise",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/KarlPhilippMoritz/NeuereWerkausgabenSekundaerliteratur": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "nachrecherchieren",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/ProsopagraphieMittelbyzant": {
-    "editor": "",
-    "comment": "Alex kontaktieren für XML DB, Fragment rechtl. Probleme, Filemaker=Alex kontakt",
-    "status": "open"
+    "editor": "Josef",
+    "comment": "Alex kontaktieren für XML DB, Fragment rechtl. Probleme, Filemaker=Alex kontakt; XML-File mit 11.000 Personen; Vita wird auf 400 Zeichen beschränkt wg. Copyright",
+    "status": "done"
   },
   "http://wsp.normdata.rdf/ZukunftKommunikationssystem": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "Web http://www.publikationssystem.de",
     "status": "open"
   },
@@ -625,34 +625,34 @@
     "status": "open"
   },
   "http://wsp.normdata.rdf/AltaegyptWB/Erbkam": {
-    "editor": "",
-    "comment": "wird noch bearbeitet",
-    "status": "open"
+    "editor": "Josef",
+    "comment": "wird noch bearbeitet; eXist: die Datei erbkam.xml wird eingebunden",
+    "status": "done"
   },
   "http://wsp.normdata.rdf/AvHForschungsstelle/Abhandlungen": {
     "editor": "",
     "comment": "XML (eXist?)",
-    "status": "open"
+    "status": "done"
   },
-  "http://wsp.normdata.rdf/BiblioraphischeAnnalen": {
-    "editor": "",
+  "http://wsp.normdata.rdf/BibliographischeAnnalen": {
+    "editor": "Josef",
     "comment": "Web + Datenbank (unklares Format)",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/WilhelmOstwaldSymposium": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "",
     "status": "open"
   },
   "http://wsp.normdata.rdf/AltaegyptWB/Preussen": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/AltaegyptWB/TLA": {
     "editor": "",
-    "comment": "wird noch bearbeitet",
-    "status": "open"
+    "comment": "Wörterbuch-DB fertig",
+    "status": "done"
   },
   "http://wsp.normdata.rdf/AltaegyptWB/Vormanuskript": {
     "editor": "",
@@ -661,8 +661,8 @@
   },
   "http://wsp.normdata.rdf/AltaegyptWB/Zettelarchiv": {
     "editor": "",
-    "comment": "",
-    "status": "open"
+    "comment": "Web erfasst, Datenbank noch offen",
+    "status": "started"
   },
   "http://wsp.normdata.rdf/DeutscheInschriftenMA": {
     "editor": "",
@@ -745,7 +745,7 @@
     "status": "done"
   },
   "http://wsp.normdata.rdf/SpracheDesRechts": {
-    "editor": "",
+    "editor": "Anett",
     "comment": "über edoc-Server",
     "status": "open"
   },
@@ -812,14 +812,14 @@
   "http://wsp.normdata.rdf/KarlPhilippMoritz/Erfahrungsseelenkunde": {
     "editor": "Marco",
     "comment": "XML (eXist?) (Niels), überprüfen",
-    "status": "started"
+    "status": "done"
   },
-  "http://wsp.normdata.rdf/MarxEngelsGA": {
+  "http://wsp.normdata.rdf/MarxEngelsGAdigital": {
     "editor": "Marco",
     "comment": "XML (URLs händisch eingetragen), über edoc-Server, XXX aufteilen MEGAdigital",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/MonumentaGermaniaeHistorica/DerGoldeneBulle": {
+  "http://wsp.normdata.rdf/MonumentaGermaniaeHistorica/DieGoldeneBulle": {
     "editor": "Marco",
     "comment": "eXist (Alex)",
     "status": "done"
@@ -863,5 +863,20 @@
     "editor": "",
     "comment": "",
     "status": "open"
+  },
+  "http://wsp.normdata.rdf/StrukturenTransformationAEW": {
+    "editor": "Anett",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/NeueidtionKant": {
+    "editor": "Anett",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/MarxEngelsGA": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
   }
 }
