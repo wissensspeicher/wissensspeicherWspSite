@@ -642,7 +642,7 @@
   "http://wsp.normdata.rdf/WilhelmOstwaldSymposium": {
     "editor": "Anett",
     "comment": "",
-    "status": "open"
+    "status": "done"
   },
   "http://wsp.normdata.rdf/AltaegyptWB/Preussen": {
     "editor": "Anett",
@@ -875,6 +875,11 @@
     "status": "done"
   },
   "http://wsp.normdata.rdf/MarxEngelsGA": {
+    "editor": "Josef",
+    "comment": "",
+    "status": "done"
+  },
+  "http://wsp.normdata.rdf/TranslatioNummorum": {
     "editor": "Josef",
     "comment": "",
     "status": "done"
