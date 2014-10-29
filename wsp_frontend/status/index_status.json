@@ -354,7 +354,7 @@
     "comment": "Web",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/ProtokollePreussischesStaatsministerium": {
+  "http://wsp.normdata.rdf/ProtokollePreußischesStaatsministerium": {
     "editor": "Sascha",
     "comment": "PDF (URLs händisch eingetragen)",
     "status": "done"
@@ -569,7 +569,7 @@
     "comment": "Web",
     "status": "open"
   },
-  "http://wsp.normdata.rdf/BiblexegeseSpaetantike": {
+  "http://wsp.normdata.rdf/BiblexegeseSpätantike": {
     "editor": "",
     "comment": "Web",
     "status": "open"
@@ -704,12 +704,12 @@
     "comment": "XML/eXist",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/AvHForschungsstelle/Sekundaerliteratur": {
+  "http://wsp.normdata.rdf/AvHForschungsstelle/Sekundärliteratur": {
     "editor": "Josef",
     "comment": "MySQL",
     "status": "done"
   },
-  "http://wsp.normdata.rdf/AvHForschungsstelle/UnselbststaendigeSchriften": {
+  "http://wsp.normdata.rdf/AvHForschungsstelle/UnselbstständigeSchriften": {
     "editor": "Josef",
     "comment": "MySQL",
     "status": "done"

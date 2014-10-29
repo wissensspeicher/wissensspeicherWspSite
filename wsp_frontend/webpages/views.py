@@ -42,8 +42,9 @@ ressourceTypes = {"application/pdf": "pdf",
 base_url = "http://wspdev.bbaw.de"
 
 
-# View for start page. Simple request is only used in order to show 
-# total number of indexed documents/resources.
+# View for start page. The simple search request for 'a' is only used in order 
+# to receive and subsequently show the total number of indexed 
+# documents/resources.
 def hello_world(request):
 
     url = base_url + "/wspCmsWebApp/query/QueryDocuments"
@@ -92,9 +93,9 @@ def search(request):
             print "Empty Query"
             return render(request, 'search_form.html')
 
-    # Falls die Suche nach "*" ist und Facetten ausgewählt sind, muss eine 
-    # "leere Suche"+Facetten durchgeführt werden, weil Josefs Tomcat sonst 
-    # muckt.
+    # If the search query is '*' and one or more facettes are selected, an 
+    # "empty" search with facettes is performed, otherwise Josefs Tomcat gets 
+    # quirly. XXX - still necessary?
     if (any(word in request.GET for word in ['author', 'project', 'language']) 
             and querydata == "*"):
         querydata = ""
@@ -105,9 +106,9 @@ def search(request):
         for author in request.GET.getlist('author'):
             querydata += " author:(\"" + author + "\")"
 
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in 
-            # query_paramters gespeichert, daraus wird im Template dann 
-            # entsprechend eine URL generiert
+            # To enable navigation and results browsing selected facettes are 
+            # saved in query_parameters. A matching URL is generated in the 
+            # template.
             query_parameters = query_parameters + "&author=" + author
     else:
         authorFilter = ""
@@ -118,9 +119,9 @@ def search(request):
         for project in request.GET.getlist('project'):
             querydata += " collectionNames:(" + project + ")"
 
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in 
-            # query_paramters gespeichert, daraus wird im Template dann 
-            # entsprechend eine URL generiert
+            # To enable navigation and results browsing selected facettes are 
+            # saved in query_parameters. A matching URL is generated in the 
+            # template.
             query_parameters = query_parameters + "&project=" + project
     else:
         projectFilter = ""
@@ -131,40 +132,42 @@ def search(request):
         for language in request.GET.getlist('language'):
             querydata += " language:(" + language + ")"
             
-            # Für Seitennavigation/Umblättern werden die Facettenoptionen in 
-            # query_paramters gespeichert, daraus wird im Template dann 
-            # entsprechend eine URL generiert
+            # To enable navigation and results browsing selected facettes are 
+            # saved in query_parameters. A matching URL is generated in the 
+            # template.
             query_parameters = query_parameters + "&language=" + language
     else:
         languageFilter = ""
 
-    # Überprüfung ob moreLikeThis als Paramete in der Anfrage-URL enthalten ist
+    # Check if moreLikeThis is selected as a search option
     try:
         if request.GET["morelikethis"] == "true":
             more_like_this = True
     except KeyError, e:
         more_like_this = False
-    # print "moreLikeThis: " + str(more_like_this)
 
+    # Check if translation option is selected
     if "translateCheck" in request.GET:
         if request.GET['translateCheck'] == "on":
             translateQuery = True
             translate = [("translate", "true")]
             translate = "&" + urllib.urlencode(translate)
             query_parameters = query_parameters + '&translateCheck=on'
+
+    # Check if a certain page from the set of search results is requested.
     if "page" in request.GET:
-        # Cast to integer, damit die Berechnung der angezeigten Seiten (s. u.)
-        # richtig funktioniert
+        # Cast to integer, in order to make the calculation of the current page 
+        # work (see further below).
         page = int(request.GET['page'])
 
     #base_url = "http://wspdev.bbaw.de"
-    #base_url = "http://192.168.1.199:8080" # Josef
-    #base_url = "http://192.168.1.203:8080" # Marco
+    #base_url = "http://192.168.1.199:8080" # Marco
+    #base_url = "http://192.168.1.203:8080" # Josef
 
-    show(querydata)
     request_options = {'query': querydata, 'outputFormat': 'json', 
                         'page': page, 'pagesize': pagesize, 
-                        'translate': str(translateQuery).lower()}
+                        'translate': str(translateQuery).lower(), 
+                        'queryLanguage': 'gl'}
 
     if morphologicalSearch == True:
         request_options['fieldExpansion'] = "allMorph"
@@ -179,59 +182,45 @@ def search(request):
             querydata + "&outputFormat=json"
         request_options = {}
 
-
-    # Anfrage an Webschnittstelle (Volltextindex)
-    # XXX Fehler abfangen über response.ok oder response.raise_for_status()
+    # Send search request to full text index (queryDocuments)
+    # XXX TODO: Catch errors via response.ok or response.raise_for_status()
     response = requests.get(url, params=request_options)
-
-    show(response.url)
-
     reply = response.text
-
+    show(response.url)
+    results = {}
+    results["number_of_hits"] = 0
     try:
         data = simplejson.loads(reply)
+        results["totalDocuments"] = data["sizeTotalDocuments"]
+        results["number_of_hits"] = int(data["numberOfHits"])
     except:
         print "Fehler beim JSON-Parsing\n" + reply
         # XXX ToDO: Fehlerpage rendern!
 
-    results = {}
-
-    # XXX: Warum die folgende Zeile? wofür wird translated auf TRUE gesetzt?
-    results["translated"] = True
-
-    results["totalDocuments"] = data["sizeTotalDocuments"]
+    
     results["personList"] = []
-    #results["search_term"] = data["searchTerm"].replace("tokenOrig:", "", 1)
     results["search_term"] = original_query
-    results["search_term"] = results[
-        "search_term"].replace("tokenMorph:", "", 1)
+    results["search_term"] = \
+        results["search_term"].replace("tokenMorph:", "", 1)
     results["search_term"] = results["search_term"].strip("()")
-
-    results["number_of_hits"] = int(data["numberOfHits"])
     results["morphologicalSearch"] = morphologicalSearch
     results["translateSearch"] = translateQuery
     results["treffer"] = ""
 
     projekte = set()
 
-
     if results["number_of_hits"] > 0:
         treffer = []
         for j, single_treffer in enumerate(data["hits"]):
-            # print(single_treffer)
-
-            # Herumarbeiten um Fehler in Volltextindex (z. B. Suchanfrage
-            # "Haus")
-
             i = {}
             i["relevantPersons"] = []
             i["places"] = []
             i["docId"] = "none"
             i["projectRdfURI"] = ""
 
-            # Nummerierung der Treffer, da die Angaben nicht im JSON enthalten sind
-            # 1 wird addiert, da die Zählung von j in der Schleife bei 0
-            # beginnt
+            # Numbering of search results (JSON provided by queryDocuments 
+            # contains no numbering)
+            # 1 is added, because 'j' is initially zero
             i["hitNumber"] = (page - 1) * pagesize + j + 1
 
             # docID parsen
@@ -365,7 +354,8 @@ def search(request):
             projectCount = single_project["count"]
             projectRDFUri = single_project["rdfUri"]
             project = {"project": projectName, "count": projectCount,
-                       "rdfURI": projectRDFUri, "projectShortname": projectShortname}
+                       "rdfURI": projectRDFUri, 
+                       "projectShortname": projectShortname}
             results["projectFacet"].append(project)
         for single_language in data["facets"]["language"]:
             languageID = single_language["value"]
@@ -382,6 +372,7 @@ def search(request):
         treffer_save = []
         treffer_save = results["treffer"][:]
 
+
         # Anfrage der Projektmetadaten (für die Projekte in projekte)
         results["projektMetadaten"] = dict()
         rdfURL = "http://wspdev.bbaw.de" + "/wspCmsWebApp/query/QueryMdSystem"
@@ -396,77 +387,68 @@ def search(request):
 
             #print("Requesting Metadata for " + projekt["rdfURI"])
             request_options_rdf = {'detailedSearch': 'true', 'outputFormat':
-                                   'json', 'query': projekt["rdfURI"], 'isProjectId': 'true'}
+                                   'json', 'query': projekt["rdfURI"], 
+                                   'isProjectId': 'true'}
 
-            # Fehler auf Serverseite umgehen
-            # Beispiel:
-            # http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem?query=http%3A%2F%2Fwsp.normdata.rdf%2FAvHForschungsstelle&detailedSearch=true&isProjectId=true&outputFormat=json
-            # liefert eine Exception
-            # show(rdfURL)
-
-            # Anfrage an Webschnittstelle (QueryMdSystem)
-            # XXX ToDo: Fehler abfangen über response.ok oder response.raise_for_status()
+            # Request for project metadata (QueryMdSystem)
+            # XXX ToDo: Catch erros via response.ok or 
+            # response.raise_for_status()
             try:
-                response = requests.get(rdfURL, params=request_options_rdf, timeout=2)
-                #show(response.url)
+                response = requests.get(rdfURL, params=request_options_rdf, 
+                    timeout=2)
+                if not response.ok:
+                    print("Error in QueryMdSystem request: HTTP status " + str(response.status_code) + "\n" + response.url)
             except UnicodeEncodeError, error:
                 continue
+            except requests.exceptions.Timeout:
+                print("Timeout: " + response.url)
 
-            # print(response.url)
 
             try:
-
                 projektMetadaten = simplejson.loads(response.text)
 
                 # verwendete Variablen mit "NA" initieren (falls Metadaten aus
                 # dem Triplestore nicht vollständig sind)
-                projectName = projectStatus = projectAbstract = webURI = rdfURI = projectShortname = "NA"
+                projectName = projectStatus = projectAbstract = webURI = \
+                    rdfURI = projectShortname = "NA"
 
-                if projektMetadaten["hitGraphes"] != []:
-                    for o in projektMetadaten["hitGraphes"][0][projekt["rdfURI"]]:
+                rdfURI = projekt['rdfURI']
+                projectName = projektMetadaten[rdfURI]['name']
+                webURI = projektMetadaten[rdfURI]['homepage']
+                projectShortname = projektMetadaten[rdfURI]['nick']
+                if 'abstract' in projektMetadaten[rdfURI]:
+                    projectAbstract = projektMetadaten[rdfURI]['abstract']
+                    
 
-                        if "name" in o:
-                            # print(o["name"])
-                            projectName = o["name"]
-                            # show(projectName)
-                        else:
-                            pass
-                        if "status" in o:
-                            projectStatus = o["status"]
-                        if "abstract" in o:
-                            projectAbstract = o["abstract"]
-                        if "homepage" in o:
-                            webURI = "http://" + o["homepage"]
-                        rdfURI = projekt["rdfURI"]
-                    # XXX ToDo:
-                    # Die Metadaten zu den Projekten/Vorhaben in sinnvolle Datenstruktur überführen.
-                    # Wie soll im Template darauf zugegriffen werden? Eventuell diese Daten direkt in
-                    # entsprechende Facetten-Datenstruktur einfügen?
-                    # if projectAbstract == "NA":
-                    #    show(response.url)
-                    projectShortname = projekt["project"]
-                    projektDaten = {"name": projectName, "status": projectStatus, "abstract":
-                                    projectAbstract, "webURI": webURI, "rdfURI": rdfURI, "projectShortname": projectShortname}
-                    # show(projektDaten)
+                if 'status' in projektMetadaten[rdfURI]:
+                    projectStatus = projektMetadaten[rdfURI]['status']
+
+                # XXX ToDo:
+                # Die Metadaten zu den Projekten/Vorhaben in sinnvolle Datenstruktur überführen.
+                # Wie soll im Template darauf zugegriffen werden? Eventuell diese Daten direkt in
+                # entsprechende Facetten-Datenstruktur einfügen?
+                projektDaten = {"name": projectName, 
+                                "status": projectStatus, 
+                                "abstract": projectAbstract, 
+                                "webURI": webURI, "rdfURI": rdfURI, 
+                                "projectShortname": projectShortname}
 
                 results["projektMetadaten"][projekt["rdfURI"]] = projektDaten
+                #show(projektDaten)
+
             except Exception, e:
+                show(e)
+                show(projekt['rdfURI'])
+                show(response.url)
                 # print(e)
                 # print(response.url)
-                pass
-                # print "Fehler beim JSON-Parsing\n" + reply
-    
-        # print(results["projektMetadaten"])
-        # XXX ToDO: Fehlerpage rendern!
-        # print "\nAnfrage an: " + response.url
-        # show(response.url)
-        #reply = response.text
 
         # Paginierung
         # XXX Dokumentieren, wie genau die Seitennummerierung hier funktioniert!
         # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
         # XXX Muss genauer nachvollzogen werden.
-        for x in range(10, (results["number_of_hits"] + (int(results['number_of_hits']) % 10))):
+        for x in range(10, (results["number_of_hits"] + \
+                (int(results['number_of_hits']) % 10))):
             treffer_list.append("TEST")
 
         # print(len(treffer_list))
@@ -510,32 +492,17 @@ def search(request):
         cnt = Counter()
         for word in results["personList"]:
             cnt[word] += 1
-        # print cnt
 
         mostCommonPersons = []
         for person in Counter(results["personList"]).most_common(8):
             mostCommonPersons.append(person[0])
-        # print mostCommonPersons
-
         results["mostCommonPersons"] = mostCommonPersons
 
-    # print query_parameters
     results['query_parameters'] = query_parameters
     show(query_parameters)
 
-    #request_options = {'query': original_query, 'outputFormat': 'json', 'conceptSearch': 'true'}
-
-    #response = requests.get(url, params=request_options)
-    # print "\nAnfrage an: " + response.url
-    # show(response.url)
-
-    #reply = response.text
-
-    # show(results)
-
-    #results["conceptSearch"] = reply
-
-    if more_like_this == True:
-        return render_to_response('results-more-like-this.html', results)
+    # Currently not used.
+    #if more_like_this == True:
+    #    return render_to_response('results-more-like-this.html', results)
 
     return render_to_response('results.html', results)
