@@ -7,7 +7,25 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from collections import Counter  # used for statistic calculations
 import urllib
 import requests
+import logging
 from show import show
+
+# set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+handler = logging.FileHandler('site.log')
+handler.setLevel(logging.INFO)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - '
+    '%(message)s')
+handler.setFormatter(formatter)
+
+logger.addHandler(handler)
+
+# Set logging information for the requests module to WARNING only, otherwise 
+# we get lots of trivial connection information
+logging.getLogger("requests").setLevel(logging.WARNING)
 
 # Dictionary for conversion of language codes to full languagen names.
 # (ISO 639-3 specifier)
@@ -56,7 +74,7 @@ def hello_world(request):
         data = simplejson.loads(reply)
     except:
         print "Fehler beim JSON-Parsing\n" + reply
-        # XXX ToDO: Fehlerpage rendern!
+        # XXX ToDO: Fehlerpage rendern! LOGGING!
 
     totalDocuments = data["sizeTotalDocuments"]
     results = {'totalDocuments': totalDocuments}
@@ -91,7 +109,10 @@ def search(request):
         # If no search query was entered, the empty search form is shown.
         if original_query == "":
             print "Empty Query"
+            #LOGGING!
             return render(request, 'search_form.html')
+
+    logger.info('query: %s', querydata)
 
     # Check for "AutorInnen"-facette
     if 'author' in request.GET:
@@ -173,7 +194,7 @@ def search(request):
     # XXX TODO: Catch errors via response.ok or response.raise_for_status()
     response = requests.get(url, params=request_options)
     reply = response.text
-    show(response.url)
+    logger.info('Requested URL: %s', response.url)
     results = {}
     results["number_of_hits"] = 0
     try:
@@ -182,7 +203,7 @@ def search(request):
         results["number_of_hits"] = int(data["numberOfHits"])
     except:
         print "Fehler beim JSON-Parsing\n" + reply
-        # XXX ToDO: Fehlerpage rendern!
+        # XXX ToDO: Fehlerpage rendern! LOGGING
 
     
     results["personList"] = []
@@ -324,7 +345,6 @@ def search(request):
             i["places"] = newlist
             # print "E: " + i["docId"] + "   " + i["type"]
             treffer.append(i)
-            # show(i)
         results["treffer"] = treffer
 
         # facets parsen
@@ -372,7 +392,7 @@ def search(request):
             if projekt["rdfURI"] == "none":
                 continue
 
-            #print("Requesting Metadata for " + projekt["rdfURI"])
+            logger.debug('Requesting Metadata for: %s', projekt["rdfURI"])
             request_options_rdf = {'detailedSearch': 'true', 'outputFormat':
                                    'json', 'query': projekt["rdfURI"], 
                                    'isProjectId': 'true'}
@@ -383,13 +403,17 @@ def search(request):
             try:
                 response = requests.get(rdfURL, params=request_options_rdf, 
                     timeout=2)
-                if not response.ok:
-                    print("Error in QueryMdSystem request: HTTP status " + str(response.status_code) + "\n" + response.url)
+                if not response.ok or not response.text:
+                    logger.warning('Problem with QueryMdSystem request: %s', 
+                        response.url)
+                    logger.warning('HTTP Status Code: %s', 
+                        response.status_code)
+                    if response.ok:
+                        logger.warning('Reply: %s', response.text)
             except UnicodeEncodeError, error:
                 continue
             except requests.exceptions.Timeout:
-                print("Timeout: " + response.url)
-
+                logger.warning('Timeout: %s', response.url)
 
             try:
                 projektMetadaten = simplejson.loads(response.text)
@@ -421,14 +445,12 @@ def search(request):
                                 "projectShortname": projectShortname}
 
                 results["projektMetadaten"][projekt["rdfURI"]] = projektDaten
-                #show(projektDaten)
 
             except Exception, e:
-                show(e)
-                show(projekt['rdfURI'])
-                show(response.url)
-                # print(e)
-                # print(response.url)
+                logger.error('Error in metadata processing: %s, %s', 
+                    e.__class__.__name__, e)
+                logger.error('rdfURI: %s', projekt['rdfURI'])
+                logger.error('Requested URL: %s', response.url)
 
         # Paginierung
         # XXX Dokumentieren, wie genau die Seitennummerierung hier funktioniert!
@@ -438,7 +460,6 @@ def search(request):
                 (int(results['number_of_hits']) % 10))):
             treffer_list.append("TEST")
 
-        # print(len(treffer_list))
         paginator = Paginator(treffer_list, 10)
 
         # print "paginator.count: " + str(paginator.count) # +
@@ -455,7 +476,6 @@ def search(request):
             treffer = paginator.page(paginator.num_pages)
 
         # XXX next: überzählige Einträge aus treffer_list entfernen,
-        # show(projekte)
 
         # print treffer
         # print treffer_save
@@ -486,7 +506,7 @@ def search(request):
         results["mostCommonPersons"] = mostCommonPersons
 
     results['query_parameters'] = query_parameters
-    show(query_parameters)
+    logger.info('query_parameters: %s', query_parameters)
 
     # Currently not used.
     #if more_like_this == True:
