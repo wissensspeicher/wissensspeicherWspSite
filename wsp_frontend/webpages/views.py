@@ -11,7 +11,7 @@ from show import show
 
 # Dictionary for conversion of language codes to full languagen names.
 # (ISO 639-3 specifier)
-# XXX poss. use <https://github.com/LuminosoInsight/langcodes>
+# XXX possibly use <https://github.com/LuminosoInsight/langcodes>
 languages = {
     #"ger": "german",
     #"eng": "english",
@@ -95,42 +95,36 @@ def search(request):
 
     # Check for "AutorInnen"-facette
     if 'author' in request.GET:
-        authorFilter = []
-        for author in request.GET.getlist('author'):
-            querydata += " author:(\"" + author + "\")"
+        querydata += ' author:(' + \
+            ' '.join(request.GET.getlist('author')) + ')'
 
-            # To enable navigation and results browsing selected facettes are 
-            # saved in query_parameters. A matching URL is generated in the 
-            # template.
-            query_parameters = query_parameters + "&author=" + author
-    else:
-        authorFilter = ""
+        # To enable navigation and results browsing selected facettes are 
+        # saved in query_parameters. A matching URL is generated in the 
+        # template.
+        query_parameters += '&author=' + \
+            '&author='.join(request.GET.getlist('author'))
 
     # Check for "Projekte/Vorhaben"-facette
     if 'project' in request.GET:
-        projectFilter = []
-        for project in request.GET.getlist('project'):
-            querydata += " collectionNames:(" + project + ")"
+        querydata += ' collectionNames:(' + \
+            ' '.join(request.GET.getlist('project')) + ')'
 
-            # To enable navigation and results browsing selected facettes are 
-            # saved in query_parameters. A matching URL is generated in the 
-            # template.
-            query_parameters = query_parameters + "&project=" + project
-    else:
-        projectFilter = ""
+        # To enable navigation and results browsing selected facettes are 
+        # saved in query_parameters. A matching URL is generated in the 
+        # template.
+        query_parameters += '&project=' + \
+            '&project='.join(request.GET.getlist('project'))
 
     # Check for "Sprachen"-facette
     if 'language' in request.GET:
-        languageFilter = []
-        for language in request.GET.getlist('language'):
-            querydata += " language:(" + language + ")"
-            
-            # To enable navigation and results browsing selected facettes are 
-            # saved in query_parameters. A matching URL is generated in the 
-            # template.
-            query_parameters = query_parameters + "&language=" + language
-    else:
-        languageFilter = ""
+        querydata += ' language:(' + \
+            ' '.join(request.GET.getlist('language')) + ')'
+
+        # To enable navigation and results browsing selected facettes are 
+        # saved in query_parameters. A matching URL is generated in the 
+        # template.
+        query_parameters += '&language=' + \
+            '&language='.join(request.GET.getlist('language'))
 
     # Check if moreLikeThis is selected as a search option
     try:
