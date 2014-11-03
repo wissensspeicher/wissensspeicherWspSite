@@ -101,6 +101,8 @@ def search(request):
     except KeyError, e:
         pass
 
+    # Important: every part of request.GET needs to be converted to a string, 
+    # conversion of utf-8 --> python2-string
     if 'query' in request.GET:
         querydata = request.GET['query']
         querydata = querydata.encode("utf-8")
@@ -117,7 +119,7 @@ def search(request):
     # Check for "AutorInnen"-facette
     if 'author' in request.GET:
         querydata += ' author:(' + \
-            ' '.join(request.GET.getlist('author')) + ')'
+            ' '.join(request.GET.getlist('author')).encode('utf-8') + ')'
 
         # To enable navigation and results browsing selected facettes are 
         # saved in query_parameters. A matching URL is generated in the 
@@ -128,7 +130,7 @@ def search(request):
     # Check for "Projekte/Vorhaben"-facette
     if 'project' in request.GET:
         querydata += ' collectionNames:(' + \
-            ' '.join(request.GET.getlist('project')) + ')'
+            ' '.join(request.GET.getlist('project')).encode('utf-8') + ')'
 
         # To enable navigation and results browsing selected facettes are 
         # saved in query_parameters. A matching URL is generated in the 
@@ -139,7 +141,7 @@ def search(request):
     # Check for "Sprachen"-facette
     if 'language' in request.GET:
         querydata += ' language:(' + \
-            ' '.join(request.GET.getlist('language')) + ')'
+            ' '.join(request.GET.getlist('language')).encode('utf-8') + ')'
 
         # To enable navigation and results browsing selected facettes are 
         # saved in query_parameters. A matching URL is generated in the 
