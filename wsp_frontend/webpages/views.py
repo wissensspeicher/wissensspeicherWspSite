@@ -11,21 +11,21 @@ import logging
 from show import show
 
 # set up logging
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-handler = logging.FileHandler('site.log')
-handler.setLevel(logging.INFO)
+#handler = logging.FileHandler('site.log')
+#handler.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - '
-    '%(message)s')
-handler.setFormatter(formatter)
+#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - '
+#    '%(message)s')
+#handler.setFormatter(formatter)
 
-logger.addHandler(handler)
+#logger.addHandler(handler)
 
 # Set logging information for the requests module to WARNING only, otherwise 
 # we get lots of trivial connection information
-logging.getLogger("requests").setLevel(logging.WARNING)
+#logging.getLogger("requests").setLevel(logging.WARNING)
 
 # Dictionary for conversion of language codes to full languagen names.
 # (ISO 639-3 specifier)
@@ -118,8 +118,8 @@ def search(request):
 
     # Check for "AutorInnen"-facette
     if 'author' in request.GET:
-        querydata += ' author:(' + \
-            ' '.join(request.GET.getlist('author')).encode('utf-8') + ')'
+        querydata += ' author:("' + \
+            '"" '.join(request.GET.getlist('author')).encode('utf-8') + '")'
 
         # To enable navigation and results browsing selected facettes are 
         # saved in query_parameters. A matching URL is generated in the 
