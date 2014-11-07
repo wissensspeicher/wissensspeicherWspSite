@@ -3,8 +3,13 @@
 {% block status %}
 
 <div class="span12">
+<br><br><br><br><br>
 <h2>{{ name }}</h2>
 <p><a href="../..{% url 'search' %}?query=*&amp;project={{ shortname }}"><i class="icon-search"></i> Suche nach allen digitalen Ressourcen dieses Projekts</a></p>
+<dl>
+<dt><i class="icon-star-empty"></i> Typ</dt>
+{% for single_description in descriptions %}<dd>{{ single_description }}</dd>{% endfor %}
+</dl>
 <dl>
 <dt><i class="icon-home"></i> Homepage</dt>
 <dd><a href="{{ webURI }}" title="Zur Homepage">{{ webURI }}</a></dd>
@@ -12,10 +17,6 @@
 <dl>
 <dt><i class="icon-align-left"></i> Beschreibung/Abstract</dt>
 <dd><p>{{ abstract }}</p></dd>
-</dl>
-<dl>
-<dt><i class="icon-star-empty"></i> Typ</dt>
-{% for single_description in descriptions %}<dd>{{ single_description }}</dd>{% endfor %}
 </dl>
 <dl>
 <dt><i class="icon-tags"></i> Themen</dt>
