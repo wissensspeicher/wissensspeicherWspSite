@@ -121,7 +121,8 @@ def status(request):
             if not 'name' in single_project_metadata[rdfURI]:
                 projectName = single_project['projectShortname']
             projectName = single_project_metadata[rdfURI]['name']
-            projectAbstract = \
+            if 'abstract' in single_project_metadata[rdfURI]:
+                projectAbstract = \
                 single_project_metadata[rdfURI]['abstract']
             webURI = single_project_metadata[rdfURI]['homepage']
             projectShortname = single_project_metadata[rdfURI]['nick']
@@ -138,7 +139,7 @@ def status(request):
                     projectType = ""
                     for entry in single_project_metadata[rdfURI]['description']:
                         projectType += entry['description']
-
+                logger.debug("projectType: %s - %s", rdfURI, projectType)
             if 'definition' in single_project_metadata[rdfURI]:
                 projectDefinition = single_project_metadata[rdfURI]['definition']
 
