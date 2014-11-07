@@ -21,5 +21,6 @@ urlpatterns = patterns('',
 urlpatterns = patterns('',
     url('^search/', 'webpages.views.search', name = 'search'),
     ('^$', 'webpages.views.hello_world'),
-    ('^status/', 'status.views.status')
+    (r'^status/details', 'status.views.status_details'),
+    (r'^status/', 'status.views.status'),
 )

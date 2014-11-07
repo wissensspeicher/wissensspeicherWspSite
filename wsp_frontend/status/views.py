@@ -10,12 +10,15 @@ import datetime #http://stackoverflow.com/questions/12906402/type-object-datetim
 import itertools
 import urllib
 import requests
+import logging
 from show import show
 import os
 
+logger = logging.getLogger(__name__)
+
 # Dictionary für Umwandlung der Sprachkürzel in ausgeschriebene Sprachen
 # (ISO 639-3 specifier)
-languages = {
+language_dictionary = {
     #"ger": "german",
     #"eng": "english",
     #"fra": "france",
@@ -175,3 +178,155 @@ def status(request):
         results['projektMetadaten'][project['rdfURI']] = projektDaten
 
     return render_to_response('status.html', results)
+
+
+def status_details(request):
+    
+    if 'rdfURI' in request.GET:
+        rdfURI = request.GET['rdfURI']
+    else:
+        logger.warning('No rdfURI in query')
+        #XXX ToDo Render error/help page
+
+    # Query for project metadata
+    rdfURL = base_url + "/wspCmsWebApp/query/QueryMdSystem"
+
+    request_options_rdf = {'detailedSearch': 'true', 'outputFormat':
+                           'json', 'query': rdfURI, 'isProjectId': 'true'}
+    try:
+        logger.info('Requesting Metadata for: %s', rdfURI)
+        response = requests.get(rdfURL, params=request_options_rdf, 
+            timeout = 2)
+        if not response.ok or not response.text:
+            logger.warning('Problem with QueryMdSystem request: %s', 
+                response.url)
+            logger.warning('HTTP Status Code: %s', 
+                response.status_code)
+            if response.ok:
+                logger.warning('Reply: %s', response.text)
+            #XXX ToDo Render error/help page
+    except requests.exceptions.Timeout, error:
+        logger.warning('Timeout: %s', response.url)
+        #XXX ToDo Render error/help page
+
+    logger.info('Requested Metadata from URL: %s', response.url)
+
+    # Initialize variables with "NA" (in case metadata is not complete)
+    name = status = abstract = webURI = shortname = "NA"
+    descriptions = topics = languages = publishing_formats = life_span = \
+        contributors = ["NA"]
+
+    try:
+        project_metadata = simplejson.loads(response.text)[rdfURI]
+        if 'name' in project_metadata:
+            name = project_metadata['name'].encode('utf-8')
+        if 'abstract' in project_metadata:
+            abstract = project_metadata['abstract'].encode('utf-8')
+        if 'homepage' in project_metadata:
+            webURI = project_metadata['homepage'].encode('utf-8')
+        if 'nick' in project_metadata:
+            shortname = project_metadata['nick'].encode('utf-8')
+        if 'status' in project_metadata:
+            status = project_metadata['status'].encode('utf-8')
+        if 'description' in project_metadata: 
+            descriptions = []
+            # complicated json structure makes the for loop necessary
+            for entry in project_metadata['description']:
+                descriptions.append(entry['description'].encode('utf-8'))
+        if 'topic' in project_metadata: 
+            topics = []
+            # complicated json structure makes the for loop necessary
+            for entry in project_metadata['topic']:
+                topics.append(entry['topic'].encode('utf-8'))
+        if 'language' in project_metadata: 
+            languages = []
+            # complicated json structure makes the for loop necessary
+            for entry in project_metadata['language']:
+                languages.append(language_dictionary[entry['language'].encode('utf-8')])
+        if 'format' in project_metadata:
+            if not isinstance(project_metadata['format'], basestring):
+                publishing_formats = [i.encode('utf-8') for i in project_metadata['format']]
+            else:
+                publishing_formats = []
+                publishing_formats.append(project_metadata['format'])
+        if 'valid' in project_metadata and ('end' in project_metadata['valid']):
+            life_span = []
+            
+            # Get the list indices for start and end of project:
+            # The string ist splitted along '; ' and the resulting list 
+            # searched for 'start=' and 'end='. Because this search returns a 
+            # list [of indices], the first (and supposedly only) entry in each 
+            # list is then selected.
+            # Append start and end dates to life_span using the indices 
+            # found. Parts of the string is deleted, in order to get
+            # only the year.
+            if 'start' in project_metadata['valid']:
+                start_index = [i for i, s in enumerate(project_metadata['valid'].split('; ')) if 'start=' in s][0]
+                life_span.append(project_metadata['valid'].split('; ')[start_index].replace('start=', '').encode('utf-8'))
+            if 'end' in project_metadata['valid']:
+                end_index = [i for i, s in enumerate(project_metadata['valid'].split('; ')) if 'end=' in s][0]
+                life_span.append(project_metadata['valid'].split('; ')[end_index].replace('end=', '').encode('utf-8'))
+
+        if 'contributor' in project_metadata:
+            contributors = []
+            for single_contributor in project_metadata['contributor']:
+                contributor = {}
+                if 'title' in single_contributor:
+                    contributor['title'] = single_contributor['title'].encode('utf-8')
+                else:
+                    contributor['title'] = "None"
+                if 'familyName' in single_contributor:
+                    contributor['familyName'] = \
+                        single_contributor['familyName'].encode('utf-8')
+                else:
+                    contributor['familyName'] = "NA"
+                if 'givenName' in single_contributor:
+                    contributor['givenName'] = \
+                        single_contributor['givenName'].encode('utf-8')
+                else:
+                    contributor['givenName'] = "NA"
+                if 'functionOrRole' in single_contributor:
+                    contributor['role'] = \
+                        single_contributor['functionOrRole'].encode('utf-8')
+                else:
+                    contributor['role'] = "NA"
+                if 'subject' in single_contributor:
+                    contributor['rdfURI'] = \
+                        single_contributor['subject'].encode('utf-8')
+                if 'gndIdentifier' in single_contributor:
+                    contributor['gnd'] = \
+                        single_contributor['gndIdentifier'].encode('utf-8')
+                else:
+                    contributor['gnd'] = "NA"
+                if 'mbox' in single_contributor:
+                    contributor['email'] = single_contributor['mbox']
+
+                contributors.append(contributor)
+
+        project_data = {"name": name, "status": status, 
+                            "abstract": abstract, "webURI": webURI, 
+                            "rdfURI": rdfURI, 
+                            "shortname": shortname, 
+                            'descriptions': descriptions,
+                            'topics': topics,
+                            'languages': languages,
+                            'publishing_formats': publishing_formats,
+                            'life_span': life_span,
+                            'contributors': contributors,
+                            #"projectType": projectType, 
+                            #"projectDefinition": projectDefinition, 
+                            #"indexingProgress": indexingProgress, 
+                            #"projectLastIndex": projectLastIndex, 
+                            #"indexingComment": indexingComment,
+                        }
+        logger.debug('%s', project_data)
+
+    except Exception, e:
+        logger.exception('Error in metadata processing: %s, %s', 
+                    rdfURI, response.url)
+        raise
+        #XXX ToDo: render error page
+
+
+
+    return render_to_response('status_details.html', project_data)

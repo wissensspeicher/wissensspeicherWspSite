@@ -17,7 +17,7 @@
 				<th></th>
 				<th>Typ</th>
 				<th>Projektstatus</th>
-				<th>Status</th>
+				<th>Indexierungsstatus</th>
 				<th>Letzte Indexierung</th>
 				<th>Art der Ressourcen</th>
 			</tr>
@@ -52,7 +52,7 @@
 				{% endif %} 
 			>
 				<td title="{{ single_project.rdfURI }}">{{ single_project.name}}</td>
-				<td style="min-width: 50px;"><a href="..{% url 'search' %}?query=*&amp;project={{ single_project.projectShortname}}"><i class="icon-search" title="Suche"></i></a> <a href="{{ single_project.webURI}}"><i class="icon-home" title="Zur Homepage"></i></a> <a href="?project={{ single_project.rdfURI }}"><i class="icon-info" title="Mehr Informationen (Noch nicht implementiert)"></i></a></td>
+				<td style="min-width: 50px;"><a href="..{% url 'search' %}?query=*&amp;project={{ single_project.projectShortname}}"><i class="icon-search" title="Suche"></i></a> <a href="{{ single_project.webURI}}"><i class="icon-home" title="Zur Homepage"></i></a> <a href="details/?rdfURI={{ single_project.rdfURI }}"><i class="icon-info" title="Mehr Informationen (Noch nicht implementiert)"></i></a></td>
 				<td>{{ single_project.projectType }}</td>
 				<td>{{ single_project.status}}</td>
 				<td title="{{ single_project.indexingComment }}">{{ single_project.indexingProgress}}</td>

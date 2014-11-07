@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block status %}
+
+<div class="span12">
+<h2>{{ name }}</h2>
+<p><a href="../..{% url 'search' %}?query=*&amp;project={{ shortname }}"><i class="icon-search"></i> Suche nach allen digitalen Ressourcen dieses Projekts</a></p>
+<dl>
+<dt><i class="icon-home"></i> Homepage</dt>
+<dd><a href="{{ webURI }}" title="Zur Homepage">{{ webURI }}</a></dd>
+</dl>
+<dl>
+<dt><i class="icon-align-left"></i> Beschreibung/Abstract</dt>
+<dd><p>{{ abstract }}</p></dd>
+</dl>
+<dl>
+<dt><i class="icon-star-empty"></i> Typ</dt>
+{% for single_description in descriptions %}<dd>{{ single_description }}</dd>{% endfor %}
+</dl>
+<dl>
+<dt><i class="icon-tags"></i> Themen</dt>
+{% for single_topic in topics %}<dd>{{ single_topic }}</dd>{% endfor %}
+</dl>
+<dl>
+<dt><i class="icon-comment-alt"></i> Sprachen</dt>
+{% for single_language in languages %}<dd>{{ single_language }}</dd>{% endfor %}
+</dl>
+<dl>
+<dt><i class="icon-file-alt"></i> Veröffentlichungsformate</dt>
+{% for format in publishing_formats %}<dd>{{ format }}</dd>{% endfor %}
+</dl>
+<dl>
+<dt><i class="icon-calendar"></i> Laufzeit</dt>
+<dd>{{ life_span|join:" ‐ "}}, {{ status }}</dd>
+</dl>
+<dl>
+<h3><i class="icon-female"></i><i class="icon-male"></i> Mitarbeiter</h3>
+{% if not 'NA' in contributors|first %}
+<dl>
+	{% for contributor in contributors %}
+	<dt>{% if not 'None' in contributor.title %}{{ contributor.title }} {% endif %}{{ contributor.givenName }} {{ contributor.familyName }}</dt>
+	<dd>{{ contributor.role }}</dd>
+	{% if contributor.gnd %}<dd><small><a href="{{ contributor.gnd }}" title="Link zum GND-Eintrag der DNB">{{ contributor.gnd }}</a></small></dd>{% endif %}
+	{% if contributor.email %}<dd><small>{{ contributor.email }}</small></dd>{% endif %}
+	<dd><small>{{ contributor.rdfURI }}</small></dd>
+	<dd><small><a href="../..{% url 'search' %}?query=*&amp;author={{ contributor.familyName }}, {{ contributor.givenName }}"><i class="icon-search"></i> Suche digitalen Ressourcen dieseR MitarbeiterIn</a></small></dd>
+	{% endfor %}
+</dl>
+{% else %}
+<p>NA</p>
+{% endif %}
+<dl>
+<dt><i class="icon-barcode"></i> RDF-URI</dt>
+<dd>{{ rdfURI }}</dd>
+</dl>
+<dl>
+<dt></dt>
+<dd></dd>
+</dl>
+</div>
+
+
+{% endblock %}

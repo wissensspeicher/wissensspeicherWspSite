@@ -404,7 +404,7 @@ def search(request):
             # response.raise_for_status()
             try:
                 response = requests.get(rdfURL, params=request_options_rdf, 
-                    timeout=2)
+                    timeout=1.6)
                 if not response.ok or not response.text:
                     logger.warning('Problem with QueryMdSystem request: %s', 
                         response.url)
@@ -415,7 +415,7 @@ def search(request):
             except UnicodeEncodeError, error:
                 continue
             except requests.exceptions.Timeout:
-                logger.warning('Timeout: %s', response.url)
+                logger.warning('Timeout: %s', projekt["rdfURI"])
 
             try:
                 projektMetadaten = simplejson.loads(response.text)
