@@ -100,6 +100,25 @@
 </div>
 
 <div id="knowledge-browsing" class="col-md-5">
+    <div id="kb" role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#erkunden" aria-controls="home" role="tab" data-toggle="tab">Erkunden</a></li>
+            <li role="presentation"><a href="#vorhaben" aria-controls="profile" role="tab" data-toggle="tab">Vorhaben</a></li>
+            <li role="presentation"><a href="#personen" aria-controls="messages" role="tab" data-toggle="tab">Personen</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="erkunden">
+                <div id="erkunden-content">
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="vorhaben">
+            
+            </div>
+            <div role="tabpanel" class="tab-pane" id="personen">
+
+            </div>
+        </div>
+    </div>
     <div id="eingrenzung">
         <form id="facetted-search" action="/search/">
             <input type="hidden" name="query" value="{{ search_term }}">
