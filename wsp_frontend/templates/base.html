@@ -272,25 +272,35 @@
         if (document.getElementById('kb')) {
         	console.log("Generating options for Knowledge-Browsing");
 
-        	var json = {"searchTerm":"Haus","facets":{"mainEntities":[{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Berlin%22","score":1,"label":"Berlin","language":"ger","type":"place","uriGnd":"http://d-nb.info/gnd/4005728-8","uri":"http://de.dbpedia.org/resource/Berlin"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Deutsche_Forschungsgemeinschaft%22","score":0.9,"label":"Deutsche Forschungsgemeinschaft","language":"ger","type":"concept","uriGnd":"http://d-nb.info/gnd/2007744-0","uri":"http://de.dbpedia.org/resource/Deutsche_Forschungsgemeinschaft"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Horst_Bredekamp%22","score":0.75,"label":"Bredekamp, Horst","language":"ger","type":"person","uriGnd":"http://d-nb.info/gnd/12085452X","uri":"http://de.dbpedia.org/resource/Horst_Bredekamp"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Dieter_Simon%22","score":0.59411764,"label":"Dieter Simon","language":"ger","type":"concept","uri":"http://de.dbpedia.org/resource/Dieter_Simon"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Gottfried_Wilhelm_Leibniz%22","score":0.9577465,"label":"Leibniz, Gottfried Wilhelm","language":"ger","type":"person","uriGnd":"http://d-nb.info/gnd/118571249","uri":"http://de.dbpedia.org/resource/Gottfried_Wilhelm_Leibniz"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Technische_Universit%C3%A4t_Berlin%22","score":0.7588235,"label":"Technische Universität Berlin","language":"ger","type":"concept","uriGnd":"http://d-nb.info/gnd/4005079-8","uri":"http://de.dbpedia.org/resource/Technische_Universit%C3%A4t_Berlin"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Harvard_University%22","score":0.7352941,"label":"Harvard University","language":"ger","type":"concept","uriGnd":"http://d-nb.info/gnd/2012974-9","uri":"http://de.dbpedia.org/resource/Harvard_University"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/London%22","score":0.6783489,"label":"London","language":"ger","type":"place","uriGnd":"http://d-nb.info/gnd/4074335-4","uri":"http://de.dbpedia.org/resource/London"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Paris%22","score":0.6409657,"label":"Paris","language":"ger","type":"place","uriGnd":"http://d-nb.info/gnd/4044660-8","uri":"http://de.dbpedia.org/resource/Paris"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Freie_Universit%C3%A4t_Berlin%22","score":0.6529412,"label":"Freie Universität Berlin","language":"ger","type":"concept","uriGnd":"http://d-nb.info/gnd/2114189-7","uri":"http://de.dbpedia.org/resource/Freie_Universit%C3%A4t_Berlin"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Universit%C3%A4t_Z%C3%BCrich%22","score":0.6,"label":"Universität Zürich","language":"ger","type":"concept","uri":"http://de.dbpedia.org/resource/Universit%C3%A4t_Z%C3%BCrich"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Frankfurter_Allgemeine_Zeitung%22","score":0.59411764,"label":"Frankfurter Allgemeine Zeitung","language":"ger","type":"concept","uriGnd":"http://d-nb.info/gnd/4155156-4","uri":"http://de.dbpedia.org/resource/Frankfurter_Allgemeine_Zeitung"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Wissenschaft%22","score":0.59411764,"label":"Wissenschaft","language":"ger","type":"concept","uriGnd":"http://d-nb.info/gnd/4066562-8","uri":"http://de.dbpedia.org/resource/Wissenschaft"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Deutsche_Akademie_der_Naturforscher_Leopoldina%22","score":0.57058823,"label":"Deutsche Akademie der Naturforscher Leopoldina","language":"ger","type":"concept","uriGnd":"http://d-nb.info/gnd/35672-4","uri":"http://de.dbpedia.org/resource/Deutsche_Akademie_der_Naturforscher_Leopoldina"},{"uriFulltextQuery":"http://192.168.1.203/wspCmsWebApp/query/QueryDocuments?query=entitiesUris:%22http://de.dbpedia.org/resource/Aristoteles%22","score":0.68309855,"label":"Aristoteles","language":"ger","type":"person","uriGnd":"http://d-nb.info/gnd/118650130","uri":"http://de.dbpedia.org/resource/Aristoteles"}]},"numberOfHits":"4845","sizeTotalTerms":"3216830","sizeTotalDocuments":"1267235"}
-        	
-        	var ul = document.getElementById('erkunden-content').appendChild(document.createElement('ul'));
-        	ul.className = "list-inline";
-        	for (var i = 0; i < json.facets.mainEntities.length; i++) {
-        		var kbItem = json.facets.mainEntities[i]
-        		var li = ul.appendChild(document.createElement("li"));
-        		var liLink = document.createElement('a');
-        		liLink.appendChild(document.createTextNode(kbItem.label));
-        		liLink.href = "#"
-        		liLink.title = kbItem.uriGnd;
-        		liLink.className = kbItem.type;
-        		li.appendChild(liLink);
-        		console.log(liLink);
-        	};
+        	$.ajax({
+        		type: 'GET',
+        		url: 'http://192.168.1.203:8080/wspCmsWebApp/query/QueryDocuments',
+        		data: ({'outputFormat': 'json', 'outputOptions': 'showMainEntitiesFacet', 'query': '{{ search_term|safe }}' }),
+        		dataType: 'json',
+        		success: function(json) {
+        			console.log(this.url);
+        			var ul = document.getElementById('erkunden-content').appendChild(document.createElement('ul'));
+		        	ul.className = "list-inline";
+		        	for (var i = 0; i < json.facets.mainEntities.length; i++) {
+		        		var kbItem = json.facets.mainEntities[i]
+		        		var li = ul.appendChild(document.createElement("li"));
+		        		var liLink = document.createElement('a');
+		        		liLink.appendChild(document.createTextNode(kbItem.label));
+		        		liLink.href = '../search?query=' + kbItem.label;
+		        		liLink.title = kbItem.uriGnd;
+		        		liLink.className = kbItem.type;
+		        		li.appendChild(liLink);
+        			};
+					return json;
+        		},
+    			error: function(textStatus) {
+    				console.log("Error with AJAX-Request");
+    				console.log(this.url);
+    				console.log(textStatus);
+    			}
+    		});
+    	};
 
-    	}
-
-        //console.log($.ajax("http://192.168.1.203:8080/wspCmsWebApp/query/QueryDocuments?query=Weizenbier&outputFormat=json&outputOptions=showMainEntitiesFacet"));
         /*$("#zusatzZeigen").click(function() {
             if ($(".zusatz").filter(":visible"))
             $(".zusatz:hidden").show()
@@ -304,8 +314,8 @@
     <script src="/static/js/colorbox/jquery.colorbox-min.js"></script>
     <script src="/static/js/script.js"></script> -->
     <script src="/static/js/jquery.peity.min.js"></script>
-	<script src="/static/js/d3.js"></script>
-    <script src="/static/js/nv.d3.js"></script>
+	<!--<script src="/static/js/d3.js"></script>
+    <script src="/static/js/nv.d3.js"></script>-->
     <script src="/static/js/jquery.dataTables.min.js"></script>
     <script src="/static/js/dataTables.bootstrap.js"></script>
 
