@@ -50,10 +50,10 @@
             <p class="zusatzClick">Weitere Informationen zu diesem Suchtreffer</p>
             <div class="metadata">
                 <ul class="project list-inline">
-                    <li><i class="icon-beaker" title="Vorhaben"></i></li>
+                    <li><i class="icon-home" title="Vorhaben"></i></li>
                     <li><a href="{{single_treffer.collectionURL}}" title="Zur Homepage des Projekts"><b>{{ single_treffer.collectionName }}</b></a></li>
                     <li class="zusatz">{% with projektDaten=projektMetadaten|get_item:single_treffer.projectRdfURI %}{{ projektDaten.abstract}}{% endwith %}</li>
-                    <li class="zusatz">{% with projektDaten=projektMetadaten|get_item:single_treffer.projectRdfURI %}(Status: {{ projektDaten.status}}){% endwith %}</li>
+                    <li class="zusatz">{% with projektDaten=projektMetadaten|get_item:single_treffer.projectRdfURI %}Projektstatus: {{ projektDaten.status}}{% endwith %}</li>
                 </ul>
                 {% if single_treffer.relevantPersons %}
                 <ul class="persons list-inline zusatz">
@@ -69,6 +69,16 @@
                     <li><i class="icon-map-marker"></i></li>
                     {% for place in single_treffer.places|slice:":8" %}
                     <li>{{ place.place }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+
+                {% if single_treffer.entities %}
+                <ul class="places list-inline zusatz" title="Themen dieser Ressource">
+                    <li><i class="icon-book"></i></li>
+                    {% for entity in single_treffer.entities %}
+                    <li title="{% if entity.GND %} {{ entity.GND }} {% else %} {{ entity.dbpediaURI }} {% endif %}">{{ entity.label }}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}

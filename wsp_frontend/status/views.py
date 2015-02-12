@@ -331,3 +331,19 @@ def status_details(request):
 
 
     return render_to_response('status_details.html', project_data)
+
+#def getMetadataValue(metadata, key):
+#    
+#    try:
+#        data = metadata[key]
+#        if isinstance(data, list):
+#            pass
+#        if isinstance(data, dict):
+#            pass
+#
+#
+#    except KeyError, error:
+#        logger.exception('Error in metadata processing')
+#        return 'NA'
+
+

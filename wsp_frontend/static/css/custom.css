@@ -28,25 +28,27 @@
 }
 
 #knowledge-browsing button {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 img.format {
     float:left;
-    margin-right:20px;
+    margin-right: 8px;
 }
 
 h2{
     font-size:16px;
     line-height:21px;
-    font-weight: bold;
-    margin: 0 0 20px 0;
+    font-weight: 600;
+    margin: 0 0 12px 0;
 }
 h3{
     font-size:18px;
     font-weight:normal;
     line-height:21px;
-    margin-top:0;
+    margin-top: -3px;
+    margin-left: 24px;
+    font-weight: 600;
 }
 
 .search-result {
@@ -67,7 +69,7 @@ h3{
   padding: 0px 6px;
   margin-bottom: 8px;
   font-size: 13px;
-  border-left: 5px solid rgb(200, 200, 200);
+  border-left: 2px solid rgb(200, 200, 200);
   /*background-color: #eee;*/
 }
 
@@ -110,7 +112,7 @@ h3{
     /*height:0;*/
     margin:0 -20px -26px -20px;
     overflow:hidden;
-    padding:0 10px;
+    padding: 5px 10px;
     position:relative;
     transition:all 0.3s ease;
     z-index:10;
@@ -138,11 +140,11 @@ h3{
 }
 
 .nav.nav-tabs {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .tab-content {
-  height: 16em;
+  min-height: 12em;
   border: 1px solid rgb(221, 221, 221);
   border-top: 0px;
   padding: 8px 15px 8px 15px;
@@ -152,7 +154,7 @@ h3{
 #eingrenzung {
   /*background: #f0f0f0;*/
   margin-bottom: 20px;
-  padding:20px;
+  padding: 10px 15px;
   border: 1px solid rgb(221,221,221);
 }
 
@@ -171,7 +173,12 @@ body {
     background:#fff url(../img/white_wall_hash.png) left top repeat;
     position:relative;
     max-width:1680px;
+    font-family: "Exo 2", "Helvetica Neue", "Helvetica", "Segoe UI", "Arial", sans-serif;
     }
+
+b, strong {
+  font-weight: 600;
+}
 
 a:link {
     color:#c60c30;
@@ -216,10 +223,6 @@ h1 a:focus {
     outline: thin dotted;
     }
 
-ul, ol{
-    margin:0;
-}
-
 #content {
     padding: 9px;
     background-color:#e6e6e6;
@@ -230,7 +233,6 @@ ul, ol{
 #query {
     border-radius:3px;
     }
-
 
 ::-moz-selection { background: #ff6005; }
 ::selection { background: #ff6005; }
@@ -266,7 +268,7 @@ ul, ol{
 
 .preview li, .persons li, .places li, .project li {
     display: inline;
-    margin: 0;
+    margin: 5px 0 0 0;
     padding: 0 .6em 0 0 !important;
     font-size:13px;
     }
@@ -315,8 +317,16 @@ ul, ol{
 
 .metadata .zusatz {
   display: none;
+  margin-bottom: 5px;
 }
 
+/* nth-child(2) is quite specifically aimed at the current structure of   */
+/* HTML. Should the structure of .metadata change, this needs adaptation. */
+.metadata ul.zusatz:nth-child(2) {
+  border-top: 1px solid #fff;
+  padding-top: 5px;
+  margin-top: 5px;
+}
 
 .front_stat {
 height: 290px;

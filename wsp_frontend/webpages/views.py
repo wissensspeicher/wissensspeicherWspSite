@@ -225,6 +225,7 @@ def search(request):
             i = {}
             i["relevantPersons"] = []
             i["places"] = []
+            i["entities"] = []
             i["docId"] = "none"
             i["projectRdfURI"] = ""
 
@@ -330,6 +331,26 @@ def search(request):
                 # print "KeyError places " + i["docId"]
                 # print "KeyError places"
                 pass
+
+            # Parse list of DBpedia spotlight entities
+            try:
+                for entity in single_treffer["entities"]:
+                    entityLabel = entity["label"]
+                    entityType = entity["type"]
+                    entityDBpediaURI = entity["uri"]
+                    if "uriGnd" in entity:
+                        entityGND = entity["uriGnd"]
+                    else:
+                        entityGND = ""
+                    i["entities"].append({"label": entityLabel, 
+                        "type": entityType, "dbpediaURI": entityDBpediaURI,
+                        "GND": entityGND })
+                    logger.debug({"label": entityLabel, 
+                        "type": entityType, "dbpediaURI": entityDBpediaURI,
+                        "GND": entityGND })
+            except KeyError, e:
+                logger.exception('Error in entity parsing')
+
             #
             # Duplikate aus Personen- und Ortslisten entfernen
             #

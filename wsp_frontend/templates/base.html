@@ -15,6 +15,7 @@
 	<link href="{% get_static_prefix %}css/nv.d3.css" rel="stylesheet" type="text/css">
     <!--<link href="{% get_static_prefix %}css/style.css" rel="stylesheet">-->
     <link href="{% get_static_prefix %}css/colorbox.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Exo+2:400,400italic,600,600italic,500,500italic,200,200italic,300italic,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 </head>
@@ -287,7 +288,11 @@
 		        		var liLink = document.createElement('a');
 		        		liLink.appendChild(document.createTextNode(kbItem.label));
 		        		liLink.href = '../search?query=' + kbItem.label;
-		        		liLink.title = kbItem.uriGnd;
+		        		if (kbItem.uriGnd) {
+		        			liLink.title = kbItem.uriGnd;
+		        		} else {
+		        			liLink.title = kbItem.uri;
+		        		}
 		        		liLink.className = kbItem.type;
 		        		li.appendChild(liLink);
         			};
