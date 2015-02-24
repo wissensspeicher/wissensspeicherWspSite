@@ -11,35 +11,35 @@ import logging
 from show import show
 
 # set up logging
-#logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-#handler = logging.FileHandler('site.log')
-#handler.setLevel(logging.DEBUG)
+# handler = logging.FileHandler('site.log')
+# handler.setLevel(logging.DEBUG)
 
-#formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - '
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - '
 #    '%(message)s')
-#handler.setFormatter(formatter)
+# handler.setFormatter(formatter)
 
-#logger.addHandler(handler)
+# logger.addHandler(handler)
 
-# Set logging information for the requests module to WARNING only, otherwise 
+# Set logging information for the requests module to WARNING only, otherwise
 # we get lots of trivial connection information
-#logging.getLogger("requests").setLevel(logging.WARNING)
+# logging.getLogger("requests").setLevel(logging.WARNING)
 
 # Dictionary for conversion of language codes to full languagen names.
 # (ISO 639-3 specifier)
 # XXX possibly use <https://github.com/LuminosoInsight/langcodes>
 languages = {
-    #"ger": "german",
-    #"eng": "english",
-    #"fra": "france",
-    #"lat": "latin",
-    #"grc": "greek",
-    #"ara": "arabic",
-    #"ita": "italian",
-    #"nld": "dutch",
-    #"zho": "chinese",
+    # "ger": "german",
+    # "eng": "english",
+    # "fra": "france",
+    # "lat": "latin",
+    # "grc": "greek",
+    # "ara": "arabic",
+    # "ita": "italian",
+    # "nld": "dutch",
+    # "zho": "chinese",
     "ger": u"Deutsch",
     "eng": u"Englisch",
     "fra": u"Französisch",
@@ -60,8 +60,8 @@ ressourceTypes = {"application/pdf": "pdf",
 base_url = "http://wspdev.bbaw.de"
 
 
-# View for start page. The simple search request for 'a' is only used in order 
-# to receive and subsequently show the total number of indexed 
+# View for start page. The simple search request for 'a' is only used in order
+# to receive and subsequently show the total number of indexed
 # documents/resources.
 def hello_world(request):
 
@@ -73,7 +73,8 @@ def hello_world(request):
     try:
         data = simplejson.loads(reply)
     except:
-        print "Fehler beim JSON-Parsing\n" + reply
+        logger.exception("Fehler beim JSON-Parsing")
+        logger.exception(reply)
         # XXX ToDO: Fehlerpage rendern! LOGGING!
 
     totalDocuments = data["sizeTotalDocuments"]
@@ -101,7 +102,7 @@ def search(request):
     except KeyError, e:
         pass
 
-    # Important: every part of request.GET needs to be converted to a string, 
+    # Important: every part of request.GET needs to be converted to a string,
     # conversion of utf-8 --> python2-string
     if 'query' in request.GET:
         querydata = request.GET['query']
@@ -111,7 +112,7 @@ def search(request):
         # If no search query was entered, the empty search form is shown.
         if original_query == "":
             print "Empty Query"
-            #LOGGING!
+            # LOGGING!
             return render(request, 'search_form.html')
 
     logger.info('query: %s', querydata)
@@ -121,8 +122,8 @@ def search(request):
         querydata += ' author:("' + \
             '"" '.join(request.GET.getlist('author')).encode('utf-8') + '")'
 
-        # To enable navigation and results browsing selected facettes are 
-        # saved in query_parameters. A matching URL is generated in the 
+        # To enable navigation and results browsing selected facettes are
+        # saved in query_parameters. A matching URL is generated in the
         # template.
         query_parameters += '&author=' + \
             '&author='.join(request.GET.getlist('author'))
@@ -132,8 +133,8 @@ def search(request):
         querydata += ' collectionNames:(' + \
             ' '.join(request.GET.getlist('project')).encode('utf-8') + ')'
 
-        # To enable navigation and results browsing selected facettes are 
-        # saved in query_parameters. A matching URL is generated in the 
+        # To enable navigation and results browsing selected facettes are
+        # saved in query_parameters. A matching URL is generated in the
         # template.
         query_parameters += '&project=' + \
             '&project='.join(request.GET.getlist('project'))
@@ -143,8 +144,8 @@ def search(request):
         querydata += ' language:(' + \
             ' '.join(request.GET.getlist('language')).encode('utf-8') + ')'
 
-        # To enable navigation and results browsing selected facettes are 
-        # saved in query_parameters. A matching URL is generated in the 
+        # To enable navigation and results browsing selected facettes are
+        # saved in query_parameters. A matching URL is generated in the
         # template.
         query_parameters += '&language=' + \
             '&language='.join(request.GET.getlist('language'))
@@ -166,20 +167,20 @@ def search(request):
 
     # Check if a certain page from the set of search results is requested.
     if "page" in request.GET:
-        # Cast to integer, in order to make the calculation of the current page 
+        # Cast to integer, in order to make the calculation of the current page
         # work (see further below).
         page = int(request.GET['page'])
 
-    #base_url = "http://wspdev.bbaw.de"
-    #base_url = "http://192.168.1.199:8080" # Marco
-    #base_url = "http://192.168.1.203:8080" # Josef
+    # base_url = "http://wspdev.bbaw.de"
+    # base_url = "http://192.168.1.199:8080" # Marco
+    # base_url = "http://192.168.1.203:8080" # Josef
 
-    request_options = {'query': querydata, 'outputFormat': 'json', 
-                        'page': page, 'pagesize': pagesize, 
-                        'translate': str(translateQuery).lower(), 
-                        'queryLanguage': 'gl'}
+    request_options = {'query': querydata, 'outputFormat': 'json',
+                       'page': page, 'pagesize': pagesize,
+                       'translate': str(translateQuery).lower(),
+                       'queryLanguage': 'gl'}
 
-    if morphologicalSearch == True:
+    if morphologicalSearch is True:
         request_options['fieldExpansion'] = "allMorph"
 
     url = base_url + "/wspCmsWebApp/query/QueryDocuments?"
@@ -187,7 +188,7 @@ def search(request):
     # XXX moreLikeThis ist noch ein ziemlicher Hack! Die URL/IP muss hier auch
     # noch angepasst werden (Josefs Installation bzw. wspdev kann das noch
     # nicht!
-    if more_like_this == True:
+    if more_like_this is True:
         url = base_url + "/wspCmsWebApp/query/MoreLikeThis?docId=" + \
             querydata + "&outputFormat=json"
         request_options = {}
@@ -207,7 +208,6 @@ def search(request):
         print "Fehler beim JSON-Parsing\n" + reply
         # XXX ToDO: Fehlerpage rendern! LOGGING
 
-    
     results["personList"] = []
     results["search_term"] = original_query
     results["search_term"] = \
@@ -229,7 +229,7 @@ def search(request):
             i["docId"] = "none"
             i["projectRdfURI"] = ""
 
-            # Numbering of search results (JSON provided by queryDocuments 
+            # Numbering of search results (JSON provided by queryDocuments
             # contains no numbering)
             # 1 is added, because 'j' is initially zero
             i["hitNumber"] = (page - 1) * pagesize + j + 1
@@ -303,9 +303,11 @@ def search(request):
             try:
                 for single_person in single_treffer["persons"]:
                     person = {
-                        "name": "Testname", "url": "http://example.org", "role": "unknown"}
-                    person = {"name": single_person["name"], "url": single_person[
-                        "referenceAbout"], "role": single_person["role"]}
+                        "name": "Testname", "url": "http://example.org",
+                        "role": "unknown"}
+                    person = {"name": single_person["name"],
+                              "url": single_person["referenceAbout"],
+                              "role": single_person["role"]}
                     i["relevantPersons"].append(person)
                     if not person["role"] == "editor":
                         results["personList"].append(person["name"])
@@ -322,9 +324,10 @@ def search(request):
             try:
                 for single_place in single_treffer["places"]:
                     place = {
-                        "place": "Beispielshausen", "url": "http://example.org"}
-                    place = {"place": single_place[
-                        "name"], "url": single_place["link"]}
+                            "place": "Beispielshausen",
+                            "url": "http://example.org"}
+                    place = {"place": single_place["name"],
+                             "url": single_place["link"]}
                     i["places"].append(place)
                     # print place
             except KeyError, e:
@@ -342,28 +345,35 @@ def search(request):
                         entityGND = entity["uriGnd"]
                     else:
                         entityGND = ""
-                    i["entities"].append({"label": entityLabel, 
-                        "type": entityType, "dbpediaURI": entityDBpediaURI,
-                        "GND": entityGND })
-                    logger.debug({"label": entityLabel, 
-                        "type": entityType, "dbpediaURI": entityDBpediaURI,
-                        "GND": entityGND })
+                    i["entities"].append({"label": entityLabel,
+                                          "type": entityType,
+                                          "dbpediaURI": entityDBpediaURI,
+                                          "GND": entityGND})
+                    logger.debug({"label": entityLabel, "type": entityType,
+                                  "dbpediaURI": entityDBpediaURI,
+                                  "GND": entityGND})
             except KeyError, e:
-                logger.exception('Error in entity parsing')
+                logger.exception('Error in entity parsing (DBpedia spotlight \
+                                 entities')
+                logger.exception(single_treffer)
 
             #
             # Duplikate aus Personen- und Ortslisten entfernen
             #
 
             newlist = []
-            for person_entry in sorted(i["relevantPersons"], key=lambda elt: elt["name"]):
-                if newlist == [] or person_entry["name"] != newlist[-1]["name"]:
+            for person_entry in sorted(i["relevantPersons"],
+                                       key=lambda elt: elt["name"]):
+                if newlist == [] or person_entry["name"] != \
+                                    newlist[-1]["name"]:
                     newlist.append(person_entry)
             i["relevantPersons"] = newlist
 
             newlist = []
-            for place_entry in sorted(i["places"], key=lambda elt: elt["place"]):
-                if newlist == [] or place_entry["place"] != newlist[-1]["place"]:
+            for place_entry in sorted(i["places"],
+                                      key=lambda elt: elt["place"]):
+                if newlist == [] or place_entry["place"] != \
+                                    newlist[-1]["place"]:
                     newlist.append(place_entry)
             i["places"] = newlist
             # print "E: " + i["docId"] + "   " + i["type"]
@@ -384,7 +394,7 @@ def search(request):
             projectCount = single_project["count"]
             projectRDFUri = single_project["rdfUri"]
             project = {"project": projectName, "count": projectCount,
-                       "rdfURI": projectRDFUri, 
+                       "rdfURI": projectRDFUri,
                        "projectShortname": projectShortname}
             results["projectFacet"].append(project)
         for single_language in data["facets"]["language"]:
@@ -402,35 +412,35 @@ def search(request):
         treffer_save = []
         treffer_save = results["treffer"][:]
 
-
         # Anfrage der Projektmetadaten (für die Projekte in projekte)
         results["projektMetadaten"] = dict()
         rdfURL = "http://wspdev.bbaw.de" + "/wspCmsWebApp/query/QueryMdSystem"
-        #rdfURL = "http://192.168.1.199" + "/wspCmsWebApp/query/QueryMdSystem"
+        # rdfURL = "http://192.168.1.199" + "/wspCmsWebApp/query/QueryMdSystem"
 
         for projekt in results["projectFacet"]:
-            # Wenn es keine RDF URI gibt, dann muss der Triplestore auch nicht angefragt werden
+            # Wenn es keine RDF URI gibt, dann muss der Triplestore auch nicht
+            # angefragt werden
             # XXX Wie soll mit Projekten umgegangen werden, die keine RDF-URI
             # haben (edoc, wfe, bkvb, ...)
             if projekt["rdfURI"] == "none":
                 continue
 
-            logger.debug('Requesting Metadata for: %s', projekt["rdfURI"])
+            # logger.debug('Requesting Metadata for: %s', projekt["rdfURI"])
             request_options_rdf = {'detailedSearch': 'true', 'outputFormat':
-                                   'json', 'query': projekt["rdfURI"], 
+                                   'json', 'query': projekt["rdfURI"],
                                    'isProjectId': 'true'}
 
             # Request for project metadata (QueryMdSystem)
-            # XXX ToDo: Catch erros via response.ok or 
+            # XXX ToDo: Catch erros via response.ok or
             # response.raise_for_status()
             try:
-                response = requests.get(rdfURL, params=request_options_rdf, 
-                    timeout=1.6)
+                response = requests.get(rdfURL, params=request_options_rdf,
+                                        timeout=1.6)
                 if not response.ok or not response.text:
-                    logger.warning('Problem with QueryMdSystem request: %s', 
-                        response.url)
-                    logger.warning('HTTP Status Code: %s', 
-                        response.status_code)
+                    logger.warning('Problem with QueryMdSystem request: %s',
+                                   response.url)
+                    logger.warning('HTTP Status Code: %s',
+                                   response.status_code)
                     if response.ok:
                         logger.warning('Reply: %s', response.text)
             except UnicodeEncodeError, error:
@@ -452,35 +462,38 @@ def search(request):
                 projectShortname = projektMetadaten[rdfURI]['nick']
                 if 'abstract' in projektMetadaten[rdfURI]:
                     projectAbstract = projektMetadaten[rdfURI]['abstract']
-                    
 
                 if 'status' in projektMetadaten[rdfURI]:
                     projectStatus = projektMetadaten[rdfURI]['status']
 
                 # XXX ToDo:
-                # Die Metadaten zu den Projekten/Vorhaben in sinnvolle Datenstruktur überführen.
-                # Wie soll im Template darauf zugegriffen werden? Eventuell diese Daten direkt in
-                # entsprechende Facetten-Datenstruktur einfügen?
-                projektDaten = {"name": projectName, 
-                                "status": projectStatus, 
-                                "abstract": projectAbstract, 
-                                "webURI": webURI, "rdfURI": rdfURI, 
+                # Die Metadaten zu den Projekten/Vorhaben in sinnvolle
+                # Datenstruktur überführen.
+                # Wie soll im Template darauf zugegriffen werden? Eventuell
+                # diese Daten direkt in entsprechende Facetten-Datenstruktur
+                # einfügen?
+                projektDaten = {"name": projectName,
+                                "status": projectStatus,
+                                "abstract": projectAbstract,
+                                "webURI": webURI, "rdfURI": rdfURI,
                                 "projectShortname": projectShortname}
 
                 results["projektMetadaten"][projekt["rdfURI"]] = projektDaten
 
             except Exception, e:
-                logger.error('Error in metadata processing: %s, %s', 
-                    e.__class__.__name__, e)
+                logger.error('Error in metadata processing: %s, %s',
+                             e.__class__.__name__, e)
                 logger.error('rdfURI: %s', projekt['rdfURI'])
                 logger.error('Requested URL: %s', response.url)
 
         # Paginierung
-        # XXX Dokumentieren, wie genau die Seitennummerierung hier funktioniert!
-        # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
+        # XXX Dokumentieren, wie genau die Seitennummerierung hier
+        # XXX funktioniert!
+        # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der
+        # letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
         # XXX Muss genauer nachvollzogen werden.
-        for x in range(10, (results["number_of_hits"] + \
-                (int(results['number_of_hits']) % 10))):
+        for x in range(10, (results["number_of_hits"] + 
+                       (int(results['number_of_hits']) % 10))):
             treffer_list.append("TEST")
 
         paginator = Paginator(treffer_list, 10)
