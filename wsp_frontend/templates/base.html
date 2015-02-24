@@ -272,10 +272,10 @@
         // Knowledge-Browsing
         if (document.getElementById('kb')) {
         	console.log("Generating options for Knowledge-Browsing");
-
+            
         	$.ajax({
         		type: 'GET',
-        		url: 'http://192.168.1.203:8080/wspCmsWebApp/query/QueryDocuments',
+        		url: 'http://wspdev.bbaw.de/wspCmsWebApp/query/QueryDocuments',
         		data: ({'outputFormat': 'json', 'outputOptions': 'showMainEntitiesFacet', 'query': '{{ search_term|safe }}' }),
         		dataType: 'json',
         		success: function(json) {
@@ -304,6 +304,60 @@
     				console.log(textStatus);
     			}
     		});
+            
+            
+            //console.log("Marcos JSON")
+            $.ajax({
+                type: 'GET',
+                url: 'http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem',
+                data: ({'outputFormat': 'json', 'projectsTab': 'true', 'query': '{{ search_term|safe }}', 'detailedSearch': 'true' }),
+                dataType: 'json',
+                success: function(json) {
+                    console.log(this.url);
+                    var ul = document.getElementById('vorhaben-content').appendChild(document.createElement('ul'));
+                    ul.className = "list-inline";
+                    for (var i = 0; i < json.results.bindings.length; i++) {
+                        var kbItem = json.results.bindings[i]
+                        var li = ul.appendChild(document.createElement("li"));
+                        var liLink = document.createElement('a');
+                        liLink.appendChild(document.createTextNode(kbItem.name.value));
+                        liLink.href = kbItem.homepage.value;
+                        li.appendChild(liLink);
+                    };
+                    return json;
+                },
+                error: function(textStatus) {
+                    console.log("Error with AJAX-Request");
+                    console.log(this.url);
+                    console.log(textStatus);
+                }
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: 'http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem',
+                data: ({'outputFormat': 'json', 'projectsTabPersons': 'true', 'query': '{{ search_term|safe }}', 'detailedSearch': 'true' }),
+                dataType: 'json',
+                success: function(json) {
+                    console.log(this.url);
+                    var ul = document.getElementById('personen-content').appendChild(document.createElement('ul'));
+                    ul.className = "list-inline";
+                    for (var i = 0; i < json.results.bindings.length; i++) {
+                        var kbItem = json.results.bindings[i]
+                        var li = ul.appendChild(document.createElement("li"));
+                        var liLink = document.createElement('a');
+                        liLink.appendChild(document.createTextNode(kbItem.familyName.value + ", " + kbItem.givenName.value));
+                        liLink.href = kbItem.gndIdentifier.value;
+                        li.appendChild(liLink);
+                    };
+                    return json;
+                },
+                error: function(textStatus) {
+                    console.log("Error with AJAX-Request");
+                    console.log(this.url);
+                    console.log(textStatus);
+                }
+            });
     	};
 
         /*$("#zusatzZeigen").click(function() {
