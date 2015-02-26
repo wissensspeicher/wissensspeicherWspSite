@@ -345,13 +345,26 @@ def search(request):
                         entityGND = entity["uriGnd"]
                     else:
                         entityGND = ""
-                    i["entities"].append({"label": entityLabel,
-                                          "type": entityType,
-                                          "dbpediaURI": entityDBpediaURI,
-                                          "GND": entityGND})
-                    logger.debug({"label": entityLabel, "type": entityType,
-                                  "dbpediaURI": entityDBpediaURI,
-                                  "GND": entityGND})
+
+                    if entityType == "person":
+                        person = {"name": entityLabel,
+                                  "url": entityDBpediaURI,
+                                  "role": "mentioned",
+                                  "GND": entityGND}
+                        i["relevantPersons"].append(person)
+                    elif entityType == "place":
+                        place = {"place": entityLabel,
+                                 "url": entityDBpediaURI,
+                                 "GND": entityGND}
+                        i["places"].append(place)
+                    else:
+                        i["entities"].append({"label": entityLabel,
+                                              "type": entityType,
+                                              "dbpediaURI": entityDBpediaURI,
+                                              "GND": entityGND})
+                    # logger.debug({"label": entityLabel, "type": entityType,
+                    #               "dbpediaURI": entityDBpediaURI,
+                    #               "GND": entityGND})
             except KeyError, e:
                 logger.exception('Error in entity parsing (DBpedia spotlight \
                                  entities')
@@ -501,7 +514,7 @@ def search(request):
         # print "paginator.count: " + str(paginator.count) # +
         # (int(results['number_of_hits']) % 10))
 
-        #page = request.GET.get("page")
+        # page = request.GET.get("page")
         # print page
 
         try:
@@ -529,8 +542,8 @@ def search(request):
         else:
             results["startTreffer"] = (page - 1) * pagesize + 1
 
-        # Auswertung der Personenlist um statistische Angaben zu gefundenen Personen machen zu können
-        # vgl.
+        # Auswertung der Personenlist um statistische Angaben zu gefundenen
+        # Personen machen zu können, vgl.
         # http://docs.python.org/dev/library/collections.html#counter-objects
         cnt = Counter()
         for word in results["personList"]:
@@ -545,7 +558,7 @@ def search(request):
     logger.info('query_parameters: %s', query_parameters)
 
     # Currently not used.
-    #if more_like_this == True:
+    # if more_like_this == True:
     #    return render_to_response('results-more-like-this.html', results)
 
     return render_to_response('results.html', results)
