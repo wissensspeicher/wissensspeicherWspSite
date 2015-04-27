@@ -27,7 +27,7 @@
         </fieldset>
     </form>
 </div>
-<div id="summary" class="col-md-12" style="margin-bottom: 20px">
+<div id="summary" class="col-md-12" style="margin-bottom: 35px">
     <p>{{ number_of_hits }} Treffer in {{ projectFacet|length }} Vorhaben/Projekten. Zeige Treffer {{ startTreffer }} – {{ endTreffer }}:</p>
 </div>
 
@@ -36,7 +36,7 @@
         {% for single_treffer in treffer %}
         <li class="search-result">
             <span id="hit{{ single_treffer.hitNumber }}">{{ single_treffer.hitNumber }}</span>
-            <img class="format" src="../static/img/document-{{ single_treffer.type}}.png" alt="File format: {{ single_treffer.type}}" title="{{ single_treffer.type}}">
+            <img class="format" src="../static/img/document-{{ single_treffer.type}}.png" alt="File format: {{ single_treffer.type}}" title="{% if single_treffer.type == "pdf" %}PDF{% elif single_treffer.type == "undefined" %}Web-Dokument{% endif %}">
             {% if single_treffer.author %}
             <h3><a href="{{ single_treffer.url }}" title="{{ single_treffer.collectionName }}: {{ single_treffer.title}}">{{single_treffer.author|join:", "}}: {{ single_treffer.title}}</a></h3>
             {% else %}
@@ -47,7 +47,7 @@
                 {% endfor %}
             {% endif %}
 
-            <p class="zusatzClick">Weitere Informationen zu diesem Suchtreffer</p>
+            <p class="zusatzClick">Weitere Informationen</p>
             <div class="metadata">
                 <ul class="project list-inline">
                     <li><i class="icon-home" title="Vorhaben"></i></li>
@@ -76,7 +76,7 @@
 
                 {% if single_treffer.entities %}
                 <ul class="places list-inline zusatz" title="Themen dieser Ressource">
-                    <li><i class="icon-book"></i></li>
+                    <li><i class="icon-tag"></i></li>
                     {% for entity in single_treffer.entities %}
                     <li title="{% if entity.GND %} {{ entity.GND }} {% else %} {{ entity.dbpediaURI }} {% endif %}">{{ entity.label }}</li>
                     {% endfor %}
@@ -135,7 +135,7 @@
         <form id="facetted-search" action="/search/">
             <input type="hidden" name="query" value="{{ search_term }}">
             <h2><!--<a class="statsPopup" href="#facetStats">-->Zusammensetzung der Suchergebnisse<!--</a>--></h2>
-            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter</button>
+            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter anwenden</button>
 
             <div class="form-group">
                 <legend>AutorInnen</legend>
@@ -149,7 +149,7 @@
                 <legend>Projekte/Vorhaben</legend>
                 {% for single_project in projectFacet %}
                 <div class="checkbox">
-                    <label><input type="checkbox" name="project" value="{{ single_project.projectShortname }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name}}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></label>
+                    <label><input type="checkbox" name="project" value="{{ single_project.projectShortname }}">{% with projektDaten=projektMetadaten|get_item:single_project.rdfURI %}{{ projektDaten.name }}{% endwith %}: {{ single_project.count }} <span class="pie">{{ single_project.count }}/{{ number_of_hits }}</span></label>
                 </div>
                 {% endfor %}
             </div>
@@ -161,7 +161,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter</button>
+            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter anwenden</button>
         </form>
     </div>
 

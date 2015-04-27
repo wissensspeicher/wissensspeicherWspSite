@@ -25,7 +25,7 @@
     <div>
             <h1><a href="../">Digitaler Wissensspeicher</a></h1>
             <div id="logo">
-            	<div class="pull-right"><img src="{% get_static_prefix %}img/bbaw_logo.png"></div>
+            	<div class="pull-right"><a href="http://www.bbaw.de" title="Zur Homepage der BBAW"><img src="{% get_static_prefix %}img/bbaw_logo.png"></a></div>
         	</div>
             {% block search_form %}{% endblock %}
             {% block results %}{% endblock %}
@@ -36,7 +36,7 @@
     <div id="footer">
     	<div class="container"><br>
     	<div class="pull-right" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">
-    	<img src="{% get_static_prefix %}img/dfg_logo-small.png" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">
+    	<a href="http://www.dfg.de"><img src="{% get_static_prefix %}img/dfg_logo-small.png" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)"></a>
     	</div>
     	<p class="muted">{{ totalDocuments }} digital resources indexed</p>
         </div>

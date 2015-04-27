@@ -5,9 +5,10 @@ from django.template import Template
 from django.utils import simplejson
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from collections import Counter  # used for statistic calculations
-import urllib
-import requests
+
 import logging
+import requests
+import urllib
 from show import show
 
 # set up logging
@@ -324,8 +325,8 @@ def search(request):
             try:
                 for single_place in single_treffer["places"]:
                     place = {
-                            "place": "Beispielshausen",
-                            "url": "http://example.org"}
+                        "place": "Beispielshausen",
+                        "url": "http://example.org"}
                     place = {"place": single_place["name"],
                              "url": single_place["link"]}
                     i["places"].append(place)
@@ -337,34 +338,37 @@ def search(request):
 
             # Parse list of DBpedia spotlight entities
             try:
-                for entity in single_treffer["entities"]:
-                    entityLabel = entity["label"]
-                    entityType = entity["type"]
-                    entityDBpediaURI = entity["uri"]
-                    if "uriGnd" in entity:
-                        entityGND = entity["uriGnd"]
-                    else:
-                        entityGND = ""
+                if 'entities' in single_treffer:
+                    for entity in single_treffer["entities"]:
+                        entityLabel = entity["label"]
+                        entityType = entity["type"]
+                        entityDBpediaURI = entity["uri"]
+                        if "uriGnd" in entity:
+                            entityGND = entity["uriGnd"]
+                        else:
+                            entityGND = ""
 
-                    if entityType == "person":
-                        person = {"name": entityLabel,
-                                  "url": entityDBpediaURI,
-                                  "role": "mentioned",
-                                  "GND": entityGND}
-                        i["relevantPersons"].append(person)
-                    elif entityType == "place":
-                        place = {"place": entityLabel,
-                                 "url": entityDBpediaURI,
-                                 "GND": entityGND}
-                        i["places"].append(place)
-                    else:
-                        i["entities"].append({"label": entityLabel,
-                                              "type": entityType,
-                                              "dbpediaURI": entityDBpediaURI,
-                                              "GND": entityGND})
-                    # logger.debug({"label": entityLabel, "type": entityType,
-                    #               "dbpediaURI": entityDBpediaURI,
-                    #               "GND": entityGND})
+                        if entityType == "person":
+                            person = {"name": entityLabel,
+                                      "url": entityDBpediaURI,
+                                      "role": "mentioned",
+                                      "GND": entityGND}
+                            i["relevantPersons"].append(person)
+                        elif entityType == "place":
+                            place = {"place": entityLabel,
+                                     "url": entityDBpediaURI,
+                                     "GND": entityGND}
+                            i["places"].append(place)
+                        else:
+                            i["entities"].append({"label": entityLabel,
+                                                  "type": entityType,
+                                                  "dbpediaURI":
+                                                  entityDBpediaURI,
+                                                  "GND": entityGND})
+                        # logger.debug({"label": entityLabel,
+                        #               "type": entityType,
+                        #               "dbpediaURI": entityDBpediaURI,
+                        #               "GND": entityGND})
             except KeyError, e:
                 logger.exception('Error in entity parsing (DBpedia spotlight \
                                  entities')
@@ -376,17 +380,17 @@ def search(request):
 
             newlist = []
             for person_entry in sorted(i["relevantPersons"],
-                                       key=lambda elt: elt["name"]):
+                                       key=lambda element: element["name"]):
                 if newlist == [] or person_entry["name"] != \
-                                    newlist[-1]["name"]:
+                        newlist[-1]["name"]:
                     newlist.append(person_entry)
             i["relevantPersons"] = newlist
 
             newlist = []
             for place_entry in sorted(i["places"],
-                                      key=lambda elt: elt["place"]):
+                                      key=lambda element: element["place"]):
                 if newlist == [] or place_entry["place"] != \
-                                    newlist[-1]["place"]:
+                        newlist[-1]["place"]:
                     newlist.append(place_entry)
             i["places"] = newlist
             # print "E: " + i["docId"] + "   " + i["type"]
@@ -402,6 +406,10 @@ def search(request):
             authorCount = single_author["count"]
             author = {"name": authorName, "count": authorCount}
             results["authorFacet"].append(author)
+
+        # Sort author list alphabetically
+        results["authorFacet"].sort(key=lambda element: element["name"])
+
         for single_project in data["facets"]["collectionNames"]:
             projectName = projectShortname = single_project["value"]
             projectCount = single_project["count"]
@@ -410,6 +418,10 @@ def search(request):
                        "rdfURI": projectRDFUri,
                        "projectShortname": projectShortname}
             results["projectFacet"].append(project)
+
+        # The project list is sorted later, because the full project names are
+        # only available after querying for metadata.
+
         for single_language in data["facets"]["language"]:
             languageID = single_language["value"]
             languageCount = single_language["count"]
@@ -420,6 +432,9 @@ def search(request):
             language = {"languageID": languageID, "count":
                         languageCount, "language": languageText}
             results["languageFacet"].append(language)
+
+        # Sort language list alphabetically
+        results["languageFacet"].sort(key=lambda element: element["language"])
 
         treffer_list = results["treffer"]
         treffer_save = []
@@ -438,7 +453,7 @@ def search(request):
             if projekt["rdfURI"] == "none":
                 continue
 
-            # logger.debug('Requesting Metadata for: %s', projekt["rdfURI"])
+            logger.debug('Requesting Metadata for: %s', projekt["rdfURI"])
             request_options_rdf = {'detailedSearch': 'true', 'outputFormat':
                                    'json', 'query': projekt["rdfURI"],
                                    'isProjectId': 'true'}
@@ -475,6 +490,9 @@ def search(request):
                 projectShortname = projektMetadaten[rdfURI]['nick']
                 if 'abstract' in projektMetadaten[rdfURI]:
                     projectAbstract = projektMetadaten[rdfURI]['abstract']
+                else:
+                    logger.warning('No abstract found for: %s',
+                                   projektMetadaten[rdfURI])
 
                 if 'status' in projektMetadaten[rdfURI]:
                     projectStatus = projektMetadaten[rdfURI]['status']
@@ -499,14 +517,32 @@ def search(request):
                 logger.error('rdfURI: %s', projekt['rdfURI'])
                 logger.error('Requested URL: %s', response.url)
 
+        # Assign full project names from metadata to project facet
+        # (needed for correct sorting of facet)
+        for i, project in enumerate(results["projectFacet"]):
+            try:
+                results["projectFacet"][i]["project"] = (
+                    results["projektMetadaten"]
+                    [results["projectFacet"][i]["rdfURI"]]["name"])
+            except KeyError, e:
+                logger.exception('Error while assigning full project ',
+                                 'names from metadata.')
+                logger.exception(e)
+
+        # Sort project facet
+        # XXX this doesn't sort german umlauts correctly (they get placed at
+        # the end of the list)
+        results["projectFacet"].sort(
+            key=lambda element: element["project"])
+
         # Paginierung
         # XXX Dokumentieren, wie genau die Seitennummerierung hier
         # XXX funktioniert!
         # XXX Die Addition von number_of_hits % 10 ist notwendig, um auf der
         # letzten Seite (z. B. 24 von 24) nicht eine Seite zu wenig anzuzeigen.
         # XXX Muss genauer nachvollzogen werden.
-        for x in range(10, (results["number_of_hits"] + 
-                       (int(results['number_of_hits']) % 10))):
+        for x in range(10, (results["number_of_hits"] +
+                            (int(results['number_of_hits']) % 10))):
             treffer_list.append("TEST")
 
         paginator = Paginator(treffer_list, 10)
