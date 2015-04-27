@@ -78,7 +78,7 @@
                 <ul class="places list-inline zusatz" title="Themen dieser Ressource">
                     <li><i class="icon-tag"></i></li>
                     {% for entity in single_treffer.entities %}
-                    <li title="{% if entity.GND %} {{ entity.GND }} {% else %} {{ entity.dbpediaURI }} {% endif %}">{{ entity.label }}</li>
+                    <li title="Suche nach &quot;{{ entity.label }}&quot;"><a href="?query={{ entity.label }}">{{ entity.label }}</a></li>
                     {% endfor %}
                 </ul>
                 {% endif %}
