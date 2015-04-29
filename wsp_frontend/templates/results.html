@@ -10,16 +10,16 @@
                 <div class="col-md-11">
                     <input type="text" name="query" id="query" autofocus class="form-control" value="{{ search_term }}">
                 </div>
-                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn btn-default">Search</button>
+                <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn btn-default">Suche</button>
             </div>
             <div class="form-group" id="search-options">
                 <div class="col-md-12">
                     <div class="checkbox">
                         <label for="translateCheck" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff automatisch übersetzen und mehrsprachig suchen">
-                            <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>Multilingual search
+                            <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>mehrsprachige Suche
                         </label>
                         <label for="morphologicalSearch" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff morphologisch analysieren und auch Stammformen finden" style="margin-left: 10px;">
-                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>Morphological search
+                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>morphologische Suche
                         </label>
                     </div>
                 </div>
