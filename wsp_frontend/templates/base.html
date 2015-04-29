@@ -263,6 +263,12 @@
 			});
 			{% endcomment %}
 
+            // Enable fancy tooltips for search options
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+
         });
 
         $(".zusatzClick").click(function() {

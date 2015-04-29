@@ -15,11 +15,11 @@
             <div class="form-group" id="search-options">
                 <div class="col-md-12">
                     <div class="checkbox">
-                        <label for="translateCheck" class="checkbox-inline">
-                            <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>Multilingual search <a href="#" style="font-size: .6em;">?</a>
+                        <label for="translateCheck" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff automatisch übersetzen und mehrsprachig suchen">
+                            <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>Multilingual search
                         </label>
-                        <label for="morphologicalSearch" class="checkbox-inline">
-                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>Morphological search <a href="#" style="font-size: .6em;">?</a>
+                        <label for="morphologicalSearch" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff morphologisch analysieren und auch Stammformen finden" style="margin-left: 10px;">
+                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>Morphological search
                         </label>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
         <form id="facetted-search" action="/search/">
             <input type="hidden" name="query" value="{{ search_term }}">
             <h2><!--<a class="statsPopup" href="#facetStats">-->Zusammensetzung der Suchergebnisse<!--</a>--></h2>
-            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter anwenden</button>
+            <button type="submit" id="filter-button" class="btn btn-default btn-block">{% if not query_parameters %}Filter anwenden{% else %}Filter zurücksetzen{% endif %}</button>
 
             <div class="form-group">
                 <legend>AutorInnen</legend>
@@ -161,7 +161,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="submit" title="Filter Search Results" id="filter-button" class="btn btn-default btn-block">Filter anwenden</button>
+            <button type="submit" id="filter-button" class="btn btn-default btn-block">{% if not query_parameters %}Filter anwenden{% else %}Filter zurücksetzen{% endif %}</button>
         </form>
     </div>
 
