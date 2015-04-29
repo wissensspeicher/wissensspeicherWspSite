@@ -13,11 +13,11 @@
             <div class="form-group" id="search-options">
                 <div class="col-md-12">
                     <div class="checkbox">
-                        <label for="translateCheck" class="checkbox-inline">
-                            <input type="checkbox" name="translateCheck" id="translateCheck">Multilingual search <a href="#" style="font-size: .6em;">?</a>
+                        <label for="translateCheck" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff automatisch übersetzen und mehrsprachig suchen">
+                            <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>mehrsprachige Suche
                         </label>
-                        <label for="morphologicalSearch" class="checkbox-inline">
-                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"> {{ morphologicalSearch }} Morphological search <a href="#" style="font-size: .6em;">?</a>
+                        <label for="morphologicalSearch" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff morphologisch analysieren und auch Stammformen finden" style="margin-left: 10px;">
+                            <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>morphologische Suche
                         </label>
                     </div>
                 </div>
