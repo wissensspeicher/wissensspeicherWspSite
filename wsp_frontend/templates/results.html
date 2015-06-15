@@ -112,9 +112,9 @@
 <div id="knowledge-browsing" class="col-md-5">
     <div id="kb" role="tabpanel">
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#erkunden" role="tab" data-toggle="tab">Erkunden</a></li>
-            <li role="presentation"><a href="#vorhaben" role="tab" data-toggle="tab">Vorhaben</a></li>
-            <li role="presentation"><a href="#personen" role="tab" data-toggle="tab">Personen</a></li>
+            <li role="presentation" class="active disabled" id="erkunden-tab"><a href="#erkunden" role="tab" data-toggle="tab">Erkunden</a></li>
+            <li role="presentation" class="disabled" id="vorhaben-tab"><a href="#vorhaben" role="tab" data-toggle="tab">Vorhaben</a></li>
+            <li role="presentation" class="disabled" id="personen-tab"><a href="#personen" role="tab" data-toggle="tab">Personen</a></li>
         </ul>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="erkunden">
@@ -135,7 +135,7 @@
         <form id="facetted-search" action="/search/">
             <input type="hidden" name="query" value="{{ search_term }}">
             <h2><!--<a class="statsPopup" href="#facetStats">-->Zusammensetzung der Suchergebnisse<!--</a>--></h2>
-            <button type="submit" id="filter-button" class="btn btn-default btn-block">{% if not query_parameters %}Filter anwenden{% else %}Filter zurücksetzen{% endif %}</button>
+            <button type="submit" id="filter-button" class="btn btn-default btn-block">{% if not facet_filter %}Filter anwenden{% else %}Filter zurücksetzen{% endif %}</button>
 
             <div class="form-group">
                 <legend>AutorInnen</legend>
@@ -161,7 +161,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="submit" id="filter-button" class="btn btn-default btn-block">{% if not query_parameters %}Filter anwenden{% else %}Filter zurücksetzen{% endif %}</button>
+            <button type="submit" id="filter-button" class="btn btn-default btn-block">{% if not facet_filter %}Filter anwenden{% else %}Filter zurücksetzen{% endif %}</button>
         </form>
     </div>
 

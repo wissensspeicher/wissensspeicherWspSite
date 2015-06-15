@@ -99,7 +99,7 @@ def search(request):
         morphologicalSearch = False
         if request.GET['morphologicalSearch'] == 'on':
             morphologicalSearch = True
-            query_parameters = query_parameters + '&morphologicalSearch=on'
+            query_parameters += '&morphologicalSearch=on'
     except KeyError, e:
         pass
 
@@ -116,10 +116,13 @@ def search(request):
             # LOGGING!
             return render(request, 'search_form.html')
 
-    logger.info('query: %s', querydata)
+        logger.info('query: %s', querydata)
+
+    facet_filter = False  # used to reset the facet button if needed
 
     # Check for "AutorInnen"-facette
     if 'author' in request.GET:
+        facet_filter = True
         querydata += ' author:("' + \
             '"" '.join(request.GET.getlist('author')).encode('utf-8') + '")'
 
@@ -131,6 +134,7 @@ def search(request):
 
     # Check for "Projekte/Vorhaben"-facette
     if 'project' in request.GET:
+        facet_filter = True
         querydata += ' collectionNames:(' + \
             ' '.join(request.GET.getlist('project')).encode('utf-8') + ')'
 
@@ -142,6 +146,7 @@ def search(request):
 
     # Check for "Sprachen"-facette
     if 'language' in request.GET:
+        facet_filter = True
         querydata += ' language:(' + \
             ' '.join(request.GET.getlist('language')).encode('utf-8') + ')'
 
@@ -271,7 +276,7 @@ def search(request):
             try:
                 i["title"] = single_treffer[
                     "title"].replace(" TITEL DES BRIEFS", "", 1)
-            except KeyError, e:
+            except KeyError as e:
                 # Wenn kein Titel vorhanden ist, wird die URL zum Dokument als
                 # Titel genommen
                 i["title"] = i["url"]
@@ -340,35 +345,35 @@ def search(request):
             try:
                 if 'entities' in single_treffer:
                     for entity in single_treffer["entities"]:
-                        entityLabel = entity["label"]
-                        entityType = entity["type"]
-                        entityDBpediaURI = entity["uri"]
+                        entity_label = entity["label"]
+                        entity_type = entity["type"]
+                        entity_dbpedia_uri = entity["uri"]
                         if "uriGnd" in entity:
-                            entityGND = entity["uriGnd"]
+                            entity_gnd = entity["uriGnd"]
                         else:
-                            entityGND = ""
+                            entity_gnd = ""
 
-                        if entityType == "person":
-                            person = {"name": entityLabel,
-                                      "url": entityDBpediaURI,
+                        if entity_type == "person":
+                            person = {"name": entity_label,
+                                      "url": entity_dbpedia_uri,
                                       "role": "mentioned",
-                                      "GND": entityGND}
+                                      "GND": entity_gnd}
                             i["relevantPersons"].append(person)
-                        elif entityType == "place":
-                            place = {"place": entityLabel,
-                                     "url": entityDBpediaURI,
-                                     "GND": entityGND}
+                        elif entity_type == "place":
+                            place = {"place": entity_label,
+                                     "url": entity_dbpedia_uri,
+                                     "GND": entity_gnd}
                             i["places"].append(place)
                         else:
-                            i["entities"].append({"label": entityLabel,
-                                                  "type": entityType,
+                            i["entities"].append({"label": entity_label,
+                                                  "type": entity_type,
                                                   "dbpediaURI":
-                                                  entityDBpediaURI,
-                                                  "GND": entityGND})
-                        # logger.debug({"label": entityLabel,
-                        #               "type": entityType,
-                        #               "dbpediaURI": entityDBpediaURI,
-                        #               "GND": entityGND})
+                                                  entity_dbpedia_uri,
+                                                  "GND": entity_gnd})
+                        # logger.debug({"label": entity_label,
+                        #               "type": entity_type,
+                        #               "dbpediaURI": entity_dbpedia_uri,
+                        #               "GND": entity_gnd})
             except KeyError, e:
                 logger.exception('Error in entity parsing (DBpedia spotlight \
                                  entities')
@@ -591,6 +596,7 @@ def search(request):
         results["mostCommonPersons"] = mostCommonPersons
 
     results['query_parameters'] = query_parameters
+    results['facet_filter'] = facet_filter
     logger.info('query_parameters: %s', query_parameters)
 
     # Currently not used.

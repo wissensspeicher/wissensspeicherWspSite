@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block search_form %}
+<div id="teaser" class="col-md-12">
+    <p class="lead">
+    Ihr Zugang zu den digitalen Ressourcen der BBAW
+    </p>
+    <p>
+    Der Digitale Wissensspeicher bietet Ihnen die Möglichkeit im Sinne eines ‚digitalen Streifzuges‘ alle digitalen Ressourcen der BBAW zu erkunden. Ihnen steht dafür die Volltextsuche (auch mit Suche nach Wortphrasen) ebenso zur Verfügung wie die Übersetzung und morphologische Analyse und Filterung der Suchergebnisse.
+    </p>
+</div>
 <div id="searchfield" class="col-md-12">
     <form action="/search/" id="mainsearch" class="form-horizontal">
         <fieldset>
@@ -24,6 +32,18 @@
             </div>
         </fieldset>
     </form>
+</div>
+<div id="search-examples" class="col-md-12">
+    <h2>Beispiele für Suchmöglichkeiten</h2>
+    <ul>
+        <li><a href="/search/?query=Digitale+Edition">Suche nach <mark>Digitale Edition</mark></a></li>
+        <li><a href="/search/?query=1848">Suche nach <mark>1848</mark></a></li>
+        <li><a href="/search/?query=%22die+philosophen+haben+die+welt%22">Phrasensuche nach <mark>"die philosophen haben die welt"</mark></a></li>
+        <li><a href="/search/?query=bonpland+reiste&amp;morphologicalSearch=on">Suche nach <mark>bonland reiste</mark> mit morphologischer Analyse der Suchbegriffe</a> (findet auch <em>Reise</em>, <em>reisen</em>, etc.)</li>
+        <li><a href="/search/?query=Nachahmung&amp;translateCheck=on">Suche nach <mark>Nachahmung</mark> mit automatischer Übersetzung des Suchbegriffs nach mehreren Sprachen</a> (findet z.&nbsp;B. frz. <em>imitation</em>)</li>
+        <li><a href="/search/?query=maison&amp;translateCheck=on">Suche nach <mark>maison</mark> mit automatischer Übersetzung des Suchbegriffs nach mehreren Sprachen</a> (findet z.&nbsp;B. dt. <em>Haus</em> oder engl. <em>house</em>)</li>
+
+    </ul>
 </div>
 {% comment %}
 <div class="front_stat col-md-6">
