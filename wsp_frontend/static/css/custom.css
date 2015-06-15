@@ -236,9 +236,6 @@ h1 a:focus {
     border-radius:3px;
     }
 
-::-moz-selection { background: #ff6005; }
-::selection { background: #ff6005; }
-
 .search-result span {
     background:#c60c30;
     color:#fff;
