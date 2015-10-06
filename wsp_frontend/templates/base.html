@@ -290,6 +290,9 @@
                         document.getElementById('erkunden-tab').className =
                             document.getElementById('erkunden-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
                     }
+                    else {
+                        document.getElementById('erkunden-content').innerHTML = 'Keine Vorschläge gefunden.';
+                    }
         			var ul = document.getElementById('erkunden-content').appendChild(document.createElement('ul'));
 		        	ul.className = "list-inline";
 		        	for (var i = 0; i < json.facets.mainEntities.length; i++) {
@@ -316,7 +319,6 @@
     		});
             
             
-            //console.log("Marcos JSON")
             $.ajax({
                 type: 'GET',
                 url: 'http://wspdev.bbaw.de/wspCmsWebApp/query/QueryMdSystem',
@@ -327,6 +329,9 @@
                     if (json.results.bindings.length > 0) {
                         document.getElementById('vorhaben-tab').className =
                             document.getElementById('vorhaben-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
+                    }
+                    else {
+                        document.getElementById('vorhaben-content').innerHTML = 'Keine Vorschläge gefunden.';
                     }
                     var ul = document.getElementById('vorhaben-content').appendChild(document.createElement('ul'));
                     ul.className = "list-inline";
@@ -358,6 +363,9 @@
                         document.getElementById('personen-tab').className =
                             document.getElementById('personen-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
                         $('#personen-tab a')
+                    }
+                    else {
+                        document.getElementById('personen-content').innerHTML = 'Keine Vorschläge gefunden.';
                     }
                     var ul = document.getElementById('personen-content').appendChild(document.createElement('ul'));
                     ul.className = "list-inline";
