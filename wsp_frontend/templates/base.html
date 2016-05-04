@@ -12,7 +12,7 @@
     <link href="{% get_static_prefix %}css/dataTables.bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
     <link href="{% get_static_prefix %}css/custom.css" rel="stylesheet">
-	<link href="{% get_static_prefix %}css/nv.d3.css" rel="stylesheet" type="text/css">
+    <link href="{% get_static_prefix %}css/nv.d3.css" rel="stylesheet" type="text/css">
     <!--<link href="{% get_static_prefix %}css/style.css" rel="stylesheet">-->
     <link href="{% get_static_prefix %}css/colorbox.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Exo+2:400,400italic,600,600italic,500,500italic,200,200italic,300italic,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
@@ -20,25 +20,25 @@
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 </head>
 <body>
-<div id="wrap"> <!-- wrap used for sticky footer -->
-<div class="container" id="main">
+    <div id="wrap"> <!-- wrap used for sticky footer -->
+        <div class="container" id="main">
 
             <h1><a href="../">Digitaler Wissensspeicher</a></h1>
             <div id="logo">
-            	<div class="pull-right"><a href="http://www.bbaw.de" title="Zur Homepage der BBAW"><img src="{% get_static_prefix %}img/bbaw_logo.png"></a></div>
-        	</div>
+                <div class="pull-right"><a href="http://www.bbaw.de" title="Zur Homepage der BBAW"><img src="{% get_static_prefix %}img/bbaw_logo.png"></a></div>
+            </div>
             {% block search_form %}{% endblock %}
             {% block results %}{% endblock %}
-			{% block content %}{% endblock %}
-			{% block status %}{% endblock %}
-    </div>
+            {% block content %}{% endblock %}
+            {% block status %}{% endblock %}
+        </div>
     </div>
     <div id="footer">
-    	<div class="container"><br>
-    	<div class="pull-right" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">
-    	<a href="http://www.dfg.de"><img src="{% get_static_prefix %}img/dfg_logo-small.png" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)"></a>
-    	</div>
-    	<p class="muted">Es sind {{ totalDocuments }} digitale Ressourcen indexiert.</p>
+        <div class="container"><br>
+            <div class="pull-right" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)">
+                <a href="http://www.dfg.de"><img src="{% get_static_prefix %}img/dfg_logo-small.png" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)"></a>
+            </div>
+            <p class="muted">Es sind {{ totalDocuments }} digitale Ressourcen indexiert.</p>
         </div>
     </div>
     <!-- JavaScript at the bottom for fast page loading -->
@@ -48,220 +48,220 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-        	$('#statustabelle').dataTable({ 
-    		"aLengthMenu": [
-            	[25, 50, 100, 200, -1],
-            	[25, 50, 100, 200, "Alle"]
-        		], 
-			"iDisplayLength" : -1,
-			"language": {"sEmptyTable":"Keine Daten in der Tabelle vorhanden","sInfo":"_START_ bis _END_ von _TOTAL_ Einträgen","sInfoEmpty":"0 bis 0 von 0 Einträgen","sInfoFiltered":"(gefiltert von _MAX_ Einträgen)","sInfoPostFix":"","sInfoThousands":".","sLengthMenu":"_MENU_ Einträge anzeigen","sLoadingRecords":"Wird geladen...","sProcessing":"Bitte warten...","sSearch":"Filtern nach: ","sZeroRecords":"Keine Einträge vorhanden.","oPaginate":{"sFirst":"Erste","sPrevious":"Zurück","sNext":"Nächste","sLast":"Letzte"},"oAria":{"sSortAscending":": aktivieren, um Spalte aufsteigend zu sortieren","sSortDescending":": aktivieren, um Spalte absteigend zu sortieren"}},
-			"columnDefs": [{"orderable": false, "targets": 1},{"type":"date-de", "targets": 5}]
+            $('#statustabelle').dataTable({ 
+                "aLengthMenu": [
+                [25, 50, 100, 200, -1],
+                [25, 50, 100, 200, "Alle"]
+                ], 
+                "iDisplayLength" : -1,
+                "language": {"sEmptyTable":"Keine Daten in der Tabelle vorhanden","sInfo":"_START_ bis _END_ von _TOTAL_ Einträgen","sInfoEmpty":"0 bis 0 von 0 Einträgen","sInfoFiltered":"(gefiltert von _MAX_ Einträgen)","sInfoPostFix":"","sInfoThousands":".","sLengthMenu":"_MENU_ Einträge anzeigen","sLoadingRecords":"Wird geladen...","sProcessing":"Bitte warten...","sSearch":"Filtern nach: ","sZeroRecords":"Keine Einträge vorhanden.","oPaginate":{"sFirst":"Erste","sPrevious":"Zurück","sNext":"Nächste","sLast":"Letzte"},"oAria":{"sSortAscending":": aktivieren, um Spalte aufsteigend zu sortieren","sSortDescending":": aktivieren, um Spalte absteigend zu sortieren"}},
+                "columnDefs": [{"orderable": false, "targets": 1},{"type":"date-de", "targets": 5}]
 
-			});
-			
-			{% comment %}
-			// Autorenstatistik
-			function autorenData() {
-			 return  [ 
-				{
-				  key: "Autoren",
-				  values: [
-					{ 
-					  "label" : "Humboldt, Alexander von" ,
-					  "value" : 1019
-					} , 
-					{ 
-					  "label" : "Biermann, Kurt-Reinhard" , 
-					  "value" : 293
-					} , 
-					{ 
-					  "label" : "Schwarz, Ingo" , 
-					  "value" : 165
-					} , 
-					{ 
-					  "label" : "Beck, Hanno" , 
-					  "value" : 108
-					} , 
-					{ 
-					  "label" : "Ette, Ottmar" ,
-					  "value" : 81
-					}
-				  ]
-				}
-			  ]
+            });
+            
+            {% comment %}
+            // Autorenstatistik
+            function autorenData() {
+               return  [ 
+               {
+                  key: "Autoren",
+                  values: [
+                  { 
+                      "label" : "Humboldt, Alexander von" ,
+                      "value" : 1019
+                  } , 
+                  { 
+                      "label" : "Biermann, Kurt-Reinhard" , 
+                      "value" : 293
+                  } , 
+                  { 
+                      "label" : "Schwarz, Ingo" , 
+                      "value" : 165
+                  } , 
+                  { 
+                      "label" : "Beck, Hanno" , 
+                      "value" : 108
+                  } , 
+                  { 
+                      "label" : "Ette, Ottmar" ,
+                      "value" : 81
+                  }
+                  ]
+              }
+              ]
 
-			}
-			nv.addGraph(function() {
-			  var chart = nv.models.discreteBarChart()
-				  .x(function(d) { return d.label })    //Specify the data accessors.
-				  .y(function(d) { return d.value })
-				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
-				  .tooltips(true)        //Don't show tooltips
-				  .showValues(false)       //...instead, show the bar value right on top of each bar.
-				  .transitionDuration(350)
-				  .width(450)
-				  .height(230)
-				  .showYAxis(false)
-				  ;
-				  
-				  chart.yAxis.tickFormat(d3.format(''));
-				  chart.margin({top: 15, right: 10, bottom: 50, left: 25});
+          }
+          nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                  .x(function(d) { return d.label })    //Specify the data accessors.
+                  .y(function(d) { return d.value })
+                  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+                  .tooltips(true)        //Don't show tooltips
+                  .showValues(false)       //...instead, show the bar value right on top of each bar.
+                  .transitionDuration(350)
+                  .width(450)
+                  .height(230)
+                  .showYAxis(false)
+                  ;
+                  
+                  chart.yAxis.tickFormat(d3.format(''));
+                  chart.margin({top: 15, right: 10, bottom: 50, left: 25});
 
-			  d3.select('#autorinnen_stat svg')
-				  .datum(autorenData())
-				  .call(chart);
+                  d3.select('#autorinnen_stat svg')
+                  .datum(autorenData())
+                  .call(chart);
 
-			  nv.utils.windowResize(chart.update);
+                  nv.utils.windowResize(chart.update);
 
-			  return chart;
-			});
-			
-			// Dokumentestatistik
-			var dokumente_data = [
-				{ 
-					key: "HTML",
-					y: 8682
-				},
-				{ 
-					key: "XML",
-					y: 8325
-				},
-				{ 
-					key: "PDF",
-					y: 2041
-				},
-				{ 
-					key: "MS-Doc",
-					y: 5
-				}
-			];
-			
-			nv.addGraph(function() {				
-				var chart = nv.models.pieChart()
-					.x(function(d) { return d.key })
-					.y(function(d) { return d.y })
-					.color(d3.scale.category10().range())
-					.width(300)
-					.height(300)
-					.donut(true)
-					.showLabels(false)
-					;
-					
-				chart.valueFormat(d3.format(''));
-				
-				d3.select("#dokumente_stat svg")
-					.datum(dokumente_data)
-					.transition().duration(1200)
-					.attr('width', 300)
-					.attr('height', 300)
-					.call(chart);
+                  return chart;
+              });
+          
+            // Dokumentestatistik
+            var dokumente_data = [
+            { 
+                key: "HTML",
+                y: 8682
+            },
+            { 
+                key: "XML",
+                y: 8325
+            },
+            { 
+                key: "PDF",
+                y: 2041
+            },
+            { 
+                key: "MS-Doc",
+                y: 5
+            }
+            ];
+            
+            nv.addGraph(function() {                
+                var chart = nv.models.pieChart()
+                .x(function(d) { return d.key })
+                .y(function(d) { return d.y })
+                .color(d3.scale.category10().range())
+                .width(300)
+                .height(300)
+                .donut(true)
+                .showLabels(false)
+                ;
+                
+                chart.valueFormat(d3.format(''));
+                
+                d3.select("#dokumente_stat svg")
+                .datum(dokumente_data)
+                .transition().duration(1200)
+                .attr('width', 300)
+                .attr('height', 300)
+                .call(chart);
 
-				return chart;
-			});
-			
-			// Sprachstatistik
-			var language_data = [
-				{ 
-					key: "Deutsch",
-					y: 12090
-				},
-				{ 
-					key: "Griechisch",
-					y: 5068
-				},
-				{ 
-					key: "Französisch",
-					y: 1708
-				},
-				{ 
-					key: "Englisch",
-					y: 96
-				},
-				{ 
-					key: "Latein",
-					y: 91
-				}
-			];
-			
-			nv.addGraph(function() {				
-				var chart = nv.models.pieChart()
-					.x(function(d) { return d.key })
-					.y(function(d) { return d.y })
-					.color(d3.scale.category10().range())
-					.width(300)
-					.height(300)
-					.donut(true)
-					.showLabels(false)
-					;
-					
-				chart.valueFormat(d3.format(''));
-				
-				d3.select("#sprachen_stat svg")
-					.datum(language_data)
-					.transition().duration(1200)
-					.attr('width', 300)
-					.attr('height', 300)
-					.call(chart);
+                return chart;
+            });
+            
+            // Sprachstatistik
+            var language_data = [
+            { 
+                key: "Deutsch",
+                y: 12090
+            },
+            { 
+                key: "Griechisch",
+                y: 5068
+            },
+            { 
+                key: "Französisch",
+                y: 1708
+            },
+            { 
+                key: "Englisch",
+                y: 96
+            },
+            { 
+                key: "Latein",
+                y: 91
+            }
+            ];
+            
+            nv.addGraph(function() {                
+                var chart = nv.models.pieChart()
+                .x(function(d) { return d.key })
+                .y(function(d) { return d.y })
+                .color(d3.scale.category10().range())
+                .width(300)
+                .height(300)
+                .donut(true)
+                .showLabels(false)
+                ;
+                
+                chart.valueFormat(d3.format(''));
+                
+                d3.select("#sprachen_stat svg")
+                .datum(language_data)
+                .transition().duration(1200)
+                .attr('width', 300)
+                .attr('height', 300)
+                .call(chart);
 
-				return chart;
-			});
-			
-			// Projektestatistik
-			function projekteData() {
-			 return  [ 
-				{
-				  key: "Projekte",
-				  values: [
-					{ 
-					  "label" : "Sekundärlit. Humboldt" ,
-					  "value" : 7736
-					} , 
-					{ 
-					  "label" : "Inscriptiones Graecae" , 
-					  "value" : 5052
-					} , 
-					{ 
-					  "label" : "Registres de l'Academie" , 
-					  "value" : 1708
-					} , 
-					{ 
-					  "label" : "Deutsches Textarchiv" , 
-					  "value" : 920
-					} , 
-					{ 
-					  "label" : "Unselbst. Schriften Humboldts" ,
-					  "value" : 712
-					}
-				  ]
-				}
-			  ]
+                return chart;
+            });
+            
+            // Projektestatistik
+            function projekteData() {
+               return  [ 
+               {
+                  key: "Projekte",
+                  values: [
+                  { 
+                      "label" : "Sekundärlit. Humboldt" ,
+                      "value" : 7736
+                  } , 
+                  { 
+                      "label" : "Inscriptiones Graecae" , 
+                      "value" : 5052
+                  } , 
+                  { 
+                      "label" : "Registres de l'Academie" , 
+                      "value" : 1708
+                  } , 
+                  { 
+                      "label" : "Deutsches Textarchiv" , 
+                      "value" : 920
+                  } , 
+                  { 
+                      "label" : "Unselbst. Schriften Humboldts" ,
+                      "value" : 712
+                  }
+                  ]
+              }
+              ]
 
-			}
-			nv.addGraph(function() {
-			  var chart = nv.models.discreteBarChart()
-				  .x(function(d) { return d.label })    //Specify the data accessors.
-				  .y(function(d) { return d.value })
-				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
-				  .tooltips(true)        //Don't show tooltips
-				  .showValues(false)       //...instead, show the bar value right on top of each bar.
-				  .transitionDuration(350)
-				  .width(450)
-				  .height(230)
-				  .showYAxis(false)
-				  ;
-				  
-				  chart.yAxis.tickFormat(d3.format(''));
-				  chart.margin({top: 15, right: 10, bottom: 50, left: 25});
+          }
+          nv.addGraph(function() {
+              var chart = nv.models.discreteBarChart()
+                  .x(function(d) { return d.label })    //Specify the data accessors.
+                  .y(function(d) { return d.value })
+                  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+                  .tooltips(true)        //Don't show tooltips
+                  .showValues(false)       //...instead, show the bar value right on top of each bar.
+                  .transitionDuration(350)
+                  .width(450)
+                  .height(230)
+                  .showYAxis(false)
+                  ;
+                  
+                  chart.yAxis.tickFormat(d3.format(''));
+                  chart.margin({top: 15, right: 10, bottom: 50, left: 25});
 
-			  d3.select('#projekte_stat svg')
-				  .datum(projekteData())
-				  .call(chart);
+                  d3.select('#projekte_stat svg')
+                  .datum(projekteData())
+                  .call(chart);
 
-			  nv.utils.windowResize(chart.update);
+                  nv.utils.windowResize(chart.update);
 
-			  return chart;
-			});
-			{% endcomment %}
+                  return chart;
+              });
+          {% endcomment %}
 
             // Enable fancy tooltips for search options
 
@@ -271,52 +271,52 @@
 
         });
 
-        $(".zusatzClick").click(function() {
-            $(this).parent().find(".zusatz").slideToggle();
-        });
+$(".zusatzClick").click(function() {
+    $(this).parent().find(".zusatz").slideToggle();
+});
 
         // Knowledge-Browsing
         if (document.getElementById('kb')) {
-        	console.log("Generating options for Knowledge-Browsing");
+            console.log("Generating options for Knowledge-Browsing");
             
-        	$.ajax({
-        		type: 'GET',
-        		url: 'http://wspdev.bbaw.de/wspCmsWebApp/query/QueryDocuments',
-        		data: ({'outputFormat': 'json', 'outputOptions': 'showMainEntitiesFacet', 'query': '{{ search_term|safe }}' }),
-        		dataType: 'json',
-        		success: function(json) {
-        			console.log(this.url);
+            $.ajax({
+                type: 'GET',
+                url: 'http://wspdev.bbaw.de/wspCmsWebApp/query/QueryDocuments',
+                data: ({'outputFormat': 'json', 'outputOptions': 'showMainEntitiesFacet', 'query': '{{ search_term|safe }}' }),
+                dataType: 'json',
+                success: function(json) {
+                    console.log(this.url);
                     if (json.hasOwnProperty('facets')) {
                         document.getElementById('erkunden-tab').className =
-                            document.getElementById('erkunden-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
+                        document.getElementById('erkunden-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
                     }
                     else {
                         document.getElementById('erkunden-content').innerHTML = 'Keine Vorschläge gefunden.';
                     }
-        			var ul = document.getElementById('erkunden-content').appendChild(document.createElement('ul'));
-		        	ul.className = "list-inline";
-		        	for (var i = 0; i < json.facets.mainEntities.length; i++) {
-		        		var kbItem = json.facets.mainEntities[i]
-		        		var li = ul.appendChild(document.createElement("li"));
-		        		var liLink = document.createElement('a');
-		        		liLink.appendChild(document.createTextNode(kbItem.label));
-		        		liLink.href = '../search?query=' + kbItem.label;
-		        		if (kbItem.uriGnd) {
-		        			liLink.title = kbItem.uriGnd;
-		        		} else {
-		        			liLink.title = kbItem.uri;
-		        		}
-		        		liLink.className = kbItem.type;
-		        		li.appendChild(liLink);
-        			};
-					return json;
-        		},
-    			error: function(textStatus) {
-    				console.log("Error with AJAX-Request");
-    				console.log(this.url);
-    				console.log(textStatus);
-    			}
-    		});
+                    var ul = document.getElementById('erkunden-content').appendChild(document.createElement('ul'));
+                    ul.className = "list-inline";
+                    for (var i = 0; i < json.facets.mainEntities.length; i++) {
+                        var kbItem = json.facets.mainEntities[i]
+                        var li = ul.appendChild(document.createElement("li"));
+                        var liLink = document.createElement('a');
+                        liLink.appendChild(document.createTextNode(kbItem.label));
+                        liLink.href = '../search?query=' + kbItem.label;
+                        if (kbItem.uriGnd) {
+                            liLink.title = kbItem.uriGnd;
+                        } else {
+                            liLink.title = kbItem.uri;
+                        }
+                        liLink.className = kbItem.type;
+                        li.appendChild(liLink);
+                    };
+                    return json;
+                },
+                error: function(textStatus) {
+                    console.log("Error with AJAX-Request");
+                    console.log(this.url);
+                    console.log(textStatus);
+                }
+            });
             
             
             $.ajax({
@@ -328,7 +328,7 @@
                     console.log(this.url);
                     if (json.results.bindings.length > 0) {
                         document.getElementById('vorhaben-tab').className =
-                            document.getElementById('vorhaben-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
+                        document.getElementById('vorhaben-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
                     }
                     else {
                         document.getElementById('vorhaben-content').innerHTML = 'Keine Vorschläge gefunden.';
@@ -361,7 +361,7 @@
                     console.log(this.url);
                     if (json.results.bindings.length > 0) {
                         document.getElementById('personen-tab').className =
-                            document.getElementById('personen-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
+                        document.getElementById('personen-tab').className.replace( /(?:^|\s)disabled(?!\S)/g , '' );
                         $('#personen-tab a')
                     }
                     else {
@@ -385,7 +385,7 @@
                     console.log(textStatus);
                 }
             });
-    	};
+        };
 
         /*$("#zusatzZeigen").click(function() {
             if ($(".zusatz").filter(":visible"))
@@ -400,7 +400,7 @@
     <script src="/static/js/colorbox/jquery.colorbox-min.js"></script>
     <script src="/static/js/script.js"></script> -->
     <script src="/static/js/jquery.peity.min.js"></script>
-	<!--<script src="/static/js/d3.js"></script>
+    <!--<script src="/static/js/d3.js"></script>
     <script src="/static/js/nv.d3.js"></script>-->
     <script src="/static/js/jquery.dataTables.min.js"></script>
     <script src="/static/js/dataTables.bootstrap.js"></script>
