@@ -2,14 +2,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import Template
-from django.utils import simplejson
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from collections import Counter  # used for statistic calculations
 
+import json
 import logging
 import requests
 import urllib
-from show import show
+# from show import show
 
 # set up logging
 # logging.basicConfig(level=logging.INFO)
@@ -72,7 +72,7 @@ def hello_world(request):
     reply = response.text
 
     try:
-        data = simplejson.loads(reply)
+        data = json.loads(reply)
     except:
         logger.exception("Fehler beim JSON-Parsing")
         logger.exception(reply)
@@ -89,30 +89,27 @@ def search(request):
 
     # Initialization of some needed variables
     translate = ''
-    translateQuery = False
+    translate_query = False
     page = 1
     pagesize = 10
     query_parameters = ''
 
     # Check for "morphological search" option
     try:
-        morphologicalSearch = False
+        morphological_search = False
         if request.GET['morphologicalSearch'] == 'on':
-            morphologicalSearch = True
+            morphological_search = True
             query_parameters += '&morphologicalSearch=on'
-    except KeyError, e:
+    except KeyError as err:
         pass
 
-    # Important: every part of request.GET needs to be converted to a string,
-    # conversion of utf-8 --> python2-string
     if 'query' in request.GET:
         querydata = request.GET['query']
-        querydata = querydata.encode("utf-8")
         original_query = querydata.strip()
 
         # If no search query was entered, the empty search form is shown.
         if original_query == "":
-            print "Empty Query"
+            print("Empty Query")
             # LOGGING!
             return render(request, 'search_form.html')
 
@@ -124,7 +121,7 @@ def search(request):
     if 'author' in request.GET:
         facet_filter = True
         querydata += ' author:("' + \
-            '"" '.join(request.GET.getlist('author')).encode('utf-8') + '")'
+            '"" '.join(request.GET.getlist('author')) + '")'
 
         # To enable navigation and results browsing selected facettes are
         # saved in query_parameters. A matching URL is generated in the
@@ -136,7 +133,7 @@ def search(request):
     if 'project' in request.GET:
         facet_filter = True
         querydata += ' collectionNames:(' + \
-            ' '.join(request.GET.getlist('project')).encode('utf-8') + ')'
+            ' '.join(request.GET.getlist('project')) + ')'
 
         # To enable navigation and results browsing selected facettes are
         # saved in query_parameters. A matching URL is generated in the
@@ -148,7 +145,7 @@ def search(request):
     if 'language' in request.GET:
         facet_filter = True
         querydata += ' language:(' + \
-            ' '.join(request.GET.getlist('language')).encode('utf-8') + ')'
+            ' '.join(request.GET.getlist('language')) + ')'
 
         # To enable navigation and results browsing selected facettes are
         # saved in query_parameters. A matching URL is generated in the
@@ -160,13 +157,13 @@ def search(request):
     try:
         if request.GET["morelikethis"] == "true":
             more_like_this = True
-    except KeyError, e:
+    except KeyError as err:
         more_like_this = False
 
     # Check if translation option is selected
     if "translateCheck" in request.GET:
         if request.GET['translateCheck'] == "on":
-            translateQuery = True
+            translate_query = True
             translate = [("translate", "true")]
             translate = "&" + urllib.urlencode(translate)
             query_parameters = query_parameters + '&translateCheck=on'
@@ -183,10 +180,10 @@ def search(request):
 
     request_options = {'query': querydata, 'outputFormat': 'json',
                        'page': page, 'pagesize': pagesize,
-                       'translate': str(translateQuery).lower(),
+                       'translate': str(translate_query).lower(),
                        'queryLanguage': 'gl'}
 
-    if morphologicalSearch is True:
+    if morphological_search is True:
         request_options['fieldExpansion'] = "allMorph"
 
     url = base_url + "/wspCmsWebApp/query/QueryDocuments?"
@@ -207,11 +204,11 @@ def search(request):
     results = {}
     results["number_of_hits"] = 0
     try:
-        data = simplejson.loads(reply)
+        data = json.loads(reply)
         results["totalDocuments"] = data["sizeTotalDocuments"]
         results["number_of_hits"] = int(data["numberOfHits"])
     except:
-        print "Fehler beim JSON-Parsing\n" + reply
+        print("Fehler beim JSON-Parsing\n" + reply)
         # XXX ToDO: Fehlerpage rendern! LOGGING
 
     results["personList"] = []
@@ -219,8 +216,8 @@ def search(request):
     results["search_term"] = \
         results["search_term"].replace("tokenMorph:", "", 1)
     results["search_term"] = results["search_term"].strip("()")
-    results["morphologicalSearch"] = morphologicalSearch
-    results["translateSearch"] = translateQuery
+    results["morphologicalSearch"] = morphological_search
+    results["translateSearch"] = translate_query
     results["treffer"] = ""
 
     projekte = set()
@@ -249,16 +246,16 @@ def search(request):
 
             # webURI (Rücksprungadresse) parsen
             try:
-                i["url"] = single_treffer["webUri"].encode("utf-8")
+                i["url"] = single_treffer["webUri"]
             except:
                 # print "KeyError webUri @ " + i["docId"]
-                i["url"] = single_treffer["uri"].encode("utf-8")
+                i["url"] = single_treffer["uri"]
                 pass
 
             # Fragmente mit Trefferexzerpten parsen
             i["fragments"] = []
             for fragment in single_treffer["fragments"]:
-                fragment = fragment.encode("utf-8")
+                fragment = fragment
 
                 # XXX müsste auch wieder zu UTF-8 werden
                 i["fragments"].append(fragment)
@@ -268,7 +265,7 @@ def search(request):
             try:
                 for single_author in single_treffer["author"]:
                     i["author"].append(single_author["name"])
-            except KeyError, e:
+            except KeyError as err:
                 # print "KeyError author " + i["docId"]
                 pass
 
@@ -276,7 +273,7 @@ def search(request):
             try:
                 i["title"] = single_treffer[
                     "title"].replace(" TITEL DES BRIEFS", "", 1)
-            except KeyError as e:
+            except KeyError as err:
                 # Wenn kein Titel vorhanden ist, wird die URL zum Dokument als
                 # Titel genommen
                 i["title"] = i["url"]
@@ -288,13 +285,13 @@ def search(request):
                 i["collectionURL"] = single_treffer["project"]["url"]
                 i["collectionID"] = single_treffer["project"]["id"]
                 projekte.add(i["collectionID"])
-            except KeyError, e:
+            except KeyError as err:
                 # print "KeyError collectionName " + i["docId"]
                 pass
 
             try:
                 i["type"] = ressourceTypes[single_treffer["type"]]
-            except KeyError, e:
+            except KeyError as err:
                 # print error...
                 i["type"] = "undefined"
                 pass
@@ -302,7 +299,7 @@ def search(request):
             # RDF URI parsen
             try:
                 i["projectRdfURI"] = single_treffer["rdfUri"]
-            except KeyError, e:
+            except KeyError as err:
                 pass
 
             # Personeninformationen parsen
@@ -318,13 +315,13 @@ def search(request):
                     if not person["role"] == "editor":
                         results["personList"].append(person["name"])
                     # print person
-            except KeyError, e:
+            except KeyError as err:
                 # print "KeyError persNames " + i["docId"]
                 pass
 
             # Notwending, falls eine Person im JSON nur "null" ist, und keine
             # zugehörigen Werte hat:
-            except TypeError, e:
+            except TypeError as err:
                 pass
 
             try:
@@ -336,7 +333,7 @@ def search(request):
                              "url": single_place["link"]}
                     i["places"].append(place)
                     # print place
-            except KeyError, e:
+            except KeyError as err:
                 # print "KeyError places " + i["docId"]
                 # print "KeyError places"
                 pass
@@ -374,7 +371,7 @@ def search(request):
                         #               "type": entity_type,
                         #               "dbpediaURI": entity_dbpedia_uri,
                         #               "GND": entity_gnd})
-            except KeyError, e:
+            except KeyError as err:
                 logger.exception('Error in entity parsing (DBpedia spotlight \
                                  entities')
                 logger.exception(single_treffer)
@@ -458,7 +455,7 @@ def search(request):
             if projekt["rdfURI"] == "none":
                 continue
 
-            logger.debug('Requesting Metadata for: %s', projekt["rdfURI"])
+            # logger.debug('Requesting Metadata for: %s', projekt["rdfURI"])
             request_options_rdf = {'detailedSearch': 'true', 'outputFormat':
                                    'json', 'query': projekt["rdfURI"],
                                    'isProjectId': 'true'}
@@ -476,13 +473,13 @@ def search(request):
                                    response.status_code)
                     if response.ok:
                         logger.warning('Reply: %s', response.text)
-            except UnicodeEncodeError, error:
+            except UnicodeEncodeError as error:
                 continue
             except requests.exceptions.Timeout:
                 logger.warning('Timeout: %s', projekt["rdfURI"])
 
             try:
-                projektMetadaten = simplejson.loads(response.text)
+                projektMetadaten = json.loads(response.text)
 
                 # verwendete Variablen mit "NA" initieren (falls Metadaten aus
                 # dem Triplestore nicht vollständig sind)
@@ -516,9 +513,9 @@ def search(request):
 
                 results["projektMetadaten"][projekt["rdfURI"]] = projektDaten
 
-            except Exception, e:
+            except Exception as err:
                 logger.error('Error in metadata processing: %s, %s',
-                             e.__class__.__name__, e)
+                             err.__class__.__name__, err)
                 logger.error('rdfURI: %s', projekt['rdfURI'])
                 logger.error('Requested URL: %s', response.url)
 
@@ -529,10 +526,10 @@ def search(request):
                 results["projectFacet"][i]["project"] = (
                     results["projektMetadaten"]
                     [results["projectFacet"][i]["rdfURI"]]["name"])
-            except KeyError, e:
+            except KeyError as err:
                 logger.exception('Error while assigning full project ',
                                  'names from metadata.')
-                logger.exception(e)
+                logger.exception(err)
 
         # Sort project facet
         # XXX this doesn't sort german umlauts correctly (they get placed at
