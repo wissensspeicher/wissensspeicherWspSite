@@ -107,13 +107,15 @@ def search(request):
         querydata = request.GET['query']
         original_query = querydata.strip()
 
-        # If no search query was entered, the empty search form is shown.
-        if original_query == "":
-            print("Empty Query")
-            # LOGGING!
-            return render(request, 'search_form.html')
+    else:
+        original_query = ''
 
-        logger.info('query: %s', querydata)
+    # If no search query was entered, the empty search form is shown.
+    if not original_query:
+        logger.info("Empty Query - loading standard search form")
+        return render(request, 'search_form.html')
+
+    logger.info('query: %s', querydata)
 
     facet_filter = False  # used to reset the facet button if needed
 
