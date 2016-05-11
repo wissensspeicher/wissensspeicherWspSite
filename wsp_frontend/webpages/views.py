@@ -58,7 +58,7 @@ ressourceTypes = {"application/pdf": "pdf",
                   }
 
 # XXX Dokumentieren
-base_url = "http://wspdev.bbaw.de"
+base_url = "http://wissensspeicher.bbaw.de"
 
 
 # View for start page. The simple search request for 'a' is only used in order
@@ -444,7 +444,7 @@ def search(request):
 
         # Anfrage der Projektmetadaten (für die Projekte in projekte)
         results["projektMetadaten"] = dict()
-        rdfURL = "http://wspdev.bbaw.de" + "/wspCmsWebApp/query/QueryMdSystem"
+        rdfURL = "http://wissensspeicher.bbaw.de" + "/wspCmsWebApp/query/QueryMdSystem"
         # rdfURL = "http://192.168.1.199" + "/wspCmsWebApp/query/QueryMdSystem"
 
         for projekt in results["projectFacet"]:
