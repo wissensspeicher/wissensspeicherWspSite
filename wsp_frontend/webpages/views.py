@@ -8,7 +8,7 @@ from collections import Counter  # used for statistic calculations
 import json
 import logging
 import requests
-import urllib
+import urllib.parse
 # from show import show
 
 # set up logging
@@ -165,7 +165,7 @@ def search(request):
         if request.GET['translateCheck'] == "on":
             translate_query = True
             translate = [("translate", "true")]
-            translate = "&" + urllib.urlencode(translate)
+            translate = "&" + urllib.parse.urlencode(translate)
             query_parameters = query_parameters + '&translateCheck=on'
 
     # Check if a certain page from the set of search results is requested.
