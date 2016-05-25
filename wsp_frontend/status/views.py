@@ -3,15 +3,16 @@ from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import Template
 from django.template.loader import get_template
-from django.utils import simplejson
+# from django.utils import simplejson
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from collections import Counter  # genutzt für statistische Auswertungen
 import datetime #http://stackoverflow.com/questions/12906402/type-object-datetime-datetime-has-no-attribute-datetime
 import itertools
+import json
 import urllib
 import requests
 import logging
-from show import show
+# from show import show
 import os
 
 logger = logging.getLogger(__name__)
@@ -56,9 +57,9 @@ def status(request):
     reply = response.text
 
     try:
-        data = simplejson.loads(reply)
+        data = json.loads(reply)
     except:
-        print "Fehler beim JSON-Parsing\n" + reply
+        print("Fehler beim JSON-Parsing\n") + reply
         # XXX ToDO: Fehlerpage rendern!
 
     results = {}
@@ -84,7 +85,7 @@ def status(request):
     module_dir = os.path.dirname(__file__)  # get current directory
     file_path = os.path.join(module_dir, 'index_status.json')
     with open(file_path, 'r') as f:
-        index_status = simplejson.load(f)
+        index_status = json.load(f)
 
     # Query for project metadata (for items in projects)
     results["projektMetadaten"] = dict()
@@ -104,9 +105,9 @@ def status(request):
             if not response.ok:
                     #print("Error in QueryMdSystem request: HTTP status " + str(response.status_code) + "\n" + response.url)
                     pass
-        except requests.exceptions.Timeout, error:
-            show(error)
-            show(response.url)
+        except requests.exceptions.Timeout as error:
+            print(error)
+            print(response.url)
             continue
 
         # verwendete Variablen mit "NA" initieren (falls Metadaten aus
@@ -117,7 +118,7 @@ def status(request):
         rdfURI = project['rdfURI']
 
         try:
-            single_project_metadata = simplejson.loads(response.text)
+            single_project_metadata = json.loads(response.text)
             if not 'name' in single_project_metadata[rdfURI]:
                 projectName = single_project['projectShortname']
             projectName = single_project_metadata[rdfURI]['name']
@@ -143,10 +144,10 @@ def status(request):
             if 'definition' in single_project_metadata[rdfURI]:
                 projectDefinition = single_project_metadata[rdfURI]['definition']
 
-        except Exception, e:
-            show(e)
-            show(rdfURI)
-            show(response.url)
+        except Exception as e:
+            print(e)
+            print(rdfURI)
+            print(response.url)
 
         # Loading status information obtained from .json file
         try:
@@ -154,9 +155,9 @@ def status(request):
             indexingProgress = index_status[rdfURI]["status"]
             indexingComment = index_status[rdfURI]["comment"]
             projectLastIndex = project["projectLastIndex"]
-        except Exception, error:
-            show(error)
-            show(rdfURI)
+        except Exception as error:
+            print(error)
+            print(rdfURI)
             indexingProgress = indexingComment = "NA"
 
 
@@ -206,7 +207,7 @@ def status_details(request):
             if response.ok:
                 logger.warning('Reply: %s', response.text)
             #XXX ToDo Render error/help page
-    except requests.exceptions.Timeout, error:
+    except requests.exceptions.Timeout as error:
         logger.warning('Timeout: %s', response.url)
         #XXX ToDo Render error/help page
 
@@ -218,7 +219,7 @@ def status_details(request):
         contributors = ["NA"]
 
     try:
-        project_metadata = simplejson.loads(response.text)[rdfURI]
+        project_metadata = json.loads(response.text)[rdfURI]
         if 'name' in project_metadata:
             name = project_metadata['name'].encode('utf-8')
         if 'abstract' in project_metadata:
@@ -322,7 +323,7 @@ def status_details(request):
                         }
         logger.debug('%s', project_data)
 
-    except Exception, e:
+    except Exception as e:
         logger.exception('Error in metadata processing: %s, %s', 
                     rdfURI, response.url)
         raise
