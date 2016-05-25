@@ -20,6 +20,7 @@ urlpatterns = patterns('',
 
 urlpatterns = patterns('',
     url('^search/', 'webpages.views.search', name = 'search'),
+    url('^impressum/', 'webpages.views.impressum', name = 'impressum'),
     ('^$', 'webpages.views.hello_world'),
     (r'^status/details', 'status.views.status_details'),
     (r'^status/', 'status.views.status'),

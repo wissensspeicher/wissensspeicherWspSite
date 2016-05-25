@@ -603,3 +603,8 @@ def search(request):
     #    return render_to_response('results-more-like-this.html', results)
 
     return render_to_response('results.html', results)
+
+
+def impressum(request):
+    results = {'totalDocuments': '1261424'}
+    return render_to_response('impressum.html', results)

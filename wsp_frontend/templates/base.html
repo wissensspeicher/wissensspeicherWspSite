@@ -31,6 +31,8 @@
             {% block results %}{% endblock %}
             {% block content %}{% endblock %}
             {% block status %}{% endblock %}
+            {% block impressum %}{% endblock %}
+
         </div>
     </div>
     <div id="footer">
@@ -39,6 +41,7 @@
                 <a href="http://www.dfg.de"><img src="{% get_static_prefix %}img/dfg_logo-small.png" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)"></a>
             </div>
             <p class="muted">Es sind {{ totalDocuments }} digitale Ressourcen indexiert.</p>
+            <p>{% url 'impressum' %}</p>
         </div>
     </div>
     <!-- JavaScript at the bottom for fast page loading -->
