@@ -11,26 +11,24 @@
 </div>
 <div id="searchfield" class="col-md-12">
     <form action="/search/" id="mainsearch" class="form-horizontal">
-        <fieldset>
-            <div class="form-group">
-                <div class="col-md-11">
-                    <input type="text" name="query" id="query" autofocus class="form-control" value="">
-                </div>
+        <div class="col-md-12">
+			<div class="form-group" id="zeile">
+                 <input type="text" name="query" id="query" autofocus class="form-control" value="">
                 <button type="submit" title="Searching the Digital Knowledge Store" id="submit-button" class="btn btn-default">Suche</button>
             </div>
             <div class="form-group" id="search-options">
                 <div class="col-md-12">
                     <div class="checkbox">
-                        <label for="translateCheck" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff automatisch übersetzen und mehrsprachig suchen">
+                        <label for="translateCheck" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff automatisch übersetzen und mehrsprachig suchen" style="margin-right: 10px;">
                             <input type="checkbox" name="translateCheck" id="translateCheck"{% if translateSearch == True %} checked {% endif %}>Mehrsprachige Suche
                         </label>
-                        <label for="morphologicalSearch" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff morphologisch analysieren und auch Stammformen finden" style="margin-left: 10px;">
+                        <label for="morphologicalSearch" class="checkbox-inline" data-toggle="tooltip" data-placement="bottom" title="Suchbegriff morphologisch analysieren und auch Stammformen finden" style="margin-left: 0px;">
                             <input type="checkbox" name="morphologicalSearch" id="morphologicalSearch"{% if morphologicalSearch == True %} checked {% endif %}>Morphologische Suche
                         </label>
                     </div>
                 </div>
             </div>
-        </fieldset>
+        </div>
     </form>
 </div>
 <div id="search-examples" class="col-md-12">

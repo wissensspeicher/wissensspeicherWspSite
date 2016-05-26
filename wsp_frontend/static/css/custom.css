@@ -364,6 +364,33 @@ body {
 }
 
 
+#zeile{
+	width:92%;	
+	white-space: nowrap;
+	display:inline-table;
+}
+
+#query {
+	display:inline-block;
+    }
+	
+#submit-button{
+	display:inline-block;
+	padding:5px;
+	margin-bottom:4px;
+	margin-left:0.5%;
+}
+
+#impressum h2{
+	margin-bottom:4px;
+	margin-top:25px;
+}
+
+#impressum h3{
+	margin:0px;
+	margin-top:40px;
+}
+
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
    ========================================================================== */

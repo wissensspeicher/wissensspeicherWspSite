@@ -22,11 +22,15 @@
 <body>
     <div id="wrap"> <!-- wrap used for sticky footer -->
         <div class="container" id="main">
-
+			
+			
             <h1><a href="../">Digitaler Wissensspeicher</a></h1>
+			
+			
             <div id="logo">
                 <div class="pull-right"><a href="http://www.bbaw.de" title="Zur Homepage der BBAW"><img src="{% get_static_prefix %}img/bbaw_logo.png"></a></div>
             </div>
+			
             {% block search_form %}{% endblock %}
             {% block results %}{% endblock %}
             {% block content %}{% endblock %}
@@ -41,7 +45,8 @@
                 <a href="http://www.dfg.de"><img src="{% get_static_prefix %}img/dfg_logo-small.png" title="Gefördert durch die Deutsche Forschungsgemeinschaft (DFG)"></a>
             </div>
             <p class="muted">Es sind {{ totalDocuments }} digitale Ressourcen indexiert.</p>
-            <p>{% url 'impressum' %}</p>
+            <p><a href="{% url 'impressum' %}">Impressum-Link</a></p>
+			
         </div>
     </div>
     <!-- JavaScript at the bottom for fast page loading -->
