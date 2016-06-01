@@ -17,7 +17,24 @@
     <link href="{% get_static_prefix %}css/colorbox.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Exo+2:400,400italic,600,600italic,500,500italic,200,200italic,300italic,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
-    <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setVisitorCookieTimeout", "604800"]);
+      _paq.push(["setSessionCookieTimeout", "0"]);
+      _paq.push(["setDomains", ["*.wissensspeicher.bbaw.de","*.wspdev.bbaw.de"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//telotadev.bbaw.de/stat/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 27]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><p><img src="//telotadev.bbaw.de/stat/piwik.php?idsite=27" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
 </head>
 <body>
     <div id="wrap"> <!-- wrap used for sticky footer -->
