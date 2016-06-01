@@ -363,6 +363,9 @@ body {
   margin-left: 0px;
 }
 
+#footer a {
+  color: #fff;
+}
 
 #zeile{
 	width:92%;	
