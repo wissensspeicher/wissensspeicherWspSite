@@ -1,0 +1,107 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+	<link rel="shortcut icon" href="{% static 'img/BBAW_Logo_hellerHintergrund.png' %}" />
+    <title>{% block title %}DIGITAL KNOWLEDGESTORE{% endblock %}</title>
+
+    <!-- bootstrap-css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css">
+
+    <!-- own css -->
+    <link href="{% static 'css/sticky-footer-navbar.css' %}" rel="stylesheet">
+	<link href="{% static 'css/links.css' %}"            rel="stylesheet">
+	<link href="{% static 'css/margin-and-padding.css' %}"   rel="stylesheet">
+	<link href="{% static 'css/width-and-height.css' %}"     rel="stylesheet">
+	<link href="{% static 'css/logo-wrap.css' %}"            rel="stylesheet">
+    {% block stylesheet %}
+    {% endblock %}
+    <meta charset="UTF-8">
+</head>
+<body>
+
+    <!-- Fixed navbar -->
+    <div class="pos-f-t">
+      <div class="collapse" id="navbar-header">
+        <div class="container bg-inverse p-a-1">
+          <h3>Collapsed content</h3>
+          <p>Toggleable via the navbar brand.</p>
+        </div>
+      </div>
+      <nav class="navbar navbar-light navbar-static-top bbaw-nav">
+        {% block navigation %}<!-----------------------------------------N A V I G A T I O N--------------------------->
+        <div class="container">
+          <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2" style="float: right;">
+            &#9776;
+          </button>
+          <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+            <ul class="nav navbar-nav pull-md-right">
+              <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'home' %}">STARTSEITE</a></li>
+              <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">BROWSEN</a></li>
+              <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">SUCHE</a></li>
+			  <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">GUIDLINES</a></li>
+			  <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">PROJEKT</a></li>
+            </ul>
+			<img src="{% static 'img/logo_hell.png'%}" class="bbaw-logo-nav noMarginPadding">  
+          </div>
+        </div>
+       {% endblock %}
+      </nav><!-----------------------------------------------------------N A V I G A T I O N_End----------------------->
+    </div>
+
+    <!-- Begin page content -->
+     <div class="container m-t-3 ">
+		<div class="row table" >
+            {% block search %}
+            {% endblock %}
+		</div>
+
+		<div class="row m-t-2">
+            {% block content %}
+            {% endblock %}
+		</div><!-- ./row -->
+
+    </div><!-- ./container -->
+
+    <footer class="footer white-footer">{% block footer %}<!---------------------F O O T E R--------------------------->
+
+      <div class="container white-footer">
+        <span class="text-muted">
+
+				<ul class="nav navbar-nav">
+
+					<li class="nav-item active">
+						<a class="footerLink" href="{% url 'browse' %}">KONTAKT</a>
+					</li>
+					<li class="nav-item">
+						<a class="footerLink" href="{% url 'browse' %}">IMPRESSUM</a>
+					</li>
+
+				</ul>
+
+				<a href='http://www.dfg.de/index.jsp' style="float: right; "><img src="{% static 'img/dfg_logo.png'%}"></a>
+		</span>
+      </div>
+
+        {% endblock %}<!---------------------------------------------------------F O O T E R_End----------------------->
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
+  </body>
+</html>

@@ -1,0 +1,48 @@
+.table-cell{
+	display:table-cell;
+	vertical-align:top;
+	}
+
+.table{
+	display:table;
+}
+
+
+@media screen and (max-width: 48em){/* nice wrap of Logo*/
+
+.table-cell{
+	display:table-row;
+	}
+
+.bbaw-logo{
+	float:right;
+	margin:0px -30px 60px 0px;
+}
+	
+h1{
+	font-size: 230%;
+}	
+
+.table{
+	padding: 0 5px 0 5px;
+}
+}
+
+.bbaw-logo-nav{/*before navigation collapse into button logo not visible*/
+	display:none;
+}
+
+@media screen and (max-width: 34em){/*when navigation collapse into button logo  visible*/
+.bbaw-logo-nav{
+	position:relative;
+	top:-45px;
+	right:-20px;
+	width:250px;
+	float:right;
+	display:block;
+}
+
+.bbaw-nav{
+	max-height:190px;
+}
+}
