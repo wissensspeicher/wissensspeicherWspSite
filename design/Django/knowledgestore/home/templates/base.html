@@ -44,14 +44,15 @@
             &#9776;
           </button>
           <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
-            <ul class="nav navbar-nav pull-md-right">
-              <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'home' %}">STARTSEITE</a></li>
-              <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">BROWSEN</a></li>
-              <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">SUCHE</a></li>
-			  <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">GUIDLINES</a></li>
-			  <li class="nav-item"><a class="nav-link bbawlink"  href="{% url 'browse' %}">PROJEKT</a></li>
-            </ul>
-			<img src="{% static 'img/logo_hell.png'%}" class="bbaw-logo-nav noMarginPadding">  
+            <div class="bbaw-logo-nav">
+				<ul class="nav navbar-nav pull-md-right bbaw-logo-height">
+					<li class="nav-item"><a class="nav-link bbawlink" href="#">STARTSEITE</a></li>
+					<li class="nav-item"><a class="nav-link bbawlink" href="#">BROWSEN</a></li>
+					<li class="nav-item"><a class="nav-link bbawlink" href="#">SUCHE</a></li>
+					<li class="nav-item"><a class="nav-link bbawlink" href="#">GUIDELINES</a></li>
+					<li class="nav-item"><a class="nav-link bbawlink" href="#">PROJEKT</a></li>
+				</ul>
+			</div>
           </div>
         </div>
        {% endblock %}

@@ -28,21 +28,16 @@ h1{
 }
 }
 
-.bbaw-logo-nav{/*before navigation collapse into button logo not visible*/
-	display:none;
+.bbaw-logo-nav{/*background-image for the navigation when collapse*/
+	background-image: url("../img/logo_background.png");
+	background-repeat: no-repeat;
+	background-position:bottom right;
+	background-size:200px;
 }
 
-@media screen and (max-width: 34em){/*when navigation collapse into button logo  visible*/
-.bbaw-logo-nav{
-	position:relative;
-	top:-45px;
-	right:-20px;
-	width:250px;
-	float:right;
-	display:block;
-}
 
-.bbaw-nav{
-	max-height:190px;
+@media screen and (max-width: 34em){
+.bbaw-logo-height{/*height of navigation changes to show the background-image*/
+	height:160px;
 }
 }
