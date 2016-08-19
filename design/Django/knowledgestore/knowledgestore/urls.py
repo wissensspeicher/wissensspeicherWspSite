@@ -20,6 +20,8 @@ from home.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home, name='home'),
-    url(r'^startseite/', home, name='home'),
-    url(r'^browsen/', browse, name='browse'),
+    url(r'^Startseite/', home, name='home'),
+    url(r'^Browsen/', browse, name='browse'),
+	url(r'^Impressum/', impressum, name='impressum'),
+	url(r'^Kontakt/', kontakt, name='kontakt'),
 ]

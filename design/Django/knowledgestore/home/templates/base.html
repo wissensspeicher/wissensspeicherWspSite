@@ -46,7 +46,7 @@
           <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
             <div class="bbaw-logo-nav">
 				<ul class="nav navbar-nav pull-md-right bbaw-logo-height">
-					<li class="nav-item"><a class="nav-link bbawlink" href="#">STARTSEITE</a></li>
+					<li class="nav-item"><a class="nav-link bbawlink" href="{% url 'home' %}">STARTSEITE</a></li>
 					<li class="nav-item"><a class="nav-link bbawlink" href="#">BROWSEN</a></li>
 					<li class="nav-item"><a class="nav-link bbawlink" href="#">SUCHE</a></li>
 					<li class="nav-item"><a class="nav-link bbawlink" href="#">GUIDELINES</a></li>
@@ -71,6 +71,14 @@
             {% endblock %}
 		</div><!-- ./row -->
 
+		<div class="row m-t-2">
+		{% block results %}{% endblock %}
+		</div><!-- ./row -->
+		
+
+		{% block impressum %}{% endblock %}
+		{% block contact %}{%  endblock %}
+		
     </div><!-- ./container -->
 
     <footer class="footer white-footer">{% block footer %}<!---------------------F O O T E R--------------------------->
@@ -81,10 +89,10 @@
 				<ul class="nav navbar-nav">
 
 					<li class="nav-item active">
-						<a class="footerLink" href="{% url 'browse' %}">KONTAKT</a>
+						<a class="footerLink" href="{% url 'kontakt' %}">KONTAKT</a>
 					</li>
 					<li class="nav-item">
-						<a class="footerLink" href="{% url 'browse' %}">IMPRESSUM</a>
+						<a class="footerLink" href="{% url 'impressum' %}">IMPRESSUM</a>
 					</li>
 
 				</ul>

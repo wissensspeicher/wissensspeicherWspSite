@@ -24,3 +24,12 @@
 	text-align: left;
     font-size: 11px;
 }
+
+p{
+	font-size:14px;
+}
+
+h4{
+	border-bottom: 2px dotted #c60c30;
+	padding-bottom:10px;
+}

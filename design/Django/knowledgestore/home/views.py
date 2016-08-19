@@ -5,3 +5,9 @@ def home(request):
 
 def browse(request):
     return render(request, 'browse.html')
+
+def impressum(request):
+    return render(request, 'impressum.html')
+	
+def kontakt(request):
+    return render(request, 'kontakt.html')
