@@ -40,4 +40,17 @@ h1{
 .bbaw-logo-height{/*height of navigation changes to show the background-image*/
 	height:160px;
 }
+
+.bbaw-nav{
+	border-color: #e4e4e4 ; 
+	border-width: 0 0 3px 0; 
+	border-style: solid; 
+}
+}
+
+.formular{
+	margin:50px 0 100px 0; 
+	border-color: #e4e4e4 ; 
+	border-width: 1px; border-style: solid; 
+	padding:20px;
 }
