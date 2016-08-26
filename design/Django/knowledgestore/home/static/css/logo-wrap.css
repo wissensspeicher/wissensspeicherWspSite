@@ -1,0 +1,56 @@
+.table-cell{
+	display:table-cell;
+	vertical-align:top;
+	}
+
+.table{
+	display:table;
+}
+
+
+@media screen and (max-width: 48em){/* nice wrap of Logo*/
+
+.table-cell{
+	display:table-row;
+	}
+
+.bbaw-logo{
+	float:right;
+	margin:0px -30px 60px 0px;
+}
+	
+h1{
+	font-size: 230%;
+}	
+
+.table{
+	padding: 0 5px 0 5px;
+}
+}
+
+.bbaw-logo-nav{/*background-image for the navigation when collapse*/
+	background-image: url("../img/logo_background.png");
+	background-repeat: no-repeat;
+	background-position:bottom right;
+	background-size:200px;
+}
+
+
+@media screen and (max-width: 34em){
+.bbaw-logo-height{/*height of navigation changes to show the background-image*/
+	height:160px;
+}
+
+.bbaw-nav{
+	border-color: #e4e4e4 ; 
+	border-width: 0 0 3px 0; 
+	border-style: solid; 
+}
+}
+
+.formular{
+	margin:50px 0 100px 0; 
+	border-color: #e4e4e4 ; 
+	border-width: 1px; border-style: solid; 
+	padding:20px;
+}

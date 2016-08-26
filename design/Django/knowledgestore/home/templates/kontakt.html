@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}KONTAKT{% endblock %}
+
+{% block contact %}
+<div class="col-md-1"></div>
+<h4> Kontakt</h4><br />
+<div class="row m-t-1">
+<div class="col-md-1">
+</div>
+
+    <div class="col-md-10">
+
+	<div class="row">
+					<div class="col-md-6">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2428.0515417336483!2d13.3917224!3d52.5144063!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a851da364678ef%3A0xd520c09df188467a!2sJ%C3%A4gerstra%C3%9Fe+22%2C+10117+Berlin!5e0!3m2!1sde!2sde!4v1471617217815" class="img-fluid" width="450" height="350" frameborder="0" style="margin: 0 0 15px 0" allowfullscreen></iframe>
+					</div> 
+					
+					<div class="col-md-6">
+						<p>
+							<strong>Digital Knowledge Store<br />
+							Berlin-Brandenburgische Akademie der Wissenschaften</strong><br />
+							Jägerstraße 22/23, 
+							10117 Berlin<br />
+							Tel. +49 / 30 20370-534
+						</p>
+					
+						<p>
+							<strong>Ansprechpartner</strong><br />
+							Gerald Neumann, 
+							gneumann@bbaw.de
+						</p>
+					</div> 
+	</div> 
+		
+
+		<form class="formular">
+			<strong>Kontaktformular</strong><br /><br />
+			
+			<div class="form-group">
+				<input type="name" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Name">
+			</div>
+			<div class="form-group">
+				<input type="name" class="form-control" id="firstname" placeholder="Vorname">
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="email"  placeholder="E-Mail">
+			</div>
+			
+			<div class="form-group">
+				<textarea class="form-control" id="message" rows="3" placeholder="Ihre Nachricht an uns..."></textarea>
+			</div>
+
+			<button type="submit" class="btn  btn-danger">Nachricht versenden</button>
+		</form>
+	</div> <!--Ende col-md-10-->
+</div><!--Ende row-->
+		{% endblock %}
+
+		
