@@ -14,6 +14,10 @@ framework.
 
 """
 import os
+import sys
+
+# Add path for django app
+sys.path.append('/home/sascha/wspSite/wsp_frontend')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wsp_frontend.settings.production")
 
