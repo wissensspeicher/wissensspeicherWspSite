@@ -3,4 +3,4 @@
 #
 
 Django>=1.9,<1.9.99
-requests~=2.9
+requests~=2.12
