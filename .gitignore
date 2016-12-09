@@ -40,3 +40,7 @@ Thumbs.db
 # Python- & Django-related files #
 ##################################
 *.pyc
+
+# readme.html (for now) #
+#########################
+readme.html
